@@ -1,18 +1,31 @@
 package Controller;
+import View.GameView;
+import Model.Maze;
 
 public class GameController {
+
+    private boolean myGameWon;
     private Maze myMaze;
     private GameView myView;
+    private Player myPlayer;
 
     public static void main(String[] args) {
         // launch the game
     }
 
-    public void executeMove(Direction direction) {
+    public boolean getGameWon() {
+        return myGameWon;
+    }
+
+    public void setGameWon(final boolean theGameWon) {
+        myGameWon = theGameWon;
+    }
+
+    public void executeMove(Direction theDirection) {
         // move player logic
     }
 
-    public void checkAnswer(String answer) {
+    public void checkAnswer(String theAnswer) {
         // validate trivia answer
     }
 

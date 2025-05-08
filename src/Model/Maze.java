@@ -1,6 +1,7 @@
 package Model;
 
 public class Maze {
+
     private Room[][] myMaze;
     private int myPlayerRow;
     private int myPlayerColumn;

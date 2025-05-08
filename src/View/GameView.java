@@ -1,6 +1,13 @@
 package View;
 
-public class GameView extends JFrame {
+import java.awt.*;
+import java.awt.event.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import javax.swing.*;
+
+//should this be extends or inherits?
+public class GameView extends JFrame implements PropertyChangeListener {
     private JLabel myKeyInstruction, mySelectA, mySelectB, mySelectC, mySelectD;
     private JButton myMoveUp, myMoveDown, myMoveLeft, myMoveRight, mySubmitAnswer;
     private JMenuBar myGameMenu;
@@ -44,5 +51,10 @@ public class GameView extends JFrame {
 
     public void actionPerformed(ActionEvent e) {
         // handle UI actions
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+
     }
 }
