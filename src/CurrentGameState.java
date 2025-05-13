@@ -1,5 +1,5 @@
 package Model;
-
+// adinfaskjfbak;jbfan
 import java.io.Serializable;
 
 public class CurrentGameState extends Maze implements Serializable {
