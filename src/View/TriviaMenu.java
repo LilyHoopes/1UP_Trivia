@@ -21,7 +21,7 @@ public class TriviaMenu {
 
 
         myResetItem.addActionListener(event -> {
-            int confirm = JOptionPane.YES_NO_OPTION);
+            int confirm = JOptionPane.YES_NO_OPTION)
             if (confirm == JOptionPane.YES_OPTION) {
 //            Craps.getInstance().resetGame();
 //            myRoll.setEnabled(false);

@@ -13,7 +13,7 @@ import Model.TriviaQuestion;
 //should this be extends or inherits?
 public class GameView extends JFrame implements PropertyChangeListener {
 
-    private final JFrame myFrame;
+    //private final JFrame myFrame;
 
 
     //JLabels for room panel
@@ -166,6 +166,8 @@ public class GameView extends JFrame implements PropertyChangeListener {
         mazePanel.add(myN_Room);
         mazePanel.add(myO_Room);
         mazePanel.add(myP_Room);
+
+        return mazePanel;
     }
 
 //    private void createMenuBar(JFrame theWindow) {
@@ -175,9 +177,9 @@ public class GameView extends JFrame implements PropertyChangeListener {
 //        )
 //    }
 
-    public void updateGameDisplay(GameModel model) {
+    //public void updateGameDisplay(GameModel model) {
         // refresh display based on current model
-    }
+    //}
 
     public void displayQuestion(TriviaQuestion question) {
         // show question and options
