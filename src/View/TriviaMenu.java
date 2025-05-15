@@ -18,7 +18,18 @@ public class TriviaMenu {
         JMenuItem myExitItem = new JMenuItem("Exit");
 
         myStartItem.addActionListener(event -> startGameAction.run());
-        myResetItem.addActionListener(event -> resetGameAction.run());
+
+
+        myResetItem.addActionListener(event -> {
+            int confirm = JOptionPane.YES_NO_OPTION);
+            if (confirm == JOptionPane.YES_OPTION) {
+//            Craps.getInstance().resetGame();
+//            myRoll.setEnabled(false);
+//            startItem.setEnabled(true);
+//            resetLabels();
+        }
+        });
+
         myExitItem.addActionListener(event -> {
             int choice = JOptionPane.showConfirmDialog(
                     window,
@@ -48,6 +59,9 @@ public class TriviaMenu {
         JMenuItem myRulesItem = new JMenuItem("Rules");
 
         myAboutItem.addActionListener(event -> aboutAction.run());
+
+
+
         myRulesItem.addActionListener(event -> rulesAction.run());
 
         myHelpMenu.add(myAboutItem);

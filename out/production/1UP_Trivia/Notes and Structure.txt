@@ -1,0 +1,4 @@
+Main is where the group code will all be together.
+We will be making temporary branches to add things to the code, and once it works, we merge back to main.
+For example, say I make a branch to work on method A, once its working, I push to main.
+We will not be doing branches with our names like I thought we would, Lance said the example above is the way to go.
