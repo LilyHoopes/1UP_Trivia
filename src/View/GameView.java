@@ -13,28 +13,46 @@ import Model.TriviaQuestion;
 //should this be extends or inherits?
 public class GameView extends JFrame implements PropertyChangeListener {
 
+    public static void main(String[] args) {
+        //EventQueue.invokeLater(new Runnable() {})
+        final GameView mainPanel = new GameView();
+        final Dimension frameSize = new Dimension(500, 500);
+
+        //line to add property chagne liseneters
+
+        final JFrame window = new JFrame("1UP Trivia!");
+        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        window.setContentPane(mainPanel);
+
+        //wondow.setmenu bar to add menu bar bar, calls method
+
+        window.setSize(frameSize);
+        window.pack();
+        window.setVisible(true);
+
+    }
+
     //private final JFrame myFrame;
 
 
     //JLabels for room panel
-    private JLabel myUpLabel, myDownLabel, myLeftLabel, myRightLabel, myRoomPlayer;
+    private final JLabel myUpLabel, myDownLabel, myLeftLabel, myRightLabel, myRoomPlayer;
     //JButtons for room panel
-    private JButton myUpButton, myDownButton, myLeftButton, myRightButton;
+    private final JButton myUpButton, myDownButton, myLeftButton, myRightButton;
 
     //JLabels for the questions panel
-    private JLabel myQuestionLabel, myOptionA_Label, myOptionB_Label, myOptionC_Label, myOptionD_Label;
-    private JButton myA_Button, myB_Button, myC_Button, myD_Button, mySubmitButton;
+    private final JLabel myQuestionLabel, myOptionA_Label, myOptionB_Label, myOptionC_Label, myOptionD_Label;
+    //JButtons for questions panel
+    private final JButton myA_Button, myB_Button, myC_Button, myD_Button, mySubmitButton;
 
     //JLabels for the maze panel
-    private JLabel myStartImage, myEndImage, myMazePlayer;
-    private JLabel myA_Room, myB_Room, myC_Room, myD_Room, myE_Room, myF_Room, myG_Room,  myH_Room,
+    private final JLabel myStartImage, myEndImage, myMazePlayer;
+    private final JLabel myA_Room, myB_Room, myC_Room, myD_Room, myE_Room, myF_Room, myG_Room,  myH_Room,
             myI_Room, myJ_Room, myK_Room, myL_Room, myM_Room, myN_Room, myO_Room, myP_Room;
 
     //add for loop to make a bunch of arrow aka door images to add to panel
 
-    //private JButton myMoveUp, myMoveDown, myMoveLeft, myMoveRight, mySubmitAnswer
-
-   //constructor for GameView
+    //constructor for GameView
     public GameView() {
 
         //to add an icon for game
@@ -48,7 +66,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
         //labels, buttons, text fields
 
         //Room Panel components
-        myUpButton = new JButton("Up");
+        myUpLabel = new JLabel("Up");
         myDownLabel = new JLabel("Down");
         myLeftLabel = new JLabel("Left");
         myRightLabel = new JLabel("Right");
@@ -58,6 +76,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
         myDownButton = new JButton("Down");
         myLeftButton = new JButton("Left");
         myRightButton = new JButton("Right");
+
 
         //Questions Panel components
         myQuestionLabel = new JLabel("Question");
@@ -71,6 +90,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
         myC_Button = new JButton("C");
         myD_Button = new JButton("D");
         mySubmitButton = new JButton("Submit");
+
 
         //Maze Panel Components
         myStartImage = new JLabel("");
@@ -124,7 +144,6 @@ public class GameView extends JFrame implements PropertyChangeListener {
     }
 
     private JPanel createQuestionsPanel() {
-
         final JPanel questionsPanel = new JPanel(); //formatting layout goes in the ()
 
         questionsPanel.add(myQuestionLabel);
@@ -170,6 +189,8 @@ public class GameView extends JFrame implements PropertyChangeListener {
         return mazePanel;
     }
 
+
+
 //    private void createMenuBar(JFrame theWindow) {
 //        TriviaMenu menu = new TriviaMenu(
 //                theWindow,
@@ -193,25 +214,6 @@ public class GameView extends JFrame implements PropertyChangeListener {
 
     public void actionPerformed(ActionEvent e) {
         // handle UI actions
-    }
-
-    public static void main(String[] args) {
-        //EventQueue.invokeLater(new Runnable() {})
-        final GameView mainPanel = new GameView();
-        final Dimension frameSize = new Dimension(500, 500);
-
-        //line to add property chagne liseneters
-
-        final JFrame window = new JFrame("1UP Trivia!");
-        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        window.setContentPane(mainPanel);
-
-        //wondow.setmenu bar to add menu bar bar, calls method
-
-        window.setSize(frameSize);
-        window.pack();
-        window.setVisible(true);
-
     }
 
     @Override
