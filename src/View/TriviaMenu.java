@@ -6,10 +6,10 @@ public class TriviaMenu {
 
     private final JMenuBar myMenuBar;
 
-    public TriviaMenu(JFrame window, JMenuBar myMenuBar, Runnable startGameAction, Runnable resetGameAction, Runnable exitGameAction,
+    public TriviaMenu(JFrame window, Runnable startGameAction, Runnable resetGameAction, Runnable exitGameAction,
                       Runnable saveAction, Runnable loadAction, Runnable aboutAction, Runnable rulesAction) {
 
-        this.myMenuBar = myMenuBar;
+        myMenuBar = new JMenuBar();
 
         //Create game menu
         JMenu myGameMenu = new JMenu("Game");
@@ -20,15 +20,14 @@ public class TriviaMenu {
         myStartItem.addActionListener(event -> startGameAction.run());
 
 
-        myResetItem.addActionListener(event -> {
-            int confirm = JOptionPane.YES_NO_OPTION)
-            if (confirm == JOptionPane.YES_OPTION) {
-//            Craps.getInstance().resetGame();
-//            myRoll.setEnabled(false);
-//            startItem.setEnabled(true);
-//            resetLabels();
-        }
-        });
+//        myResetItem.addActionListener(event -> {
+//            int confirm = JOptionPane.YES_NO_OPTION)
+//            if (confirm == JOptionPane.YES_OPTION) {
+//                Craps.getInstance().resetGame();
+//                myRoll.setEnabled(false);
+//                startItem.setEnabled(true);
+//                resetLabels();
+
 
         myExitItem.addActionListener(event -> {
             int choice = JOptionPane.showConfirmDialog(

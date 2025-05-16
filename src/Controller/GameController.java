@@ -1,16 +1,28 @@
 package Controller;
 import View.GameView;
-import Model.Maze;
+//import Model.Maze;
+
+import java.awt.*;
 
 public class GameController {
 
     private boolean myGameWon;
-    private Maze myMaze;
+    //private Maze myMaze;
     private GameView myView;
-    private Player myPlayer;
+    //private Player myPlayer;
 
-    public static void main(String[] args) {
-        // launch the game
+    public static void main(final String[] theArgs) {
+        EventQueue.invokeLater(new Runnable() {
+            /**
+             * Sets up the CrapsView and connects it to the Craps model
+             * using a PropertyChangeListener for event-driven updates.
+             */
+            @Override
+            public void run() {
+                final GameView view = new GameView();
+                //Craps.getInstance().addPropertyChangeListener(view);
+            }
+        });
     }
 
     public boolean getGameWon() {
@@ -21,9 +33,9 @@ public class GameController {
         myGameWon = theGameWon;
     }
 
-    public void executeMove(Direction theDirection) {
-        // move player logic
-    }
+//    public void executeMove(Direction theDirection) {
+//        // move player logic
+//    }
 
     public void checkAnswer(String theAnswer) {
         // validate trivia answer

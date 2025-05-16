@@ -2,41 +2,22 @@ package View;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.GridLayout;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import javax.swing.*;
+
 
 import Model.*;
 
 import Model.TriviaQuestion;
 
-//should this be extends or inherits?
 public class GameView extends JFrame implements PropertyChangeListener {
 
-    public static void main(String[] args) {
-        //EventQueue.invokeLater(new Runnable() {})
-        final GameView mainPanel = new GameView();
-        final Dimension frameSize = new Dimension(500, 500);
+    private final JFrame myFrame;
 
-        //line to add property chagne liseneters
-
-        final JFrame window = new JFrame("1UP Trivia!");
-        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        window.setContentPane(mainPanel);
-
-        //wondow.setmenu bar to add menu bar bar, calls method
-
-        window.setSize(frameSize);
-        window.pack();
-        window.setVisible(true);
-
-    }
-
-    //private final JFrame myFrame;
-
-
-    //JLabels for room panel
-    private final JLabel myUpLabel, myDownLabel, myLeftLabel, myRightLabel, myRoomPlayer;
+    //JLabel for room panel
+    private final JLabel myRoomPlayer;
     //JButtons for room panel
     private final JButton myUpButton, myDownButton, myLeftButton, myRightButton;
 
@@ -55,31 +36,35 @@ public class GameView extends JFrame implements PropertyChangeListener {
     //constructor for GameView
     public GameView() {
 
-        //to add an icon for game
-//        final JLabel iconLabel = new JLabel();
-//        final ImageIcon image = new ImageIcon("img.png");
-//        iconLabel.setIcon(image);
-//        myFrame.setIconImage(image.getImage());
+        myFrame = new JFrame("1UP Trivia");
+        final Dimension frameSize = new Dimension(900, 800);
+        myFrame.setSize(frameSize);
+        myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        myFrame.setResizable(false);
 
-        //menu bar here
+        final JLabel iconLabel = new JLabel();
+        final ImageIcon image = new ImageIcon("img.png");
+        iconLabel.setIcon(image);
+
+        myFrame.setIconImage(image.getImage());
+        createMenuBar();
+
+        //NOTE: menu bar goes here
+        //TriviaMenu menuBar = new TriviaMenu();
 
         //labels, buttons, text fields
 
         //Room Panel components
-        myUpLabel = new JLabel("Up");
-        myDownLabel = new JLabel("Down");
-        myLeftLabel = new JLabel("Left");
-        myRightLabel = new JLabel("Right");
-        myRoomPlayer = new JLabel("Room Player"); //this will be an image
-
         myUpButton =  new JButton("Up");
         myDownButton = new JButton("Down");
         myLeftButton = new JButton("Left");
         myRightButton = new JButton("Right");
 
+        myRoomPlayer = new JLabel("Room Player"); //this will be an image
+
 
         //Questions Panel components
-        myQuestionLabel = new JLabel("Question");
+        myQuestionLabel = new JLabel("Question: ");
         myOptionA_Label = new JLabel("--put question here--");
         myOptionB_Label = new JLabel("--put question here--");
         myOptionC_Label = new JLabel("--put question here--");
@@ -97,78 +82,124 @@ public class GameView extends JFrame implements PropertyChangeListener {
         myEndImage = new JLabel("");
         myMazePlayer = new JLabel("");
 
-        myA_Room = new JLabel("");
-        myB_Room = new JLabel("");
-        myC_Room = new JLabel("");
-        myD_Room = new JLabel("");
-        myE_Room = new JLabel("");
-        myF_Room = new JLabel("");
-        myG_Room = new JLabel("");
-        myH_Room = new JLabel("");
-        myI_Room = new JLabel("");
-        myJ_Room = new JLabel("");
-        myK_Room = new JLabel("");
-        myL_Room = new JLabel("");
-        myM_Room = new JLabel("");
-        myN_Room = new JLabel("");
-        myO_Room = new JLabel("");
-        myP_Room = new JLabel("");
+        myA_Room = createMazeLabel("A");
+        myB_Room = createMazeLabel("B");
+        myC_Room = createMazeLabel("C");
+        myD_Room = createMazeLabel("D");
+        myE_Room = createMazeLabel("E");
+        myF_Room = createMazeLabel("F");
+        myG_Room = createMazeLabel("G");
+        myH_Room = createMazeLabel("H");
+        myI_Room = createMazeLabel("I");
+        myJ_Room = createMazeLabel("J");
+        myK_Room = createMazeLabel("K");
+        myL_Room = createMazeLabel("L");
+        myM_Room = createMazeLabel("M");
+        myN_Room = createMazeLabel("N");
+        myO_Room = createMazeLabel("O");
+        myP_Room = createMazeLabel("P");
 
-        JPanel roomPanel = createRoomPanel();
-        JPanel questionsPanel = createQuestionsPanel();
-        JPanel mazePanel = createMazePanel();
+        final JPanel mazePanel = createMazePanel();
+        mazePanel.setPreferredSize(new Dimension(500, 500));
+        final JPanel roomPanel = createRoomPanel();
+        roomPanel.setPreferredSize(new Dimension(300, 300));
+        final JPanel questionsPanel = createQuestionsPanel();
+        questionsPanel.setPreferredSize(new Dimension(600, 300));
 
-        add(roomPanel, BorderLayout.CENTER);
-        add(questionsPanel, BorderLayout.SOUTH);
-        add(mazePanel, BorderLayout.EAST);
+        // Top container for maze and room side-by-side
+        JPanel topPanel = new JPanel();
+        topPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
+        topPanel.add(mazePanel);
+        topPanel.add(roomPanel);
 
-        //addListeners()
+        // Main container with vertical layout
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+        mainPanel.add(topPanel);
+        mainPanel.add(questionsPanel);
+
+        myFrame.getContentPane().add(mainPanel);
+        myFrame.pack();
+        myFrame.setVisible(true);
+
+        createMenuBar();
+
+        //initially set some buttons to false here?
+
+        //addListeners() method?
     }
 
     private JPanel createRoomPanel() {
-        final JPanel roomPanel = new JPanel(); //formatting layout goes in the ()
+        JPanel roomPanel = new JPanel(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(5, 5, 5, 5); // Padding between buttons
 
-        roomPanel.add(myUpLabel);
-        roomPanel.add(myDownLabel);
-        roomPanel.add(myLeftLabel);
-        roomPanel.add(myRightLabel);
+        // Up Button
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        roomPanel.add(myUpButton, gbc);
 
-        roomPanel.add(myUpButton);
-        roomPanel.add(myDownButton);
-        roomPanel.add(myLeftButton);
-        roomPanel.add(myRightButton);
+        // Left Button
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        roomPanel.add(myLeftButton, gbc);
 
-        roomPanel.add(myRoomPlayer);
+        // Center (Player)
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        myRoomPlayer.setPreferredSize(new Dimension(100, 100));
+        myRoomPlayer.setHorizontalAlignment(SwingConstants.CENTER);
+        myRoomPlayer.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+        roomPanel.add(myRoomPlayer, gbc);
+
+        // Right Button
+        gbc.gridx = 2;
+        gbc.gridy = 1;
+        roomPanel.add(myRightButton, gbc);
+
+        // Down Button
+        gbc.gridx = 1;
+        gbc.gridy = 2;
+        roomPanel.add(myDownButton, gbc);
 
         return roomPanel;
     }
 
     private JPanel createQuestionsPanel() {
-        final JPanel questionsPanel = new JPanel(); //formatting layout goes in the ()
+        final JPanel questionsPanel = new JPanel(new BorderLayout());
 
-        questionsPanel.add(myQuestionLabel);
+        //sub panel for the A,B,C,D buttons
+        JPanel buttonsPanel = new JPanel(new GridLayout(4, 1, 5, 5));
+        buttonsPanel.setPreferredSize(new Dimension(50, 400));
+        buttonsPanel.add(myA_Button);
+        buttonsPanel.add(myB_Button);
+        buttonsPanel.add(myC_Button);
+        buttonsPanel.add(myD_Button);
 
-        questionsPanel.add(myOptionA_Label);
-        questionsPanel.add(myOptionB_Label);
-        questionsPanel.add(myOptionC_Label);
-        questionsPanel.add(myOptionD_Label);
+        JPanel questionOptionsPanel = new JPanel(new GridLayout(4, 1, 5 ,5));
+        questionOptionsPanel.setPreferredSize(new Dimension(700, 400));
+        questionOptionsPanel.add(myOptionA_Label);
+        questionOptionsPanel.add(myOptionB_Label);
+        questionOptionsPanel.add(myOptionC_Label);
+        questionOptionsPanel.add(myOptionD_Label);
 
-        questionsPanel.add(myA_Button);
-        questionsPanel.add(myB_Button);
-        questionsPanel.add(myC_Button);
-        questionsPanel.add(myD_Button);
+        questionsPanel.add(myQuestionLabel, BorderLayout.NORTH);
+        questionsPanel.add(buttonsPanel, BorderLayout.WEST);
+        questionsPanel.add(questionOptionsPanel, BorderLayout.EAST);
+        questionsPanel.add(mySubmitButton, BorderLayout.SOUTH);
 
-        questionsPanel.add(mySubmitButton);
+        questionsPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
         return questionsPanel;
     }
 
     private JPanel createMazePanel() {
-        final JPanel mazePanel = new JPanel();
+        final JPanel mazePanel = new JPanel(new GridLayout(4,4, 10, 10));
 
-        mazePanel.add(myStartImage);
-        mazePanel.add(myEndImage);
-        mazePanel.add(myMazePlayer);
+//        mazePanel.add(myStartImage); not sure where these go
+//        mazePanel.add(myEndImage);  not sure where these go
+//        mazePanel.add(myMazePlayer); not sure where these go
+
         mazePanel.add(myA_Room);
         mazePanel.add(myB_Room);
         mazePanel.add(myC_Room);
@@ -189,14 +220,88 @@ public class GameView extends JFrame implements PropertyChangeListener {
         return mazePanel;
     }
 
+    private JLabel createMazeLabel(String name) {
+        JLabel label = new JLabel(name, SwingConstants.CENTER);
+        label.setPreferredSize(new Dimension(50, 50));
+        label.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        return label;
+    }
 
 
-//    private void createMenuBar(JFrame theWindow) {
-//        TriviaMenu menu = new TriviaMenu(
-//                theWindow,
-//                () -> ModelgetGameInstance().startGame();
-//        )
-//    }
+    private void createMenuBar() {
+        final JMenuBar menuBar = new JMenuBar();
+
+        //Game Menu
+        final JMenu gameMenu = new JMenu("Game");
+        final JMenuItem startItem = new JMenuItem("Start");
+        final JMenuItem resetItem = new JMenuItem("Reset");
+        final JMenuItem exitItem = new JMenuItem("Exit");
+
+        //Add items to Game menu
+        gameMenu.add(startItem);
+        gameMenu.add(resetItem);
+        gameMenu.add(exitItem);
+
+
+        //Help Menu
+        final JMenu helpMenu = new JMenu("Help");
+        final JMenuItem aboutItem = new JMenuItem("About");
+        final JMenuItem rulesItem = new JMenuItem("Rules");
+
+        //Add items to Help menu
+        helpMenu.add(aboutItem);
+        helpMenu.add(rulesItem);
+
+
+        //File Menu
+        final JMenu fileMenu = new JMenu("File");
+        final JMenuItem fileSave = new JMenuItem("Save");
+        final JMenuItem fileLoad = new JMenuItem("Load");
+
+        //Add items to File Menu
+        fileMenu.add(fileSave);
+        fileMenu.add(fileLoad);
+
+        myFrame.setJMenuBar(menuBar);
+
+        // Start
+        startItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(final ActionEvent theEvent) {
+                startItem.setEnabled(false);
+            }
+        });
+
+        resetItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(final ActionEvent theEvent) {
+                startItem.setEnabled(true);
+            }
+        });
+
+        exitItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(final ActionEvent theEvent) {
+                final int confirm = JOptionPane.showConfirmDialog(null,
+                        "Are you sure you want to exit?", "Exit", JOptionPane.YES_NO_OPTION);
+                if (confirm == JOptionPane.YES_OPTION) {
+                    System.exit(0);
+                }
+            }
+        });
+
+        rulesItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(final ActionEvent theEvent) {
+                // The rules of Craps
+                JOptionPane.showMessageDialog(null,
+                        "1UP Trivia Game Rules:\n1. Choose a direction to move\n2. Once at a door, " +
+                                "answer the trivia question and submit\n3. If correct, you may open that door and move" +
+                                "to a new room and keep answering questions\n4. THIS IS NOT DONE FINISH RULES",
+                        "1UP Trivia Game Rules", JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
+    }
 
     //public void updateGameDisplay(GameModel model) {
         // refresh display based on current model
