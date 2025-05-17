@@ -260,6 +260,11 @@ public class GameView extends JFrame implements PropertyChangeListener {
         fileMenu.add(fileSave);
         fileMenu.add(fileLoad);
 
+        //Add eac menu section to the menu bar
+        menuBar.add(gameMenu);
+        menuBar.add(fileMenu);
+        menuBar.add(helpMenu);
+
         myFrame.setJMenuBar(menuBar);
 
         // Start
@@ -288,10 +293,20 @@ public class GameView extends JFrame implements PropertyChangeListener {
             }
         });
 
+        aboutItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(final ActionEvent theEvent) {
+                // About the game and creators
+                JOptionPane.showMessageDialog(null,
+                        "1UP Trivia Maze\nWritten in Java\nAuthors: Lily, Christiannel, Komalpreet",
+                        "About 1UP Trivia Maze", JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
+
         rulesItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent theEvent) {
-                // The rules of Craps
+                // The rules of trivia game
                 JOptionPane.showMessageDialog(null,
                         "1UP Trivia Game Rules:\n1. Choose a direction to move\n2. Once at a door, " +
                                 "answer the trivia question and submit\n3. If correct, you may open that door and move" +
