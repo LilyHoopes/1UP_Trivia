@@ -2,3 +2,52 @@ Main is where the group code will all be together.
 We will be making temporary branches to add things to the code, and once it works, we merge back to main.
 For example, say I make a branch to work on method A, once its working, I push to main.
 We will not be doing branches with our names like I thought we would, Lance said the example above is the way to go.
+
+Model Layer (Game Logic & Data)
+
+Maze:
+
+Holds the grid of Rooms.
+Knows where the player is (playerRow, playerCol).
+Knows the win/loss conditions (isGameWon, isGameLost).
+Gives access to the current room and movement methods.
+
+Room:
+
+Holds a Map<Direction, Door> to connect to adjacent rooms.
+Has methods like isValidRoom() and isAdjacentRoomValid().
+
+Door:
+
+Connects rooms. Has a DoorState (OPEN, CLOSED, LOCKED).
+Holds a TriviaQuestion that determines if the door unlocks.
+
+Direction:
+
+Enum for UP, DOWN, LEFT, RIGHT.
+
+TriviaQuestion:
+
+Holds question text, answer choices, correct answer.
+Method: answerQuestion(Direction dir, String answer) updates door state.
+
+QuestionFactory:
+
+Connects to SQL DB.
+Methods to generate random questions (getRandomQuestion()), remove used questions, etc.
+
+Player:
+
+Holds the current position (row, col) and movement logic.
+Has movePlayer(Direction d) and canMove().
+
+CurrentGameState:
+
+Used for saving/loading the game state (like a snapshot).
+Can be serialized or turned into a data object.
+
+GameController:
+
+The brain. Takes input from GameView, calls logic in Maze/Player, updates the GameView.
+Manages: start game, reset, move player, check answers, save/load state.
+Only this class talks to both Model and View.
