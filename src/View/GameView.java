@@ -7,7 +7,6 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import javax.swing.*;
 
-
 import Model.*;
 
 import Model.TriviaQuestion;
@@ -226,7 +225,6 @@ public class GameView extends JFrame implements PropertyChangeListener {
         label.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         return label;
     }
-
 
     private void createMenuBar() {
         final JMenuBar menuBar = new JMenuBar();
