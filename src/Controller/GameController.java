@@ -57,3 +57,16 @@ public class GameController {
         // reset game state
     }
 }
+
+
+/*
+*  ADD SOMETHING LIKE.........
+public GameController() {
+        // Provide path to your SQLite DB file
+        myQuestionFactory = new QuestionFactory("resources/trivia_questions.db");
+    }
+
+    public TriviaQuestion getNextQuestion() {
+        return myQuestionFactory.getNextQuestion();
+
+* */
