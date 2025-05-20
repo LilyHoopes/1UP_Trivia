@@ -272,22 +272,23 @@ public class GameView extends JFrame implements PropertyChangeListener {
     }
 
     private void createRooms() {
-        myA_Room = createMazeLabel(""); // A
-        myB_Room = createMazeLabel(""); // B
-        myC_Room = createMazeLabel(""); // C
-        myD_Room = createMazeLabel(""); // D
-        myE_Room = createMazeLabel(""); // E
-        myF_Room = createMazeLabel(""); // F
-        myG_Room = createMazeLabel(""); // G
-        myH_Room = createMazeLabel(""); // H
-        myI_Room = createMazeLabel(""); // I
-        myJ_Room = createMazeLabel(""); // J
-        myK_Room = createMazeLabel(""); // K
-        myL_Room = createMazeLabel(""); // L
-        myM_Room = createMazeLabel(""); // M
-        myN_Room = createMazeLabel(""); // N
-        myO_Room = createMazeLabel(""); // O
-        myP_Room = createMazeLabel(""); // P
+        myA_Room = createMazeLabelWithBorder(""); // A
+        myB_Room = createMazeLabelWithBorder(""); // B
+        myC_Room = createMazeLabelWithBorder(""); // C
+        myD_Room = createMazeLabelWithBorder(""); // D
+        myE_Room = createMazeLabelWithBorder(""); // E
+        myF_Room = createMazeLabelWithBorder(""); // F
+        myG_Room = createMazeLabelWithBorder(""); // G
+        myH_Room = createMazeLabelWithBorder(""); // H
+        myI_Room = createMazeLabelWithBorder(""); // I
+        myJ_Room = createMazeLabelWithBorder(""); // J
+        myK_Room = createMazeLabelWithBorder(""); // K
+        myL_Room = createMazeLabelWithBorder(""); // L
+        myM_Room = createMazeLabelWithBorder(""); // M
+        myN_Room = createMazeLabelWithBorder(""); // N
+        myO_Room = createMazeLabelWithBorder(""); // O
+        myP_Room = createMazeLabelWithBorder(""); // P
+
 
         myA_Room.setIcon(getScaledIcon("icons/1upmushroom.png", 60, 60));
         myB_Room.setIcon(getScaledIcon("icons/key.png", 60, 60));
@@ -392,6 +393,16 @@ public class GameView extends JFrame implements PropertyChangeListener {
         //label.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         return label;
     }
+
+    //used by createRooms
+    private JLabel createMazeLabelWithBorder(String theName) {
+        JLabel label = new JLabel(theName, SwingConstants.CENTER);
+        label.setPreferredSize(new Dimension(50, 50));
+        label.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        return label;
+    }
+
+
 
     private void createMenuBar() {
         final JMenuBar menuBar = new JMenuBar();
