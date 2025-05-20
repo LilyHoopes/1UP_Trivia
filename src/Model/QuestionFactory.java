@@ -2,91 +2,59 @@ package Model;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Random;
+
+
 
 public class QuestionFactory {
-    private final List<TriviaQuestion> myQuestions = new ArrayList<>();
+    private final String dbPath;
+    private List<TriviaQuestion> questions;
 
-    private int myCurrentIndex = 0;
-
-    private final Random myRandom = new Random();
-
-    public QuestionFactory(String dbFilePath) {
-        loadQuestions(dbFilePath);
+    // Constructor, takes database path
+    public QuestionFactory(String dbPath) {
+        this.dbPath = dbPath;
+        this.questions = new ArrayList<>();
+        loadQuestions();
     }
 
-    private void loadQuestions(String dbFilePath) {
-        // Form the JDBC URL using the provided file path
-        String url = "jdbc:sqlite:" + dbFilePath;
-
-        // Use try-with-resources to ensure database resources are closed properly
-        try (Connection conn = DriverManager.getConnection(url);  // Connect to the SQLite database
-             Statement stmt = conn.createStatement();              // Create a statement for executing SQL
-             ResultSet rs = stmt.executeQuery("SELECT * FROM questions")) {  // Execute SQL to get all questions
-
-            // Loop through each row in the result set
+    // Load questions from database
+    private void loadQuestions() {
+        String sql = "SELECT question, option_a, option_b, option_c, option_d, correct_answer FROM trivia_questions";
+        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
-                // Retrieve the question and all four answer options from the current row
-                String questionText = rs.getString("question");
+                String question = rs.getString("question");
                 String optionA = rs.getString("option_a");
                 String optionB = rs.getString("option_b");
                 String optionC = rs.getString("option_c");
                 String optionD = rs.getString("option_d");
-
-                // Get the correct answer (should match one of the options)
                 String correctAnswer = rs.getString("correct_answer");
 
-                // Create an array to hold the answer choices
-                String[] choices = {optionA, optionB, optionC, optionD};
-
-                // Create a new TriviaQuestion object using the extracted data
-                TriviaQuestion question = new TriviaQuestion(questionText, choices, correctAnswer);
-
-                // Add the newly created question to the list
-                myQuestions.add(question);
+                String[] options = { optionA, optionB, optionC, optionD };
+                TriviaQuestion triviaQuestion = new TriviaQuestion(question, options, correctAnswer);
+                questions.add(triviaQuestion);
             }
-
         } catch (SQLException e) {
-            // If an SQL error occurs, print the error message and stack trace
-            System.err.println("Error loading questions from database:");
-            e.printStackTrace();
+            System.err.println("Error loading questions from database: " + e.getMessage());
         }
     }
 
-
+    // Get the next question (for simplicity, just return the first question or one from the list)
     public TriviaQuestion getNextQuestion() {
-        if (myQuestions.isEmpty()) return null;
-
-        if (myCurrentIndex >= myQuestions.size()) {
-            myCurrentIndex = 0;
+        if (!questions.isEmpty()) {
+            return questions.get(0); // Or use an index to go through the questions
         }
-
-        return myQuestions.get(myCurrentIndex++);
+        return null;
     }
 
-    public TriviaQuestion getRandomQuestion() {
-        if (myQuestions.isEmpty()) return null;
-
-        int randomIndex = myRandom.nextInt(myQuestions.size());
-        return myQuestions.get(randomIndex);
-    }
-
+    // Method to get all questions, useful if you need them for something else
     public List<TriviaQuestion> getAllQuestions() {
-        return new ArrayList<>(myQuestions); // Defensive copy
+        return questions;
     }
 
-    public void shuffleQuestions() {
-        Collections.shuffle(myQuestions, myRandom);
-        myCurrentIndex = 0;
-    }
-
-    public boolean hasQuestions() {
-        return !myQuestions.isEmpty();
-    }
-
+    // Get the number of questions
     public int size() {
-        return myQuestions.size();
+        return questions.size();
     }
 }
