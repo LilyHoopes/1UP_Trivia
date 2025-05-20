@@ -136,6 +136,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
         return new ImageIcon(scaledImage);
     }
 
+    //Create the room panel with up down left right and current room
     private JPanel createRoomPanel() {
         JPanel roomPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -172,6 +173,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
         return roomPanel;
     }
 
+    //Create question panel with 4 questions, selectors, and submit
     private JPanel createQuestionsPanel() {
         final JPanel questionsPanel = new JPanel(new BorderLayout());
 
@@ -200,6 +202,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
         return questionsPanel;
     }
 
+    //create maze panel with icons, pipes, and blank spaces
     private JPanel createMazePanel() {
         final JPanel mazePanel = new JPanel(new GridLayout(7,7, 5, 5));
 
@@ -271,23 +274,24 @@ public class GameView extends JFrame implements PropertyChangeListener {
         return mazePanel;
     }
 
+    //Assigns each room an icon
     private void createRooms() {
-        myA_Room = createMazeLabel(""); // A
-        myB_Room = createMazeLabel(""); // B
-        myC_Room = createMazeLabel(""); // C
-        myD_Room = createMazeLabel(""); // D
-        myE_Room = createMazeLabel(""); // E
-        myF_Room = createMazeLabel(""); // F
-        myG_Room = createMazeLabel(""); // G
-        myH_Room = createMazeLabel(""); // H
-        myI_Room = createMazeLabel(""); // I
-        myJ_Room = createMazeLabel(""); // J
-        myK_Room = createMazeLabel(""); // K
-        myL_Room = createMazeLabel(""); // L
-        myM_Room = createMazeLabel(""); // M
-        myN_Room = createMazeLabel(""); // N
-        myO_Room = createMazeLabel(""); // O
-        myP_Room = createMazeLabel(""); // P
+        myA_Room = createMazeLabelWithBorder(""); // A
+        myB_Room = createMazeLabelWithBorder(""); // B
+        myC_Room = createMazeLabelWithBorder(""); // C
+        myD_Room = createMazeLabelWithBorder(""); // D
+        myE_Room = createMazeLabelWithBorder(""); // E
+        myF_Room = createMazeLabelWithBorder(""); // F
+        myG_Room = createMazeLabelWithBorder(""); // G
+        myH_Room = createMazeLabelWithBorder(""); // H
+        myI_Room = createMazeLabelWithBorder(""); // I
+        myJ_Room = createMazeLabelWithBorder(""); // J
+        myK_Room = createMazeLabelWithBorder(""); // K
+        myL_Room = createMazeLabelWithBorder(""); // L
+        myM_Room = createMazeLabelWithBorder(""); // M
+        myN_Room = createMazeLabelWithBorder(""); // N
+        myO_Room = createMazeLabelWithBorder(""); // O
+        myP_Room = createMazeLabelWithBorder(""); // P
 
         myA_Room.setIcon(getScaledIcon("icons/1upmushroom.png", 113, 110));
         myB_Room.setIcon(getScaledIcon("icons/key.png", 108, 108));
@@ -307,6 +311,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
         myP_Room.setIcon(getScaledIcon("icons/greenegg.png", 104, 114));
     }
 
+    //Assigns each in between room cell a pipe
     private void createPipes() {
         myPipe1 = createMazeLabel("");
         myPipe2 = createMazeLabel("");
@@ -385,8 +390,16 @@ public class GameView extends JFrame implements PropertyChangeListener {
         myBlank12 = createMazeLabel("");
     }
 
-    //used by createRooms and createPipes
+    //used by createPipes and createBlank
     private JLabel createMazeLabel(String theName) {
+        JLabel label = new JLabel(theName, SwingConstants.CENTER);
+        label.setPreferredSize(new Dimension(50, 50));
+        //label.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        return label;
+    }
+
+    //used by createRooms
+    private JLabel createMazeLabelWithBorder(String theName) {
         JLabel label = new JLabel(theName, SwingConstants.CENTER);
         label.setPreferredSize(new Dimension(50, 50));
         label.setBorder(BorderFactory.createLineBorder(Color.BLACK));
