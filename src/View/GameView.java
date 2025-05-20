@@ -42,7 +42,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
         myFrame.setResizable(false);
 
         final JLabel iconLabel = new JLabel();
-        final ImageIcon image = new ImageIcon("img.png");
+        final ImageIcon image = new ImageIcon("icons.png");
         iconLabel.setIcon(image);
 
         myFrame.setIconImage(image.getImage());
@@ -59,7 +59,14 @@ public class GameView extends JFrame implements PropertyChangeListener {
         myLeftButton = new JButton("Left");
         myRightButton = new JButton("Right");
 
-        myRoomPlayer = new JLabel("Room Player"); //this will be an image
+        myRoomPlayer = new JLabel(""); //where character will be displayed
+        myRoomPlayer.setIcon(getScaledIcon("icons/P1Mario.png", 80, 80));
+        //myRoomPlayer.setIcon(getScaledIcon("icons/P2Luigi.png", 80, 80));
+        //myRoomPlayer.setIcon(getScaledIcon("icons/P3PrincessPeach.png", 77, 90));
+        //myRoomPlayer.setIcon(getScaledIcon("icons/P4Toad.png", 77, 82));
+
+
+
 
 
         //Questions Panel components
@@ -81,22 +88,40 @@ public class GameView extends JFrame implements PropertyChangeListener {
         myEndImage = new JLabel("");
         myMazePlayer = new JLabel("");
 
-        myA_Room = createMazeLabel("A");
-        myB_Room = createMazeLabel("B");
-        myC_Room = createMazeLabel("C");
-        myD_Room = createMazeLabel("D");
-        myE_Room = createMazeLabel("E");
-        myF_Room = createMazeLabel("F");
-        myG_Room = createMazeLabel("G");
-        myH_Room = createMazeLabel("H");
-        myI_Room = createMazeLabel("I");
-        myJ_Room = createMazeLabel("J");
-        myK_Room = createMazeLabel("K");
-        myL_Room = createMazeLabel("L");
-        myM_Room = createMazeLabel("M");
-        myN_Room = createMazeLabel("N");
-        myO_Room = createMazeLabel("O");
-        myP_Room = createMazeLabel("P");
+        myA_Room = createMazeLabel(""); // A
+        myB_Room = createMazeLabel(""); // B
+        myC_Room = createMazeLabel(""); // C
+        myD_Room = createMazeLabel(""); // D
+        myE_Room = createMazeLabel(""); // E
+        myF_Room = createMazeLabel(""); // F
+        myG_Room = createMazeLabel(""); // G
+        myH_Room = createMazeLabel(""); // H
+        myI_Room = createMazeLabel(""); // I
+        myJ_Room = createMazeLabel(""); // J
+        myK_Room = createMazeLabel(""); // K
+        myL_Room = createMazeLabel(""); // L
+        myM_Room = createMazeLabel(""); // M
+        myN_Room = createMazeLabel(""); // N
+        myO_Room = createMazeLabel(""); // O
+        myP_Room = createMazeLabel(""); // P
+
+        myA_Room.setIcon(getScaledIcon("icons/1upmushroom.png", 113, 110));
+        myB_Room.setIcon(getScaledIcon("icons/key.png", 108, 108));
+        myC_Room.setIcon(getScaledIcon("icons/cherries.png", 115, 115));
+        myD_Room.setIcon(getScaledIcon("icons/blueegg.png", 110, 110));
+        myE_Room.setIcon(getScaledIcon("icons/goomba.png", 118, 110));
+        myF_Room.setIcon(getScaledIcon("icons/iceflower.png", 110, 110));
+        myG_Room.setIcon(getScaledIcon("icons/mysterybox.png", 105, 105));
+        myH_Room.setIcon(getScaledIcon("icons/poisonmushroom.png", 110, 110));
+        myI_Room.setIcon(getScaledIcon("icons/star.png", 110, 110));
+        myJ_Room.setIcon(getScaledIcon("icons/powbox.png", 110, 110));
+        myK_Room.setIcon(getScaledIcon("icons/greenshell.png", 118, 110));
+        myL_Room.setIcon(getScaledIcon("icons/fireflower.png", 110, 110));
+        myM_Room.setIcon(getScaledIcon("icons/coin.png", 125, 125));
+        myN_Room.setIcon(getScaledIcon("icons/rainbowstar.png", 100, 105));
+        myO_Room.setIcon(getScaledIcon("icons/redmushroom.png", 113, 110));
+        myP_Room.setIcon(getScaledIcon("icons/greenegg.png", 104, 114));
+
 
         final JPanel mazePanel = createMazePanel();
         mazePanel.setPreferredSize(new Dimension(500, 500));
@@ -126,7 +151,22 @@ public class GameView extends JFrame implements PropertyChangeListener {
         //initially set some buttons to false here?
 
         //addListeners() method?
+
+        // ADDED BACKGROUND COLOR (But does not fill everything in)
+        // TODO: Change background color??
+//        myFrame.setBackground(new Color(135, 206, 235));  // sky blue
+//        mazePanel.setBackground(new Color(135, 206, 235));
+//        roomPanel.setBackground(new Color(135, 206, 235));
+//        questionsPanel.setBackground(new Color(135, 206, 235));
     }
+
+    // Helper method for scaling the icons for the room images
+    private ImageIcon getScaledIcon(String path, int width, int height) {
+        ImageIcon icon = new ImageIcon(path);
+        Image scaledImage = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
+        return new ImageIcon(scaledImage);
+    }
+
 
     private JPanel createRoomPanel() {
         JPanel roomPanel = new JPanel(new GridBagLayout());
