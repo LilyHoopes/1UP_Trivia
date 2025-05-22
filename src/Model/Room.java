@@ -1,41 +1,60 @@
 package Model;
 
-//a room has doors, so this is compositions
-//a maze has rooms, so this is also composition
-
+import java.io.Serializable;
 import java.util.EnumMap;
 import java.util.Map;
 
-// represents a single room in the maze
-//each room can have 2-4 doors (corners, sides, inside)
-public class Room {
+public class Room implements Serializable {
 
     private final int myRow;
     private final int myCol;
     private final Map<Direction, Door> myDoors;
 
-    //constructor that makes a room at specified position with no doors yet
+    //Creates a new room at a specific row and column in the maze grid
     public Room(final int theRow, final int theCol) {
         myRow = theRow;
         myCol = theCol;
-        myDoors = new EnumMap<Direction, Door>(Direction.class);
+        myDoors = new EnumMap<>(Direction.class);
     }
 
+    //returns row position of room instance
     public int getRow() {
         return myRow;
     }
 
+    //returns column position of room instance
     public int getCol() {
         return myCol;
     }
 
+    //given the direction relative to room, return that door
+    public Door getDoor(Direction theDir) {
+        return myDoors.get(theDir);
+    }
+
+    //Adds a door to this room in a given direction
+    public void addDoor(Direction theDir, Door theDoor) {
+        myDoors.put(theDir, theDoor);
+    }
+
+    //checks if a room already have a door in a given direction
+    public boolean hasDoor(final Direction theDirection) {
+        return myDoors.containsKey(theDirection);
+    }
+
+    //
     public boolean isValidRoom() {
-        // determine if room is valid
+        for (Door door : myDoors.values()) {
+            if (door.getState() != DoorState.LOCKED) {
+                return true;
+            }
+        }
         return false;
     }
 
-    public boolean isAdjacentRoomValid(Direction dir) {
-        // checks if adjacent room in a direction is valid
-        return false;
+    //Checks whether the adjacent room in the given direction is accessible (door isnt locked)
+    public boolean isAdjacentRoomValid(Direction theDir) {
+        Door door = myDoors.get(theDir);
+        return door != null && door.getState() != DoorState.LOCKED;
     }
 }
