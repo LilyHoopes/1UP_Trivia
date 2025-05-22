@@ -32,7 +32,9 @@ public class GameView extends JFrame implements PropertyChangeListener {
     private JLabel myPipe1, myPipe2, myPipe3, myPipe4, myPipe5, myPipe6, myPipe7, myPipe8,
             myPipe9, myPipe10, myPipe11, myPipe12, myPipe13, myPipe14, myPipe15, myPipe16,
             myPipe17, myPipe18, myPipe19, myPipe20, myPipe21, myPipe22, myPipe23, myPipe24;
-    private JLabel myBlank1, myBlank2, myBlank3, myBlank4, myBlank5, myBlank6, myBlank7, myBlank8, myBlank9, myBlank10, myBlank11, myBlank12;
+    private JLabel myBlank1, myBlank2, myBlank3, myBlank4, myBlank5, myBlank6, myBlank7, myBlank8, myBlank9;
+
+    private Color skyBlue = new Color(135, 206, 235);
 
 
     //add for loop to make a bunch of arrow aka door images to add to panel, need 24 of them?
@@ -42,6 +44,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
 
         myFrame = new JFrame("1UP Trivia");
         final Dimension frameSize = new Dimension(900, 800);
+
         myFrame.setSize(frameSize);
         myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         myFrame.setResizable(false);
@@ -104,6 +107,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
         topPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
         topPanel.add(mazePanel);
         topPanel.add(roomPanel);
+        topPanel.setBackground(skyBlue);
 
         // Main container with vertical layout
         JPanel mainPanel = new JPanel();
@@ -123,10 +127,10 @@ public class GameView extends JFrame implements PropertyChangeListener {
 
         // ADDED BACKGROUND COLOR (But does not fill everything in)
         // TODO: Change background color??
-        myFrame.setBackground(new Color(135, 206, 235));  // sky blue
-        mazePanel.setBackground(new Color(135, 206, 235));
-        roomPanel.setBackground(new Color(135, 206, 235));
-        questionsPanel.setBackground(new Color(135, 206, 235));
+        myFrame.setBackground(skyBlue);  // sky blue
+        mazePanel.setBackground(skyBlue);
+        roomPanel.setBackground(skyBlue);
+        questionsPanel.setBackground(skyBlue);
     }
 
     // Helper method for scaling the icons for the room images
@@ -177,6 +181,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
 
         //sub panel for the A,B,C,D buttons
         JPanel buttonsPanel = new JPanel(new GridLayout(4, 1, 5, 5));
+        buttonsPanel.setBackground(skyBlue); //sky blue
         buttonsPanel.setPreferredSize(new Dimension(50, 400));
         buttonsPanel.add(myA_Button);
         buttonsPanel.add(myB_Button);
@@ -184,6 +189,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
         buttonsPanel.add(myD_Button);
 
         JPanel questionOptionsPanel = new JPanel(new GridLayout(4, 1, 5 ,5));
+        questionOptionsPanel.setBackground(skyBlue); //sky blue
         questionOptionsPanel.setPreferredSize(new Dimension(700, 400));
         questionOptionsPanel.add(myOptionA_Label);
         questionOptionsPanel.add(myOptionB_Label);
@@ -290,7 +296,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
         myP_Room = createMazeLabelWithBorder(""); // P
 
 
-        myA_Room.setIcon(getScaledIcon("icons/1upmushroom.png", 60, 60));
+        myA_Room.setIcon(getScaledIcon("icons/greenegg.png", 60, 60));
         myB_Room.setIcon(getScaledIcon("icons/key.png", 60, 60));
         myC_Room.setIcon(getScaledIcon("icons/cherries.png", 60, 60));
         myD_Room.setIcon(getScaledIcon("icons/blueegg.png", 60, 60));
@@ -305,7 +311,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
         myM_Room.setIcon(getScaledIcon("icons/coin.png", 60, 60));
         myN_Room.setIcon(getScaledIcon("icons/rainbowstar.png", 60, 60));
         myO_Room.setIcon(getScaledIcon("icons/redmushroom.png", 60, 60));
-        myP_Room.setIcon(getScaledIcon("icons/greenegg.png", 60, 60));
+        myP_Room.setIcon(getScaledIcon("icons/1upmushroom.png", 60, 60));
     }
 
     private void createPipes() {
@@ -381,9 +387,6 @@ public class GameView extends JFrame implements PropertyChangeListener {
         myBlank7 = createMazeLabel("");
         myBlank8 = createMazeLabel("");
         myBlank9 = createMazeLabel("");
-        myBlank10 = createMazeLabel("");
-        myBlank11 = createMazeLabel("");
-        myBlank12 = createMazeLabel("");
     }
 
     //used by createRooms and createPipes
