@@ -24,7 +24,6 @@ public class GameView extends JFrame implements PropertyChangeListener {
     private final JButton myA_Button, myB_Button, myC_Button, myD_Button, mySubmitButton;//JButtons for questions panel
 
     //JLabels for the maze panel
-    private final JLabel myMazePlayer;
     private JLabel myA_Room, myB_Room, myC_Room, myD_Room, myE_Room, myF_Room, myG_Room,  myH_Room,
             myI_Room, myJ_Room, myK_Room, myL_Room, myM_Room, myN_Room, myO_Room, myP_Room;
     private JLabel myPipe1, myPipe2, myPipe3, myPipe4, myPipe5, myPipe6, myPipe7, myPipe8,
@@ -91,7 +90,8 @@ public class GameView extends JFrame implements PropertyChangeListener {
 
 
         //Maze Panel Components
-        myMazePlayer = new JLabel("");
+        //myMazePlayer = new JLabel("");
+        //myMazePlayer.setIcon(getScaledIcon("icons/P1Mario.png", 80, 80));
 
         createRooms();
         createPipes();
@@ -543,27 +543,32 @@ public class GameView extends JFrame implements PropertyChangeListener {
     private void handleMove(Direction theDirection) {
         Player player = myMaze.getPlayer();
 
+        // Store old player position before move
+        int oldRow = player.getRow();
+        int oldCol = player.getCol();
+
         boolean moved = player.move(theDirection);
 
         if (moved) {
             System.out.println("Player moved " + theDirection);
-            //updateMazeView();
+            System.out.println("Current player position: " + player.getCol() + ", " + player.getRow());
+
+//            // Clear the old icon (set it back to empty/default icon)
+//            roomButtons[oldRow][oldCol].setIcon(emptyIcon);
+//
+//            // Set the Mario icon at the new position
+//            int newRow = player.getRow();
+//            int newCol = player.getCol();
+//            roomButtons[newRow][newCol].setIcon(marioIcon);
+//
+//            // Optional: repaint to update UI immediately
+//            roomButtons[oldRow][oldCol].repaint();
+//            roomButtons[newRow][newCol].repaint();
+
         } else {
             System.out.println("Move blocked in direction: " + theDirection);
         }
     }
-
-//    private void updateMazeView() {
-//        for (int row = 0; row < myRoomButtons.length; row++) {
-//            for (int col = 0; col < myRoomButtons[0].length; col++) {
-//                myRoomButtons[row][col].setBackground(Color.LIGHT_GRAY); // Reset all rooms
-//            }
-//        }
-//
-//        int playerRow = myMaze.getPlayer().getRow();
-//        int playerCol = myMaze.getPlayer().getCol();
-//        myRoomButtons[playerRow][playerCol].setBackground(Color.GREEN); // Highlight player
-//    }
 
     public void showWinMessage() { }
 
