@@ -4,6 +4,12 @@ import java.io.Serializable;
 import java.util.EnumMap;
 import java.util.Map;
 
+
+/*
+Room should:
+-repersent a single cell in the maze grid
+-stores its location and its doors to adjacent rooms
+ */
 public class Room implements Serializable {
 
     private final int myRow;
@@ -42,15 +48,15 @@ public class Room implements Serializable {
         return myDoors.containsKey(theDirection);
     }
 
-    //
-    public boolean isValidRoom() {
-        for (Door door : myDoors.values()) {
-            if (door.getState() != DoorState.LOCKED) {
-                return true;
-            }
-        }
-        return false;
-    }
+    //idk if i need this
+//    public boolean isValidRoom() {
+//        for (Door door : myDoors.values()) {
+//            if (door.getState() != DoorState.LOCKED) {
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
 
     //Checks whether the adjacent room in the given direction is accessible (door isnt locked)
     public boolean isAdjacentRoomValid(Direction theDir) {

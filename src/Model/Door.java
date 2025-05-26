@@ -7,9 +7,7 @@ package Model;
 public class Door {
 
     private TriviaQuestion myQuestion; //the question that must be answered correctly to open door
-
     private DoorState myState; // Enum: OPEN, CLOSED, LOCKED
-
 
     /**
      * Constructs a Door with a trivia question. The default state is CLOSED.

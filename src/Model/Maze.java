@@ -1,13 +1,22 @@
 package Model;
 
-public class Maze {
+/*
+Maze should:
+-initialize maze with room objects
+-link rooms with shared door objects
+-track and update player location
+-determine win and loss conditions
+-
+ */
 
-    private Room[][] myRooms;
+
+import java.io.Serializable;
+
+public class Maze implements Serializable {
+
+    private final Room[][] myRooms;
     private final int myRows;
     private final int myCols;
-
-    private int myPlayerRow;
-    private int myPlayerColumn;
 
 //
 //    private boolean myGameWon;
@@ -69,64 +78,20 @@ public class Maze {
         }
     }
 
-    private boolean isInBounds(int row, int col) {
+    boolean isInBounds(int row, int col) {
         return row >= 0 && row < myRows && col >= 0 && col < myCols;
     }
 
+    //returns the current Room
     public Room getCurrentRoom() {
         return myRooms[myPlayerRow][myPlayerColumn];
     }
 
-    //checks is a door exists and is open, then moves the player's coordinates if valid
-    private boolean movePlayer(Direction theDirection) {
-        Room current = getCurrentRoom();
-        Door door = current.getDoor(theDirection);
-
-        //if there is not a door or its closed, we can move through it yet
-        if (door == null || !door.isOpen()) {
-            return false; // Can't move – no door or door is not open
+    //returns the Room at specific coordinates
+    public Room getRoomAt(final int theRow, final int theCol) {
+        if (isInBounds(theRow, theCol)) {
+            return myRooms[theRow][theCol];
         }
-
-        int newRow = myPlayerRow + theDirection.getRowOffset();
-        int newCol = myPlayerColumn + theDirection.getColOffset();
-
-        if (!isInBounds(newRow, newCol)) {
-            return false; // Out of bounds
-        }
-
-        // Valid move
-        myPlayerRow = newRow;
-        myPlayerColumn = newCol;
-        return true;
-    }
-
-    // returns true if player reached exit
-    public boolean isGameWon() {
-        return myPlayerRow == 3 && myPlayerColumn == 3;
-    }
-
-    //returns true if all possible directions are locked or invalid
-    public boolean isGameLost() {
-        Room current = getCurrentRoom();
-
-        for (Direction dir : Direction.values()) {
-            int newRow = myPlayerRow + dir.getRowOffset();
-            int newCol = myPlayerColumn + dir.getColOffset();
-
-            // Only check valid directions
-            if (isInBounds(newRow, newCol)) {
-                Door door = current.getDoor(dir);
-                if (door != null && !door.isLocked()) {
-                    return false; // At least one move is still possible
-                }
-            }
-        }
-        // All possible directions are either locked or invalid
-        return true;
-    }
-
-    //do i need this?
-    public int[] getRoomPosition() {
-        return new int[]{myPlayerRow, myPlayerColumn};
+        throw new IndexOutOfBoundsException("Room coordinates out of bounds.");
     }
 }
