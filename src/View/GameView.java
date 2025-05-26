@@ -98,16 +98,12 @@ public class GameView extends JFrame implements PropertyChangeListener {
 
 
         //Maze Panel Components
-        //TODO initialize the icosn for each room the myMazeIconsGrid
         for (int row = 0; row < 7; row++) {
             for (int col = 0; col < 7; col++) {
                 JLabel label = new JLabel();
 
             }
         }
-
-
-
 
         //myMazePlayer = new JLabel("");
         //myMazePlayer.setIcon(getScaledIcon("icons/P1Mario.png", 80, 80));
@@ -243,6 +239,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
             for (int col = 0; col < 7; col++) {
                 JLabel label = new JLabel();
 
+
                 if (row % 2 == 0 && col % 2 == 0) {
                     // Room position
                     label.setIcon(myRoomIcons[roomIndex++]);
@@ -260,6 +257,10 @@ public class GameView extends JFrame implements PropertyChangeListener {
 
                 // Store in the grid
                 myMazeIconsGrid[row][col] = label;
+
+                myMazeIconsGrid[row][col].setHorizontalAlignment(JLabel.CENTER);
+                myMazeIconsGrid[row][col].setVerticalAlignment(JLabel.CENTER);
+
             }
         }
     }
