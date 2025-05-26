@@ -13,9 +13,8 @@ import Model.TriviaQuestion;
 
 public class GameView extends JFrame implements PropertyChangeListener {
 
-    private final Maze myMaze;
-
     private final JFrame myFrame;
+    private final Color SKY_BLUE = new Color(135, 206, 235);
 
     private final JLabel myCurrentRoomIcon; //JLabel for room panel
     private final JButton myUpButton, myDownButton, myLeftButton, myRightButton; //JButtons for room panel
@@ -27,25 +26,26 @@ public class GameView extends JFrame implements PropertyChangeListener {
     private JLabel[][] myMazeIconsGrid = new JLabel[7][7];
 
     private final ImageIcon[] myRoomIcons = new ImageIcon[] {
-            getScaledIcon("icons/greenegg.png", 60, 60),        // A
-            getScaledIcon("icons/key.png", 60, 60),             // B
-            getScaledIcon("icons/cherries.png", 60, 60),        // C
-            getScaledIcon("icons/blueegg.png", 60, 60),         // D
-            getScaledIcon("icons/goomba.png", 60, 60),          // E
-            getScaledIcon("icons/iceflower.png", 60, 60),       // F
-            getScaledIcon("icons/mysterybox.png", 60, 60),      // G
-            getScaledIcon("icons/poisonmushroom.png", 60, 60),  // H
-            getScaledIcon("icons/star.png", 60, 60),            // I
-            getScaledIcon("icons/powbox.png", 60, 60),          // J
-            getScaledIcon("icons/greenshell.png", 60, 60),      // K
-            getScaledIcon("icons/fireflower.png", 60, 60),      // L
-            getScaledIcon("icons/coin.png", 60, 60),            // M
-            getScaledIcon("icons/rainbowstar.png", 60, 60),     // N
-            getScaledIcon("icons/redmushroom.png", 60, 60),     // O
-            getScaledIcon("icons/1upmushroom.png", 60, 60)      // P
+            getScaledIcon("icons/greenegg.png", 60, 60),
+            getScaledIcon("icons/key.png", 60, 60),
+            getScaledIcon("icons/cherries.png", 60, 60),
+            getScaledIcon("icons/blueegg.png", 60, 60),
+            getScaledIcon("icons/goomba.png", 60, 60),
+            getScaledIcon("icons/iceflower.png", 60, 60),
+            getScaledIcon("icons/mysterybox.png", 60, 60),
+            getScaledIcon("icons/poisonmushroom.png", 60, 60),
+            getScaledIcon("icons/star.png", 60, 60),
+            getScaledIcon("icons/powbox.png", 60, 60),
+            getScaledIcon("icons/greenshell.png", 60, 60),
+            getScaledIcon("icons/fireflower.png", 60, 60),
+            getScaledIcon("icons/coin.png", 60, 60),
+            getScaledIcon("icons/rainbowstar.png", 60, 60),
+            getScaledIcon("icons/redmushroom.png", 60, 60),
+            getScaledIcon("icons/1upmushroom.png", 60, 60)
     };
 
-    private Color skyBlue = new Color(135, 206, 235);
+    //instance of maze
+    private final Maze myMaze;
 
     //constructor for GameView
     public GameView(Maze theMaze) {
@@ -74,6 +74,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
         myLeftButton = new JButton("Left");
         myRightButton = new JButton("Right");
 
+        //action listeners for up down left right buttons
         myUpButton.addActionListener(e -> handleMove(Direction.UP));
         myDownButton.addActionListener(e -> handleMove(Direction.DOWN));
         myLeftButton.addActionListener(e -> handleMove(Direction.LEFT));
@@ -122,7 +123,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
         topPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
         topPanel.add(mazePanel);
         topPanel.add(roomPanel);
-        topPanel.setBackground(skyBlue);
+        topPanel.setBackground(SKY_BLUE);
 
         // Main container with vertical layout
         JPanel mainPanel = new JPanel();
@@ -140,10 +141,10 @@ public class GameView extends JFrame implements PropertyChangeListener {
 
         //addListeners() method?
 
-        myFrame.setBackground(skyBlue);  // sky blue
-        mazePanel.setBackground(skyBlue);
-        roomPanel.setBackground(skyBlue);
-        questionsPanel.setBackground(skyBlue);
+        myFrame.setBackground(SKY_BLUE);  // sky blue
+        mazePanel.setBackground(SKY_BLUE);
+        roomPanel.setBackground(SKY_BLUE);
+        questionsPanel.setBackground(SKY_BLUE);
     }
 
     // Helper method for scaling the icons for the room images
@@ -194,7 +195,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
 
         //sub panel for the A,B,C,D buttons
         JPanel buttonsPanel = new JPanel(new GridLayout(4, 1, 5, 5));
-        buttonsPanel.setBackground(skyBlue); //sky blue
+        buttonsPanel.setBackground(SKY_BLUE); //sky blue
         buttonsPanel.setPreferredSize(new Dimension(50, 400));
         buttonsPanel.add(myA_Button);
         buttonsPanel.add(myB_Button);
@@ -202,7 +203,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
         buttonsPanel.add(myD_Button);
 
         JPanel questionOptionsPanel = new JPanel(new GridLayout(4, 1, 5 ,5));
-        questionOptionsPanel.setBackground(skyBlue); //sky blue
+        questionOptionsPanel.setBackground(SKY_BLUE); //sky blue
         questionOptionsPanel.setPreferredSize(new Dimension(700, 400));
         questionOptionsPanel.add(myOptionA_Label);
         questionOptionsPanel.add(myOptionB_Label);
