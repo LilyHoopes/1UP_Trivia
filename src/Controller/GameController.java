@@ -1,6 +1,6 @@
 package Controller;
 import View.GameView;
-//import Model.Maze;
+import Model.*;
 
 import java.awt.*;
 
@@ -9,21 +9,33 @@ public class GameController {
     private boolean myGameWon;
     //private Maze myMaze;
     private GameView myView;
-    //private Player myPlayer;
+
 
     public static void main(final String[] theArgs) {
         EventQueue.invokeLater(new Runnable() {
-            /**
-             * Sets up the CrapsView and connects it to the Craps model
-             * using a PropertyChangeListener for event-driven updates.
-             */
+
             @Override
             public void run() {
-                final GameView view = new GameView();
-                //Craps.getInstance().addPropertyChangeListener(view);
+
+                Maze maze = new Maze(4, 4);
+                Player player = maze.getPlayer();
+
+                final GameView view = new GameView(maze);
+
+                // Try moving right — this will only work if the door is open
+                boolean moved = player.move(Direction.LEFT);
+
+                if (moved) {
+                    System.out.println("Moved RIGHT to: (" + player.getRow() + ", " + player.getCol() + ")");
+                } else {
+                    System.out.println("Could NOT move RIGHT, door closed or out of bounds.");
+                }
+                //Maze.getInstance().addPropertyChangeListener(view);
             }
         });
     }
+
+
 
     public boolean getGameWon() {
         return myGameWon;
@@ -32,10 +44,6 @@ public class GameController {
     public void setGameWon(final boolean theGameWon) {
         myGameWon = theGameWon;
     }
-
-//    public void executeMove(Direction theDirection) {
-//        // move player logic
-//    }
 
     public void checkAnswer(String theAnswer) {
         // validate trivia answer

@@ -13,9 +13,11 @@ import Model.TriviaQuestion;
 
 public class GameView extends JFrame implements PropertyChangeListener {
 
+    private Maze myMaze;
+
     private final JFrame myFrame;
 
-    private final JLabel myRoomPlayer; //JLabel for room panel
+    private final JLabel myCurrentRoomIcon; //JLabel for room panel
     private final JButton myUpButton, myDownButton, myLeftButton, myRightButton; //JButtons for room panel
 
     private final JLabel myQuestionLabel, myOptionA_Label, myOptionB_Label, myOptionC_Label, myOptionD_Label; //JLabels for the questions panel
@@ -32,11 +34,10 @@ public class GameView extends JFrame implements PropertyChangeListener {
 
     private Color skyBlue = new Color(135, 206, 235);
 
-
-    //add for loop to make a bunch of arrow aka door images to add to panel, need 24 of them?
-
     //constructor for GameView
-    public GameView() {
+    public GameView(Maze theMaze) {
+
+        myMaze = theMaze;
 
         myFrame = new JFrame("1UP Trivia");
         final Dimension frameSize = new Dimension(900, 800);
@@ -46,14 +47,11 @@ public class GameView extends JFrame implements PropertyChangeListener {
         myFrame.setResizable(false);
 
         final JLabel iconLabel = new JLabel();
-        final ImageIcon image = new ImageIcon("icons.png");
+        final ImageIcon image = new ImageIcon("icons/P1Mario.png");
         iconLabel.setIcon(image);
 
         myFrame.setIconImage(image.getImage());
         createMenuBar();
-
-        //NOTE: menu bar goes here
-        //TriviaMenu menuBar = new TriviaMenu();
 
         //labels, buttons, text fields
 
@@ -63,8 +61,16 @@ public class GameView extends JFrame implements PropertyChangeListener {
         myLeftButton = new JButton("Left");
         myRightButton = new JButton("Right");
 
-        myRoomPlayer = new JLabel(""); //where character will be displayed
-        myRoomPlayer.setIcon(getScaledIcon("icons/P1Mario.png", 80, 80));
+        myUpButton.addActionListener(e -> handleMove(Direction.UP));
+        myDownButton.addActionListener(e -> handleMove(Direction.DOWN));
+        myLeftButton.addActionListener(e -> handleMove(Direction.LEFT));
+        myRightButton.addActionListener(e -> handleMove(Direction.RIGHT));
+
+
+        myCurrentRoomIcon = new JLabel(""); //where current room will be displayed
+        //myCurrentRoomIcon.setIcon()
+
+        myCurrentRoomIcon.setIcon(getScaledIcon("icons/P1Mario.png", 80, 80));
         //myRoomPlayer.setIcon(getScaledIcon("icons/P2Luigi.png", 80, 80));
         //myRoomPlayer.setIcon(getScaledIcon("icons/P3PrincessPeach.png", 77, 90));
         //myRoomPlayer.setIcon(getScaledIcon("icons/P4Toad.png", 77, 82));
@@ -121,8 +127,6 @@ public class GameView extends JFrame implements PropertyChangeListener {
 
         //addListeners() method?
 
-        // ADDED BACKGROUND COLOR (But does not fill everything in)
-        // TODO: Change background color??
         myFrame.setBackground(skyBlue);  // sky blue
         mazePanel.setBackground(skyBlue);
         roomPanel.setBackground(skyBlue);
@@ -154,10 +158,10 @@ public class GameView extends JFrame implements PropertyChangeListener {
         // Center (Player)
         gbc.gridx = 1;
         gbc.gridy = 1;
-        myRoomPlayer.setPreferredSize(new Dimension(100, 100));
-        myRoomPlayer.setHorizontalAlignment(SwingConstants.CENTER);
-        myRoomPlayer.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-        roomPanel.add(myRoomPlayer, gbc);
+        myCurrentRoomIcon.setPreferredSize(new Dimension(100, 100));
+        myCurrentRoomIcon.setHorizontalAlignment(SwingConstants.CENTER);
+        myCurrentRoomIcon.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+        roomPanel.add(myCurrentRoomIcon, gbc);
 
         // Right Button
         gbc.gridx = 2;
@@ -291,7 +295,6 @@ public class GameView extends JFrame implements PropertyChangeListener {
         myN_Room = createMazeLabelWithBorder(""); // N
         myO_Room = createMazeLabelWithBorder(""); // O
         myP_Room = createMazeLabelWithBorder(""); // P
-
 
         myA_Room.setIcon(getScaledIcon("icons/greenegg.png", 60, 60));
         myB_Room.setIcon(getScaledIcon("icons/key.png", 60, 60));
@@ -512,7 +515,9 @@ public class GameView extends JFrame implements PropertyChangeListener {
         actionMap.put("moveUp", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent theEvent) {
+                //attemptMove(Direction.NORTH, );
                 //movePlayer(-1, 0);
+                //Player.move(Direction.NORTH);
             }
         });
         actionMap.put("moveLeft", new AbstractAction() {
@@ -535,19 +540,29 @@ public class GameView extends JFrame implements PropertyChangeListener {
         });
     }
 
-    //public void updateGameDisplay(GameModel model) {
-        // refresh display based on current model
-    //}
+    private void handleMove(Direction theDirection) {
+        Player player = myMaze.getPlayer();
 
-    //sql thing
-//    public void displayQuestion(TriviaQuestion question) {
-//        myQuestionLabel.setText("Question: " + question.getQuestionText());
-//        String[] choices = question.getMultipleChoices();
+        boolean moved = player.move(theDirection);
+
+        if (moved) {
+            System.out.println("Player moved " + theDirection);
+            //updateMazeView();
+        } else {
+            System.out.println("Move blocked in direction: " + theDirection);
+        }
+    }
+
+//    private void updateMazeView() {
+//        for (int row = 0; row < myRoomButtons.length; row++) {
+//            for (int col = 0; col < myRoomButtons[0].length; col++) {
+//                myRoomButtons[row][col].setBackground(Color.LIGHT_GRAY); // Reset all rooms
+//            }
+//        }
 //
-//        myOptionA_Label.setText("A. " + choices[0]);
-//        myOptionB_Label.setText("B. " + choices[1]);
-//        myOptionC_Label.setText("C. " + choices[2]);
-//        myOptionD_Label.setText("D. " + choices[3]);
+//        int playerRow = myMaze.getPlayer().getRow();
+//        int playerCol = myMaze.getPlayer().getCol();
+//        myRoomButtons[playerRow][playerCol].setBackground(Color.GREEN); // Highlight player
 //    }
 
     public void showWinMessage() { }

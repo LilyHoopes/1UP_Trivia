@@ -1,8 +1,10 @@
 package Model;
 
+import javax.swing.*;
 import java.io.Serializable;
 import java.util.EnumMap;
 import java.util.Map;
+
 
 
 /*
@@ -12,15 +14,24 @@ Room should:
  */
 public class Room implements Serializable {
 
-    private final int myRow;
-    private final int myCol;
-    private final Map<Direction, Door> myDoors;
+    private final int myRow; //row position of room
+    private final int myCol; //col position of room
+    private final Map<Direction, Door> myDoors; //each room has a map that holds direction to a door
+    private ImageIcon myIcon;
 
     //Creates a new room at a specific row and column in the maze grid
     public Room(final int theRow, final int theCol) {
         myRow = theRow;
         myCol = theCol;
         myDoors = new EnumMap<>(Direction.class);
+    }
+
+//    public void setIcon(final String theIcon) {
+//        myIcon = theIcon;
+//    }
+
+    public ImageIcon getIcon() {
+        return myIcon;
     }
 
     //returns row position of room instance
@@ -35,12 +46,12 @@ public class Room implements Serializable {
 
     //given the direction relative to room, return that door
     public Door getDoor(Direction theDir) {
-        return myDoors.get(theDir);
+        return myDoors.get(theDir); //theDir is key in map, will return the door in that direction
     }
 
     //Adds a door to this room in a given direction
     public void addDoor(Direction theDir, Door theDoor) {
-        myDoors.put(theDir, theDoor);
+        myDoors.put(theDir, theDoor); //using theDir key, adds theDoor connected to that direction
     }
 
     //checks if a room already have a door in a given direction
@@ -48,17 +59,7 @@ public class Room implements Serializable {
         return myDoors.containsKey(theDirection);
     }
 
-    //idk if i need this
-//    public boolean isValidRoom() {
-//        for (Door door : myDoors.values()) {
-//            if (door.getState() != DoorState.LOCKED) {
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
-
-    //Checks whether the adjacent room in the given direction is accessible (door isnt locked)
+    //Checks whether the adjacent room in the given direction is accessible (door isn't locked)
     public boolean isAdjacentRoomValid(Direction theDir) {
         Door door = myDoors.get(theDir);
         return door != null && door.getState() != DoorState.LOCKED;

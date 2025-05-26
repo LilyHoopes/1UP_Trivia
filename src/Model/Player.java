@@ -1,5 +1,6 @@
 package Model;
 
+import java.awt.*;
 import java.io.Serializable;
 
 /**
@@ -69,10 +70,17 @@ public class Player implements Serializable {
                 myPlayerColumn = newCol;
                 return true;
             }
+            updateMazeCell(myPlayerRow, myPlayerColumn, Color.GREEN);
         }
 
         return false;
     }
+
+    private void updateMazeCell(int row, int col, Color color) {
+        Room currentRoom = getCurrentRoom();
+        //currentRoom.
+    }
+
 
     /**
      * Attempts to move the player through a door by answering a trivia question.

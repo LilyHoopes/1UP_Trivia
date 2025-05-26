@@ -16,20 +16,15 @@ public class Door {
      */
     public Door(final TriviaQuestion theQuestion) {
         this.myQuestion = theQuestion;
-        this.myState = DoorState.CLOSED;
+        this.myState = DoorState.OPEN;
     }
+
+    //TODO i changed the doorstate from clsoed to open int he above code for testing, it should normally be CLOSED
 
     //returns current state of door (unlocked, locked, closed)
     public DoorState getState() {
         return myState;
     }
-
-
-    //not sure if i need this bc i have lock and open door anyways.
-//    //sets state of door to open or locked based on if correct or not
-//    public void setState(final DoorState theState) {
-//        this.myState = theState;
-//    }
 
     //gets trivia question associated with this door
     public TriviaQuestion getQuestion() {
