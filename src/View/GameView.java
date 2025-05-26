@@ -402,8 +402,6 @@ public class GameView extends JFrame implements PropertyChangeListener {
         return label;
     }
 
-
-
     private void createMenuBar() {
         final JMenuBar menuBar = new JMenuBar();
 
