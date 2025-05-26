@@ -13,7 +13,7 @@ import Model.TriviaQuestion;
 
 public class GameView extends JFrame implements PropertyChangeListener {
 
-    private Maze myMaze;
+    private final Maze myMaze;
 
     private final JFrame myFrame;
 
@@ -21,15 +21,29 @@ public class GameView extends JFrame implements PropertyChangeListener {
     private final JButton myUpButton, myDownButton, myLeftButton, myRightButton; //JButtons for room panel
 
     private final JLabel myQuestionLabel, myOptionA_Label, myOptionB_Label, myOptionC_Label, myOptionD_Label; //JLabels for the questions panel
-    private final JButton myA_Button, myB_Button, myC_Button, myD_Button, mySubmitButton;//JButtons for questions panel
+    private final JButton myA_Button, myB_Button, myC_Button, myD_Button, mySubmitButton; //JButtons for questions panel
 
     //JLabels for the maze panel
-    private JLabel myA_Room, myB_Room, myC_Room, myD_Room, myE_Room, myF_Room, myG_Room,  myH_Room,
-            myI_Room, myJ_Room, myK_Room, myL_Room, myM_Room, myN_Room, myO_Room, myP_Room;
-    private JLabel myPipe1, myPipe2, myPipe3, myPipe4, myPipe5, myPipe6, myPipe7, myPipe8,
-            myPipe9, myPipe10, myPipe11, myPipe12, myPipe13, myPipe14, myPipe15, myPipe16,
-            myPipe17, myPipe18, myPipe19, myPipe20, myPipe21, myPipe22, myPipe23, myPipe24;
-    private JLabel myBlank1, myBlank2, myBlank3, myBlank4, myBlank5, myBlank6, myBlank7, myBlank8, myBlank9;
+    private JLabel[][] myMazeIconsGrid = new JLabel[7][7];
+
+    private final ImageIcon[] myRoomIcons = new ImageIcon[] {
+            getScaledIcon("icons/greenegg.png", 60, 60),        // A
+            getScaledIcon("icons/key.png", 60, 60),             // B
+            getScaledIcon("icons/cherries.png", 60, 60),        // C
+            getScaledIcon("icons/blueegg.png", 60, 60),         // D
+            getScaledIcon("icons/goomba.png", 60, 60),          // E
+            getScaledIcon("icons/iceflower.png", 60, 60),       // F
+            getScaledIcon("icons/mysterybox.png", 60, 60),      // G
+            getScaledIcon("icons/poisonmushroom.png", 60, 60),  // H
+            getScaledIcon("icons/star.png", 60, 60),            // I
+            getScaledIcon("icons/powbox.png", 60, 60),          // J
+            getScaledIcon("icons/greenshell.png", 60, 60),      // K
+            getScaledIcon("icons/fireflower.png", 60, 60),      // L
+            getScaledIcon("icons/coin.png", 60, 60),            // M
+            getScaledIcon("icons/rainbowstar.png", 60, 60),     // N
+            getScaledIcon("icons/redmushroom.png", 60, 60),     // O
+            getScaledIcon("icons/1upmushroom.png", 60, 60)      // P
+    };
 
     private Color skyBlue = new Color(135, 206, 235);
 
@@ -69,12 +83,6 @@ public class GameView extends JFrame implements PropertyChangeListener {
         myCurrentRoomIcon = new JLabel(""); //where current room will be displayed
         //myCurrentRoomIcon.setIcon()
 
-        myCurrentRoomIcon.setIcon(getScaledIcon("icons/P1Mario.png", 80, 80));
-        //myRoomPlayer.setIcon(getScaledIcon("icons/P2Luigi.png", 80, 80));
-        //myRoomPlayer.setIcon(getScaledIcon("icons/P3PrincessPeach.png", 77, 90));
-        //myRoomPlayer.setIcon(getScaledIcon("icons/P4Toad.png", 77, 82));
-
-
         //Questions Panel components
         myQuestionLabel = new JLabel("Question: ");
         myOptionA_Label = new JLabel("--put question here--");
@@ -90,13 +98,22 @@ public class GameView extends JFrame implements PropertyChangeListener {
 
 
         //Maze Panel Components
+        //TODO initialize the icosn for each room the myMazeIconsGrid
+        for (int row = 0; row < 7; row++) {
+            for (int col = 0; col < 7; col++) {
+                JLabel label = new JLabel();
+
+            }
+        }
+
+
+
+
         //myMazePlayer = new JLabel("");
         //myMazePlayer.setIcon(getScaledIcon("icons/P1Mario.png", 80, 80));
 
-        createRooms();
-        createPipes();
-        createEmptyBlocks();
 
+        //create the panels
         final JPanel mazePanel = createMazePanel();
         mazePanel.setPreferredSize(new Dimension(450, 450));
         final JPanel roomPanel = createRoomPanel();
@@ -209,200 +226,42 @@ public class GameView extends JFrame implements PropertyChangeListener {
     private JPanel createMazePanel() {
 
         final JPanel mazePanel = new JPanel(new GridLayout(7,7, 5, 5));
+        populateMazeGrid(); // Fill the myMazeIconsGrid with icons
 
-//        mazePanel.add(myMazePlayer); not sure where these go
-
-        //first row
-        mazePanel.add(myA_Room);
-        mazePanel.add(myPipe1);
-        mazePanel.add(myB_Room);
-        mazePanel.add(myPipe2);
-        mazePanel.add(myC_Room);
-        mazePanel.add(myPipe3);
-        mazePanel.add(myD_Room);
-
-        //second row
-        mazePanel.add(myPipe4);
-        mazePanel.add(myBlank1);
-        mazePanel.add(myPipe5);
-        mazePanel.add(myBlank2);
-        mazePanel.add(myPipe6);
-        mazePanel.add(myBlank3);
-        mazePanel.add(myPipe7);
-
-        //third row
-        mazePanel.add(myE_Room);
-        mazePanel.add(myPipe8);
-        mazePanel.add(myF_Room);
-        mazePanel.add(myPipe9);
-        mazePanel.add(myG_Room);
-        mazePanel.add(myPipe10);
-        mazePanel.add(myH_Room);
-
-        //fourth row
-        mazePanel.add(myPipe11);
-        mazePanel.add(myBlank4);
-        mazePanel.add(myPipe12);
-        mazePanel.add(myBlank5);
-        mazePanel.add(myPipe13);
-        mazePanel.add(myBlank6);
-        mazePanel.add(myPipe14);
-
-        //fifth row
-        mazePanel.add(myI_Room);
-        mazePanel.add(myPipe15);
-        mazePanel.add(myJ_Room);
-        mazePanel.add(myPipe16);
-        mazePanel.add(myK_Room);
-        mazePanel.add(myPipe17);
-        mazePanel.add(myL_Room);
-
-        //sixth row
-        mazePanel.add(myPipe18);
-        mazePanel.add(myBlank7);
-        mazePanel.add(myPipe19);
-        mazePanel.add(myBlank8);
-        mazePanel.add(myPipe20);
-        mazePanel.add(myBlank9);
-        mazePanel.add(myPipe21);
-
-        //seventh row
-        mazePanel.add(myM_Room);
-        mazePanel.add(myPipe22);
-        mazePanel.add(myN_Room);
-        mazePanel.add(myPipe23);
-        mazePanel.add(myO_Room);
-        mazePanel.add(myPipe24);
-        mazePanel.add(myP_Room);
-
+        for (int row = 0; row < 7; row++) {
+            for (int col = 0; col < 7; col++) {
+                mazePanel.add(myMazeIconsGrid[row][col]);
+            }
+        }
         return mazePanel;
     }
 
-    private void createRooms() {
-        myA_Room = createMazeLabelWithBorder(""); // A
-        myB_Room = createMazeLabelWithBorder(""); // B
-        myC_Room = createMazeLabelWithBorder(""); // C
-        myD_Room = createMazeLabelWithBorder(""); // D
-        myE_Room = createMazeLabelWithBorder(""); // E
-        myF_Room = createMazeLabelWithBorder(""); // F
-        myG_Room = createMazeLabelWithBorder(""); // G
-        myH_Room = createMazeLabelWithBorder(""); // H
-        myI_Room = createMazeLabelWithBorder(""); // I
-        myJ_Room = createMazeLabelWithBorder(""); // J
-        myK_Room = createMazeLabelWithBorder(""); // K
-        myL_Room = createMazeLabelWithBorder(""); // L
-        myM_Room = createMazeLabelWithBorder(""); // M
-        myN_Room = createMazeLabelWithBorder(""); // N
-        myO_Room = createMazeLabelWithBorder(""); // O
-        myP_Room = createMazeLabelWithBorder(""); // P
+    private void populateMazeGrid() {
+        int roomIndex = 0;  // index for the room icons
 
-        myA_Room.setIcon(getScaledIcon("icons/greenegg.png", 60, 60));
-        myB_Room.setIcon(getScaledIcon("icons/key.png", 60, 60));
-        myC_Room.setIcon(getScaledIcon("icons/cherries.png", 60, 60));
-        myD_Room.setIcon(getScaledIcon("icons/blueegg.png", 60, 60));
-        myE_Room.setIcon(getScaledIcon("icons/goomba.png", 60, 60));
-        myF_Room.setIcon(getScaledIcon("icons/iceflower.png", 60, 60));
-        myG_Room.setIcon(getScaledIcon("icons/mysterybox.png", 60, 60));
-        myH_Room.setIcon(getScaledIcon("icons/poisonmushroom.png", 60, 60));
-        myI_Room.setIcon(getScaledIcon("icons/star.png", 60, 60));
-        myJ_Room.setIcon(getScaledIcon("icons/powbox.png", 60, 60));
-        myK_Room.setIcon(getScaledIcon("icons/greenshell.png", 60, 60));
-        myL_Room.setIcon(getScaledIcon("icons/fireflower.png", 60, 60));
-        myM_Room.setIcon(getScaledIcon("icons/coin.png", 60, 60));
-        myN_Room.setIcon(getScaledIcon("icons/rainbowstar.png", 60, 60));
-        myO_Room.setIcon(getScaledIcon("icons/redmushroom.png", 60, 60));
-        myP_Room.setIcon(getScaledIcon("icons/1upmushroom.png", 60, 60));
-    }
+        for (int row = 0; row < 7; row++) {
+            for (int col = 0; col < 7; col++) {
+                JLabel label = new JLabel();
 
-    private void createPipes() {
-        myPipe1 = createMazeLabel("");
-        myPipe2 = createMazeLabel("");
-        myPipe3 = createMazeLabel("");
-        myPipe4 = createMazeLabel("");
-        myPipe5 = createMazeLabel("");
-        myPipe6 = createMazeLabel("");
-        myPipe7 = createMazeLabel("");
-        myPipe8 = createMazeLabel("");
-        myPipe9 = createMazeLabel("");
-        myPipe10 = createMazeLabel("");
-        myPipe11 = createMazeLabel("");
-        myPipe12 = createMazeLabel("");
-        myPipe13 = createMazeLabel("");
-        myPipe14 = createMazeLabel("");
-        myPipe15 = createMazeLabel("");
-        myPipe16 = createMazeLabel("");
-        myPipe17 = createMazeLabel("");
-        myPipe18 = createMazeLabel("");
-        myPipe19 = createMazeLabel("");
-        myPipe20 = createMazeLabel("");
-        myPipe21 = createMazeLabel("");
-        myPipe22 = createMazeLabel("");
-        myPipe23 = createMazeLabel("");
-        myPipe24 = createMazeLabel("");
+                if (row % 2 == 0 && col % 2 == 0) {
+                    // Room position
+                    label.setIcon(myRoomIcons[roomIndex++]);
+                    label.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+                } else if (row % 2 == 0 && col % 2 == 1) {
+                    // Horizontal pipe between rooms
+                    label.setIcon(getScaledIcon("icons/HorizontalGreenPipe.png", 60, 35));
+                } else if (row % 2 == 1 && col % 2 == 0) {
+                    // Vertical pipe between rows
+                    label.setIcon(getScaledIcon("icons/VerticalGreenPipe.png", 35, 60));
+                } else {
+                    // Blank space (no room or pipe)
+                    label.setIcon(getScaledIcon("", 60, 60));
+                }
 
-        ImageIcon horizontalPipe = getScaledIcon("icons/HorizontalGreenPipe.png", 60, 35);
-        ImageIcon verticalPipe = getScaledIcon("icons/VerticalGreenPipe.png", 35, 60);
-
-        myPipe1.setIcon(horizontalPipe);
-        myPipe2.setIcon(horizontalPipe);
-        myPipe3.setIcon(horizontalPipe);
-
-        myPipe4.setIcon(verticalPipe);
-        myPipe5.setIcon(verticalPipe);
-        myPipe6.setIcon(verticalPipe);
-        myPipe7.setIcon(verticalPipe);
-
-        myPipe8.setIcon(horizontalPipe);
-        myPipe9.setIcon(horizontalPipe);
-        myPipe10.setIcon(horizontalPipe);
-
-        myPipe11.setIcon(verticalPipe);
-        myPipe12.setIcon(verticalPipe);
-        myPipe13.setIcon(verticalPipe);
-        myPipe14.setIcon(verticalPipe);
-
-        myPipe15.setIcon(horizontalPipe);
-        myPipe16.setIcon(horizontalPipe);
-        myPipe17.setIcon(horizontalPipe);
-
-        myPipe18.setIcon(verticalPipe);
-        myPipe19.setIcon(verticalPipe);
-        myPipe20.setIcon(verticalPipe);
-        myPipe21.setIcon(verticalPipe);
-
-        myPipe22.setIcon(horizontalPipe);
-        myPipe23.setIcon(horizontalPipe);
-        myPipe24.setIcon(horizontalPipe);
-    }
-
-    //used as filler rooms between the vertical pipes in the maze
-    private void createEmptyBlocks() {
-
-        myBlank1 = createMazeLabel("");
-        myBlank2 = createMazeLabel("");
-        myBlank3 = createMazeLabel("");
-        myBlank4 = createMazeLabel("");
-        myBlank5 = createMazeLabel("");
-        myBlank6 = createMazeLabel("");
-        myBlank7 = createMazeLabel("");
-        myBlank8 = createMazeLabel("");
-        myBlank9 = createMazeLabel("");
-    }
-
-    //used by createRooms and createPipes
-    private JLabel createMazeLabel(String theName) {
-        JLabel label = new JLabel(theName, SwingConstants.CENTER);
-        label.setPreferredSize(new Dimension(50, 50));
-        //label.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        return label;
-    }
-
-    //used by createRooms
-    private JLabel createMazeLabelWithBorder(String theName) {
-        JLabel label = new JLabel(theName, SwingConstants.CENTER);
-        label.setPreferredSize(new Dimension(50, 50));
-        label.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        return label;
+                // Store in the grid
+                myMazeIconsGrid[row][col] = label;
+            }
+        }
     }
 
     private void createMenuBar() {
