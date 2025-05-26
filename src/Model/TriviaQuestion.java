@@ -15,6 +15,11 @@ public class TriviaQuestion {
         this.myCorrectAnswer = correctAnswer;
     }
 
+    //TODO i made this method just so model could run, not sure if this is needed or should be here, which is why i have it returning nothing
+    public static TriviaQuestion getRandomQuestion() {
+        return null;
+    }
+
     public boolean isCorrect(String answer) {
         boolean isCorrect = answer.equalsIgnoreCase(myCorrectAnswer);
         myIsQuestionCorrect = isCorrect;
@@ -36,4 +41,5 @@ public class TriviaQuestion {
     public boolean wasLastAnswerCorrect() {
         return myIsQuestionCorrect;
     }
+
 }

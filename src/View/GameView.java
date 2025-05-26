@@ -6,24 +6,20 @@ import java.awt.GridLayout;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import javax.swing.*;
-
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import Model.*;
-
 import Model.TriviaQuestion;
 
 public class GameView extends JFrame implements PropertyChangeListener {
 
     private final JFrame myFrame;
 
-    //JLabel for room panel
-    private final JLabel myRoomPlayer;
-    //JButtons for room panel
-    private final JButton myUpButton, myDownButton, myLeftButton, myRightButton;
+    private final JLabel myRoomPlayer; //JLabel for room panel
+    private final JButton myUpButton, myDownButton, myLeftButton, myRightButton; //JButtons for room panel
 
-    //JLabels for the questions panel
-    private final JLabel myQuestionLabel, myOptionA_Label, myOptionB_Label, myOptionC_Label, myOptionD_Label;
-    //JButtons for questions panel
-    private final JButton myA_Button, myB_Button, myC_Button, myD_Button, mySubmitButton;
+    private final JLabel myQuestionLabel, myOptionA_Label, myOptionB_Label, myOptionC_Label, myOptionD_Label; //JLabels for the questions panel
+    private final JButton myA_Button, myB_Button, myC_Button, myD_Button, mySubmitButton;//JButtons for questions panel
 
     //JLabels for the maze panel
     private final JLabel myMazePlayer;
@@ -207,6 +203,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
     }
 
     private JPanel createMazePanel() {
+
         final JPanel mazePanel = new JPanel(new GridLayout(7,7, 5, 5));
 
 //        mazePanel.add(myMazePlayer); not sure where these go
@@ -493,6 +490,49 @@ public class GameView extends JFrame implements PropertyChangeListener {
                                 "answer the trivia question and submit\n3. If correct, you may open that door and move" +
                                 "to a new room and keep answering questions\n4. THIS IS NOT DONE FINISH RULES",
                         "1UP Trivia Game Rules", JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
+    }
+
+    private void setupKeyBindings(JPanel panel) {
+        InputMap inputMap = panel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        ActionMap actionMap = panel.getActionMap();
+
+        //wasd
+        inputMap.put(KeyStroke.getKeyStroke('w'), "moveUp");
+        inputMap.put(KeyStroke.getKeyStroke('a'), "moveLeft");
+        inputMap.put(KeyStroke.getKeyStroke('s'), "moveDown");
+        inputMap.put(KeyStroke.getKeyStroke('d'), "moveRight");
+
+        //arrows
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0), "moveUp");
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0), "moveLeft");
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0), "moveDown");
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), "moveRight");
+
+        //map action
+        actionMap.put("moveUp", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent theEvent) {
+                //movePlayer(-1, 0);
+            }
+        });
+        actionMap.put("moveLeft", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent theEvent) {
+                //movePlayer(0, -1);
+            }
+        });
+        actionMap.put("moveDown", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent theEvent) {
+                //movePlayer(1, 0);
+            }
+        });
+        actionMap.put("moveRight", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent theEvent) {
+                //movePlayer(0, 1);
             }
         });
     }
