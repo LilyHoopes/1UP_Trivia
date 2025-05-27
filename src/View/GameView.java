@@ -23,7 +23,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
     private final JButton myA_Button, myB_Button, myC_Button, myD_Button, mySubmitButton; //JButtons for questions panel
 
     //JLabels for the maze panel
-    private JLabel[][] myMazeIconsGrid = new JLabel[7][7];
+    private final JLabel[][] myMazeIconsGrid = new JLabel[7][7];
 
     private final ImageIcon[] myRoomIcons = new ImageIcon[] {
             getScaledIcon("icons/greenegg.png", 60, 60),
@@ -43,6 +43,11 @@ public class GameView extends JFrame implements PropertyChangeListener {
             getScaledIcon("icons/redmushroom.png", 60, 60),
             getScaledIcon("icons/1upmushroom.png", 60, 60)
     };
+
+    private ImageIcon myPreviousIcon;  // stores the last icon Mario replaced
+    private int myPreviousRow = -1;    // previous player position
+    private int myPreviousCol = -1;    // previous player position
+    private final ImageIcon myMarioIcon = getScaledIcon("icons/P1Mario.png", 60, 60);
 
     //instance of maze
     private final Maze myMaze;
@@ -224,6 +229,8 @@ public class GameView extends JFrame implements PropertyChangeListener {
 
         final JPanel mazePanel = new JPanel(new GridLayout(7,7, 5, 5));
         populateMazeGrid(); // Fill the myMazeIconsGrid with icons
+        placeMarioAtStart(); //Place mario icon at start and store the normal rom icon
+
 
         for (int row = 0; row < 7; row++) {
             for (int col = 0; col < 7; col++) {
@@ -404,31 +411,42 @@ public class GameView extends JFrame implements PropertyChangeListener {
     private void handleMove(Direction theDirection) {
         Player player = myMaze.getPlayer();
 
-        // Store old player position before move
-        int oldRow = player.getRow();
-        int oldCol = player.getCol();
-
         boolean moved = player.move(theDirection);
 
         if (moved) {
+            int newRow = player.getRow() * 2;
+            int newCol = player.getCol() * 2;
+
             System.out.println("Player moved " + theDirection);
-            System.out.println("Current player position: " + player.getCol() + ", " + player.getRow());
+            System.out.println("Current player position: " + newRow + ", " + newCol);
 
-//            // Clear the old icon (set it back to empty/default icon)
-//            roomButtons[oldRow][oldCol].setIcon(emptyIcon);
-//
-//            // Set the Mario icon at the new position
-//            int newRow = player.getRow();
-//            int newCol = player.getCol();
-//            roomButtons[newRow][newCol].setIcon(marioIcon);
-//
-//            // Optional: repaint to update UI immediately
-//            roomButtons[oldRow][oldCol].repaint();
-//            roomButtons[newRow][newCol].repaint();
+            // Restore the previous icon
+            if (myPreviousRow != -1 && myPreviousCol != -1 && myPreviousIcon != null) {
+                myMazeIconsGrid[myPreviousRow][myPreviousCol].setIcon(myPreviousIcon);
+            }
 
+            // Save the icon at the new location
+            myPreviousIcon = (ImageIcon) myMazeIconsGrid[newRow][newCol].getIcon();
+
+            // Set Mario icon at the new location
+            myMazeIconsGrid[newRow][newCol].setIcon(myMarioIcon);
+
+            // Update previous position
+            myPreviousRow = newRow;
+            myPreviousCol = newCol;
         } else {
             System.out.println("Move blocked in direction: " + theDirection);
         }
+    }
+
+    private void placeMarioAtStart() {
+        int row = myMaze.getPlayer().getRow();
+        int col = myMaze.getPlayer().getCol();
+        myPreviousIcon = (ImageIcon) myMazeIconsGrid[row][col].getIcon();
+        myMazeIconsGrid[row][col].setIcon(myMarioIcon);
+
+        myPreviousRow = row;
+        myPreviousCol = col;
     }
 
     public void showWinMessage() { }
