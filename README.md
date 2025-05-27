@@ -10,14 +10,14 @@ This game challenges the player to escape a maze by answering trivia questions. 
 
 If too many doors get locked, the player may find themselves trapped... forever (or until they restart)!
 
-💡 Features
-  🚪 Maze navigation (minimum 4x4 grid)
-  ❓ Questions stored in a SQLite database
-  🧠 Multiple question
-  🔐 Doors lock permanently if a question is answered incorrectly
-  💾 Save and load game state (via serialization)
-  🖼️ MVC architecture (Model-View-Controller)
-  🧭 Dynamic interface showing:
+💡 Features: 
+ - 🚪 Maze navigation (minimum 4x4 grid) -
+ - ❓ Questions stored in a SQLite database
+ - 🧠 Multiple question
+ - 🔐 Doors lock permanently if a question is answered incorrectly
+ - 💾 Save and load game state (via serialization)
+ - 🖼️ MVC architecture (Model-View-Controller)
+ - 🧭 Dynamic interface showing:
     - Current room and maze state
     - Navigation controls (based on available doors)
     - Trivia questions with appropriate input formats
