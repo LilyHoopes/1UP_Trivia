@@ -9,6 +9,8 @@ public class GameController {
     private boolean myGameWon;
     //private Maze myMaze;
     private GameView myView;
+    private QuestionFactory myQuestionFactory;
+    private TriviaQuestion myCurrentQuestion;
 
 
     public static void main(final String[] theArgs) {
@@ -31,11 +33,20 @@ public class GameController {
                     System.out.println("Could NOT move RIGHT, door closed or out of bounds.");
                 }
                 //Maze.getInstance().addPropertyChangeListener(view);
+                GameController controller = new GameController();
+                controller.setView(view);
             }
         });
     }
 
+    public GameController() {
+        myQuestionFactory = new QuestionFactory("trivia_questions.db");
+        myCurrentQuestion = myQuestionFactory.getNextQuestion();
+    }
 
+    public void setView(GameView theView) {
+        myView = theView;
+    }
 
     public boolean getGameWon() {
         return myGameWon;
@@ -45,8 +56,25 @@ public class GameController {
         myGameWon = theGameWon;
     }
 
+    // Call this to get the current trivia question
+    public TriviaQuestion getCurrentQuestion() {
+        return myCurrentQuestion;
+    }
+
+    // Call this to validate a user's answer
     public void checkAnswer(String theAnswer) {
-        // validate trivia answer
+        if (myCurrentQuestion != null) {
+            boolean correct = myCurrentQuestion.isCorrect(theAnswer);
+            if (correct) {
+                System.out.println("Correct answer!");
+                // Advance logic if needed
+            } else {
+                System.out.println("Wrong answer.");
+            }
+
+            // Load next question after answer
+            myCurrentQuestion = myQuestionFactory.getNextQuestion();
+        }
     }
 
     public void startGame() {
@@ -65,16 +93,3 @@ public class GameController {
         // reset game state
     }
 }
-
-
-/*
-*  ADD SOMETHING LIKE.........
-public GameController() {
-        // Provide path to your SQLite DB file
-        myQuestionFactory = new QuestionFactory("resources/trivia_questions.db");
-    }
-
-    public TriviaQuestion getNextQuestion() {
-        return myQuestionFactory.getNextQuestion();
-
-* */
