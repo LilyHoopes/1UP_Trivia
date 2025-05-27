@@ -430,6 +430,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
 
             // Set Mario icon at the new location
             myMazeIconsGrid[newRow][newCol].setIcon(myMarioIcon);
+            myCurrentRoomIcon.setIcon(myPreviousIcon);
 
             // Update previous position
             myPreviousRow = newRow;
@@ -444,6 +445,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
         int col = myMaze.getPlayer().getCol();
         myPreviousIcon = (ImageIcon) myMazeIconsGrid[row][col].getIcon();
         myMazeIconsGrid[row][col].setIcon(myMarioIcon);
+        myCurrentRoomIcon.setIcon(myPreviousIcon);
 
         myPreviousRow = row;
         myPreviousCol = col;
