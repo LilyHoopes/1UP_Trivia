@@ -192,6 +192,8 @@ public class GameView extends JFrame implements PropertyChangeListener {
         gbc.gridy = 2;
         roomPanel.add(myDownButton, gbc);
 
+        setupKeyBindings(roomPanel);
+
         return roomPanel;
     }
 
@@ -363,9 +365,9 @@ public class GameView extends JFrame implements PropertyChangeListener {
         });
     }
 
-    private void setupKeyBindings(JPanel panel) {
-        InputMap inputMap = panel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
-        ActionMap actionMap = panel.getActionMap();
+    private void setupKeyBindings(JPanel thePanel) {
+        InputMap inputMap = thePanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        ActionMap actionMap = thePanel.getActionMap();
 
         //wasd
         inputMap.put(KeyStroke.getKeyStroke('w'), "moveUp");
@@ -383,27 +385,25 @@ public class GameView extends JFrame implements PropertyChangeListener {
         actionMap.put("moveUp", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent theEvent) {
-                //attemptMove(Direction.NORTH, );
-                //movePlayer(-1, 0);
-                //Player.move(Direction.NORTH);
+                handleMove(Direction.UP);
             }
         });
         actionMap.put("moveLeft", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent theEvent) {
-                //movePlayer(0, -1);
+                handleMove(Direction.LEFT);
             }
         });
         actionMap.put("moveDown", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent theEvent) {
-                //movePlayer(1, 0);
+                handleMove(Direction.DOWN);
             }
         });
         actionMap.put("moveRight", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent theEvent) {
-                //movePlayer(0, 1);
+                handleMove(Direction.RIGHT);
             }
         });
     }
