@@ -1,4 +1,4 @@
-TCSS 360 Group Proejct
+TCSS 360 Group Project
 Authors: Lily Hoopes, Komalpreet Dhaliwal, Christiannel Maningat
 1UP Trivia Maze
 
