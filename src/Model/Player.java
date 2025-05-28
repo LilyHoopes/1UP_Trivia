@@ -58,6 +58,7 @@ public class Player implements Serializable {
      * @return true if the move succeeded
      */
     public boolean move(final Direction theDir) {
+
         Room current = getCurrentRoom();
         Door door = current.getDoor(theDir);
 
@@ -103,7 +104,7 @@ public class Player implements Serializable {
 
     // returns true if player reached exit
     public boolean isGameWon() {
-        return myPlayerRow == 3 && myPlayerColumn == 3;
+        return myPlayerRow == 6 && myPlayerColumn == 6;
     }
 
     //returns true if all possible directions are locked or invalid

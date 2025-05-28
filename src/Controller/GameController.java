@@ -14,6 +14,7 @@ public class GameController {
 
     public static void main(final String[] theArgs) {
         EventQueue.invokeLater(() -> {
+
             Maze maze = new Maze(4, 4);
             Player player = maze.getPlayer();
 
@@ -36,6 +37,7 @@ public class GameController {
                 System.out.println("Could NOT move LEFT, door closed or out of bounds.");
             }
 
+
             // Save & Load Game
             controller.saveGame();
             controller.loadGame();
@@ -44,6 +46,18 @@ public class GameController {
         });
 
     }
+
+    public void checkGameStatus(Maze theMaze) {
+        Player player = theMaze.getPlayer();
+        if (player.isGameWon()) {
+            System.out.println("Game won!");
+            //myView.showGameWon();  // Add this method to GameView to show a message
+        } else if (player.isGameLost()) {
+            System.out.println("Game lost!");
+            //myView.showGameLost(); // Add this to GameView too
+        }
+    }
+
 
     public GameController() {
         myQuestionFactory = new QuestionFactory("src/trivia_questions.db");

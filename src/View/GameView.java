@@ -580,6 +580,17 @@ public class GameView extends JFrame implements PropertyChangeListener {
         mySubmitButton.setEnabled(true); // Re-enable submit in case it was disabled
     }
 
+//    public void showGameWon() {
+//        JOptionPane.showMessageDialog(this, "🎉 You won the game!");
+//        //disableAllControls(); // Optionally disable buttons
+//    }
+//
+//    public void showGameLost() {
+//        JOptionPane.showMessageDialog(this, "💀 You're trapped! Game Over.");
+//        //disableAllControls(); // Optionally disable buttons
+//    }
+
+
     @Override
     public void propertyChange(PropertyChangeEvent theEvt) {
 
