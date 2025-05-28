@@ -12,36 +12,47 @@ public class GameController {
     private QuestionFactory myQuestionFactory;
     private TriviaQuestion myCurrentQuestion;
 
-
     public static void main(final String[] theArgs) {
-        EventQueue.invokeLater(new Runnable() {
+        EventQueue.invokeLater(() -> {
+            Maze maze = new Maze(4, 4);
+            Player player = maze.getPlayer();
 
-            @Override
-            public void run() {
+            final GameView view = new GameView(maze);
+            GameController controller = new GameController();
+            controller.setView(view);
+            view.setController(controller); // 🔥 this connects the two
 
-                Maze maze = new Maze(4, 4);
-                Player player = maze.getPlayer();
-
-                final GameView view = new GameView(maze);
-
-                // Try moving right — this will only work if the door is open
-                boolean moved = player.move(Direction.LEFT);
-
-                if (moved) {
-                    System.out.println("Moved RIGHT to: (" + player.getRow() + ", " + player.getCol() + ")");
-                } else {
-                    System.out.println("Could NOT move RIGHT, door closed or out of bounds.");
-                }
-                //Maze.getInstance().addPropertyChangeListener(view);
-                GameController controller = new GameController();
-                controller.setView(view);
+            // Display first question
+            TriviaQuestion currentQuestion = controller.getCurrentQuestion();
+            if (currentQuestion != null) {
+                view.setQuestion(currentQuestion);
             }
+
+            // Try moving
+            boolean moved = player.move(Direction.LEFT);
+            if (moved) {
+                System.out.println("Moved LEFT to: (" + player.getRow() + ", " + player.getCol() + ")");
+            } else {
+                System.out.println("Could NOT move LEFT, door closed or out of bounds.");
+            }
+
+            // Save & Load Game
+            controller.saveGame();
+            controller.loadGame();
+            //maybe goes here??
+            view.setController(controller);
         });
+
     }
 
     public GameController() {
-        myQuestionFactory = new QuestionFactory("trivia_questions.db");
+        myQuestionFactory = new QuestionFactory("src/trivia_questions.db");
+
         myCurrentQuestion = myQuestionFactory.getNextQuestion();
+        if (myCurrentQuestion == null) {
+            System.err.println("No questions loaded. Check your database!");
+            // Optionally, load some default questions or handle gracefully
+        }
     }
 
     public void setView(GameView theView) {
@@ -62,19 +73,15 @@ public class GameController {
     }
 
     // Call this to validate a user's answer
-    public void checkAnswer(String theAnswer) {
+    public boolean checkAnswer(String theAnswer) {
         if (myCurrentQuestion != null) {
             boolean correct = myCurrentQuestion.isCorrect(theAnswer);
-            if (correct) {
-                System.out.println("Correct answer!");
-                // Advance logic if needed
-            } else {
-                System.out.println("Wrong answer.");
-            }
 
-            // Load next question after answer
+            // Move to next question after checking
             myCurrentQuestion = myQuestionFactory.getNextQuestion();
+            return correct;
         }
+        return false;
     }
 
     public void startGame() {

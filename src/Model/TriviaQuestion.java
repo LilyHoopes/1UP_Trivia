@@ -1,8 +1,7 @@
 package Model;
 
 /*
- * Represents a single trivia question, with multiple-choice options and a correct answer.
- */
+Represents a single trivia question, with multiple-choice options and a correct answer.*/
 public class TriviaQuestion {
     private final String myQuestionText;
     private final String[] myMultipleChoices;
@@ -37,9 +36,4 @@ public class TriviaQuestion {
     public String getCorrectAnswer() {
         return myCorrectAnswer;
     }
-
-    public boolean wasLastAnswerCorrect() {
-        return myIsQuestionCorrect;
-    }
-
 }

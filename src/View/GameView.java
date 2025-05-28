@@ -8,10 +8,15 @@ import java.beans.PropertyChangeListener;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import Controller.GameController;
 import Model.*;
 import Model.TriviaQuestion;
 
 public class GameView extends JFrame implements PropertyChangeListener {
+
+    private GameController myController;
+    private TriviaQuestion currentQuestion;
 
     private final JFrame myFrame;
     private final Color SKY_BLUE = new Color(135, 206, 235);
@@ -522,8 +527,39 @@ public class GameView extends JFrame implements PropertyChangeListener {
         // handle UI actions
     }
 
+    public void setController(GameController theController) {
+        this.myController = theController;
+    }
+
+    public void setQuestion(TriviaQuestion question) {
+        this.currentQuestion = question;
+
+        myQuestionLabel.setText("Question: " + question.getQuestionText());
+
+        String[] options = question.getMultipleChoices();
+        if (options.length >= 4) {
+            myOptionA_Label.setText("A: " + options[0]);
+            myOptionB_Label.setText("B: " + options[1]);
+            myOptionC_Label.setText("C: " + options[2]);
+            myOptionD_Label.setText("D: " + options[3]);
+        }
+
+        // Reset state
+        //selectedAnswer = null;
+        enableMovement(false);           // Disable movement initially
+        mySubmitButton.setEnabled(true); // Re-enable submit in case it was disabled
+    }
+
+    //TODO fix thissssssssssss meow meow
+    private void enableMovement(boolean theEnabled) {
+        myUpButton.setEnabled(theEnabled);
+        myDownButton.setEnabled(theEnabled);
+        myLeftButton.setEnabled(theEnabled);
+        myRightButton.setEnabled(theEnabled);
+    }
+
     @Override
-    public void propertyChange(PropertyChangeEvent evt) {
+    public void propertyChange(PropertyChangeEvent theEvt) {
 
     }
 }
