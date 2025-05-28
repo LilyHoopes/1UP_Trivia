@@ -17,6 +17,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
 
     private GameController myController;
     private TriviaQuestion currentQuestion;
+    private String selectedAnswer = null;
 
     private final JFrame myFrame;
     private final Color SKY_BLUE = new Color(135, 206, 235);
@@ -96,17 +97,16 @@ public class GameView extends JFrame implements PropertyChangeListener {
 
         //Questions Panel components
         myQuestionLabel = new JLabel("Question: ");
-        myOptionA_Label = new JLabel("--put question here--");
-        myOptionB_Label = new JLabel("--put question here--");
-        myOptionC_Label = new JLabel("--put question here--");
-        myOptionD_Label = new JLabel("--put question here--");
+        myOptionA_Label = new JLabel("");
+        myOptionB_Label = new JLabel("");
+        myOptionC_Label = new JLabel("");
+        myOptionD_Label = new JLabel("");
 
         myA_Button = new JButton("A");
         myB_Button = new JButton("B");
         myC_Button = new JButton("C");
         myD_Button = new JButton("D");
         mySubmitButton = new JButton("Submit");
-
 
         //Maze Panel Components
         for (int row = 0; row < 7; row++) {
@@ -155,6 +155,47 @@ public class GameView extends JFrame implements PropertyChangeListener {
         mazePanel.setBackground(SKY_BLUE);
         roomPanel.setBackground(SKY_BLUE);
         questionsPanel.setBackground(SKY_BLUE);
+
+        myA_Button.addActionListener(e -> selectedAnswer = getOptionText(myOptionA_Label));
+        myB_Button.addActionListener(e -> selectedAnswer = getOptionText(myOptionB_Label));
+        myC_Button.addActionListener(e -> selectedAnswer = getOptionText(myOptionC_Label));
+        myD_Button.addActionListener(e -> selectedAnswer = getOptionText(myOptionD_Label));
+
+        mySubmitButton.addActionListener(e -> {
+            if (selectedAnswer == null) {
+                JOptionPane.showMessageDialog(this, "Please select an answer first.");
+                return;
+            }
+
+            // ✅ Check and capture correctness
+            boolean correct = myController.checkAnswer(selectedAnswer);
+
+            // ✅ Show result to user
+            if (correct) {
+                JOptionPane.showMessageDialog(this, "✅ Correct! You may now move.");
+            } else {
+                JOptionPane.showMessageDialog(this,
+                        "❌ Incorrect!\nCorrect answer: " + currentQuestion.getCorrectAnswer(),
+                        "Wrong Answer", JOptionPane.ERROR_MESSAGE);
+            }
+
+            // Load next question
+            TriviaQuestion next = myController.getCurrentQuestion();
+            if (next != null) {
+                setQuestion(next);
+            } else {
+                JOptionPane.showMessageDialog(this, "🎉 You've answered all questions!", "Game Over", JOptionPane.INFORMATION_MESSAGE);
+                mySubmitButton.setEnabled(false);
+            }
+
+            selectedAnswer = null;
+        });
+
+    }
+
+    private String getOptionText(JLabel label) {
+        String text = label.getText();
+        return text.substring(text.indexOf(":") + 1).trim();  // removes "A: " etc.
     }
 
     // Helper method for scaling the icons for the room images
@@ -236,7 +277,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
 
         final JPanel mazePanel = new JPanel(new GridLayout(7,7, 5, 5));
         populateMazeGrid(); // Fill the myMazeIconsGrid with icons
-        initianlizeMazeContents(); //Place mario icon at start and store the normal rom icon
+        initializeMazeContents(); //Place mario icon at start and store the normal rom icon
 
 
         for (int row = 0; row < 7; row++) {
@@ -474,7 +515,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
 
 
     //rename this method to set up start maybe?
-    private void initianlizeMazeContents() {
+    private void initializeMazeContents() {
         int row = myMaze.getPlayer().getRow();
         int col = myMaze.getPlayer().getCol();
         myPreviousIcon = (ImageIcon) myMazeIconsGrid[row][col].getIcon();
@@ -519,16 +560,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
 
         // Reset state
         //selectedAnswer = null;
-        enableMovement(false);           // Disable movement initially
         mySubmitButton.setEnabled(true); // Re-enable submit in case it was disabled
-    }
-
-    //TODO fix thissssssssssss meow meow
-    private void enableMovement(boolean theEnabled) {
-        myUpButton.setEnabled(theEnabled);
-        myDownButton.setEnabled(theEnabled);
-        myLeftButton.setEnabled(theEnabled);
-        myRightButton.setEnabled(theEnabled);
     }
 
     @Override
