@@ -520,7 +520,7 @@ private void handleMove(Direction theDirection) {
         myPreviousRow = newRow;
         myPreviousCol = newCol;
 
-        // 🧠 Automatically load next question after successful move
+        // Automatically load next question after successful move
         if (myController != null) {
             TriviaQuestion next = myController.getCurrentQuestion();
             if (next != null) {
