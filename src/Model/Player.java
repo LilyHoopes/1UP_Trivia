@@ -104,7 +104,7 @@ public class Player implements Serializable {
 
     // returns true if player reached exit
     public boolean isGameWon() {
-        return myPlayerRow == 6 && myPlayerColumn == 6;
+        return myPlayerRow == 3 && myPlayerColumn == 3;
     }
 
     //returns true if all possible directions are locked or invalid

@@ -29,13 +29,15 @@ public class GameController {
                 view.setQuestion(currentQuestion);
             }
 
-            // Try moving
-            boolean moved = player.move(Direction.LEFT);
-            if (moved) {
-                System.out.println("Moved LEFT to: (" + player.getRow() + ", " + player.getCol() + ")");
-            } else {
-                System.out.println("Could NOT move LEFT, door closed or out of bounds.");
-            }
+//            // Try moving
+//            boolean moved = player.move(Direction.LEFT);
+//            if (moved) {
+//                System.out.println("Moved LEFT to: (" + player.getRow() + ", " + player.getCol() + ")");
+//                controller.checkGameStatus(maze);
+//            } else {
+//                System.out.println("Could NOT move LEFT, door closed or out of bounds.");
+//                controller.checkGameStatus(maze);
+//            }
 
 
             // Save & Load Game
@@ -48,6 +50,7 @@ public class GameController {
     }
 
     public void checkGameStatus(Maze theMaze) {
+        System.out.println("in checkGameStatus");
         Player player = theMaze.getPlayer();
         if (player.isGameWon()) {
             System.out.println("Game won!");

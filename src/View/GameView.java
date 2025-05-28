@@ -477,6 +477,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
         boolean moved = player.move(theDirection);
 
         if (moved) {
+
             int newRow = player.getRow() * 2;
             int newCol = player.getCol() * 2;
 
@@ -501,6 +502,17 @@ public class GameView extends JFrame implements PropertyChangeListener {
 
             // ✅ Update movement buttons based on new position
             updateMovementButtons();
+
+            //check if is game won or lost
+            if (player.isGameWon()) {
+                JOptionPane.showMessageDialog(this, "You won the game!");
+            }
+            if  (player.isGameLost()) {
+                System.out.println("Game lost! this is in handleMove method");
+                JOptionPane.showMessageDialog(this, "You're trapped! Game over!'");
+            }
+
+
         } else {
             System.out.println("Move blocked in direction: " + theDirection);
         }
