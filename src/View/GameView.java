@@ -18,6 +18,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
     private GameController myController;
     private TriviaQuestion currentQuestion;
     private String selectedAnswer = null;
+    private JButton clickedButton = null; //just the actual button they clicked, we highlight this one
 
     private final JFrame myFrame;
     private final Color SKY_BLUE = new Color(135, 206, 235);
@@ -156,10 +157,10 @@ public class GameView extends JFrame implements PropertyChangeListener {
         roomPanel.setBackground(SKY_BLUE);
         questionsPanel.setBackground(SKY_BLUE);
 
-        myA_Button.addActionListener(e -> selectedAnswer = getOptionText(myOptionA_Label));
-        myB_Button.addActionListener(e -> selectedAnswer = getOptionText(myOptionB_Label));
-        myC_Button.addActionListener(e -> selectedAnswer = getOptionText(myOptionC_Label));
-        myD_Button.addActionListener(e -> selectedAnswer = getOptionText(myOptionD_Label));
+        myA_Button.addActionListener(e -> clickedAnswerButton(myA_Button, getOptionText(myOptionA_Label)));
+        myB_Button.addActionListener(e -> clickedAnswerButton(myB_Button, getOptionText(myOptionB_Label)));
+        myC_Button.addActionListener(e -> clickedAnswerButton(myC_Button, getOptionText(myOptionC_Label)));
+        myD_Button.addActionListener(e -> clickedAnswerButton(myD_Button, getOptionText(myOptionD_Label)));
 
         mySubmitButton.addActionListener(e -> {
             if (selectedAnswer == null) {
@@ -196,6 +197,20 @@ public class GameView extends JFrame implements PropertyChangeListener {
     private String getOptionText(JLabel label) {
         String text = label.getText();
         return text.substring(text.indexOf(":") + 1).trim();  // removes "A: " etc.
+    }
+
+    private void clickedAnswerButton(JButton button, String answerText) {
+        // Reset old button background
+        if (clickedButton != null) {
+            clickedButton.setBackground(null); // reset to default
+        }
+
+        // Highlight new button
+        button.setBackground(Color.YELLOW);
+        clickedButton = button;
+
+        // Store answer
+        selectedAnswer = answerText;
     }
 
     // Helper method for scaling the icons for the room images
