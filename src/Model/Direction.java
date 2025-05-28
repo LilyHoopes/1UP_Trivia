@@ -25,8 +25,8 @@ public enum Direction {
     public Direction opposite() {
         switch (this) {
             case UP: return DOWN;
-            case DOWN: return LEFT;
-            case RIGHT:  return UP;
+            case DOWN: return UP;
+            case RIGHT:  return LEFT;
             case LEFT:  return RIGHT;
             default: throw new IllegalStateException("Unexpected value: " + this);
         }

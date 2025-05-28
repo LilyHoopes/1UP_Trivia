@@ -18,7 +18,6 @@ public class Door {
         this.myQuestion = theQuestion;
         this.myState = DoorState.OPEN;
     }
-
     //TODO i changed the doorstate from clsoed to open int he above code for testing, it should normally be CLOSED
 
     //returns current state of door (unlocked, locked, closed)

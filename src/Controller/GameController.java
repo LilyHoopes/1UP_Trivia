@@ -93,6 +93,7 @@ public class GameController {
     public boolean checkAnswer(String theAnswer) {
         if (myCurrentQuestion != null) {
             boolean correct = myCurrentQuestion.isCorrect(theAnswer);
+            System.out.println(theAnswer + " <-- this answer was selected, is: " + correct);
 
             // Move to next question after checking
             myCurrentQuestion = myQuestionFactory.getNextQuestion();

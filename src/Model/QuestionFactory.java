@@ -3,11 +3,10 @@ package Model;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 public class QuestionFactory {
     private final String dbPath;
-    private final List<TriviaQuestion> questions = new ArrayList<>();
+    private final ArrayList<TriviaQuestion> questions = new ArrayList<>();
 
     private int currentIndex = 0;
 
@@ -62,8 +61,8 @@ public class QuestionFactory {
         }
     }
 
-    public List<TriviaQuestion> getAllQuestions() {
-        return Collections.unmodifiableList(questions);
+    public ArrayList<TriviaQuestion> getAllQuestions() {
+        return questions;
     }
 
     public TriviaQuestion getNextQuestion() {
