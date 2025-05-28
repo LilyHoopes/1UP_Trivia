@@ -8,8 +8,8 @@ import java.io.Serializable;
  */
 public class Player implements Serializable {
 
-    private int myPlayerRow;
-    private int myPlayerColumn;
+    private static int myPlayerRow;
+    private static int myPlayerColumn;
     private final Maze myMaze;
 
     /**
