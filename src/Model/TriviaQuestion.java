@@ -1,4 +1,3 @@
-
 package Model;
 
 /*
@@ -39,8 +38,8 @@ public class TriviaQuestion {
         return myCorrectAnswer;
     }
 
-    public boolean wasLastAnswerCorrect() {
-        return myIsQuestionCorrect;
-    }
+//    public boolean wasLastAnswerCorrect() {
+//        return myIsQuestionCorrect;
+//    }
 
 }

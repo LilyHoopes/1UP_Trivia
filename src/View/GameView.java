@@ -8,6 +8,8 @@ import java.beans.PropertyChangeListener;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import Controller.GameController;
 import Model.*;
 import Model.TriviaQuestion;
 
@@ -24,6 +26,12 @@ public class GameView extends JFrame implements PropertyChangeListener {
 
     //JLabels for the maze panel
     private final JLabel[][] myMazeIconsGrid = new JLabel[7][7];
+
+    private String selectedAnswer = null; //////////
+    private TriviaQuestion currentQuestion;  // Store current question
+
+    private GameController myController;
+
 
     private final ImageIcon[] myRoomIcons = new ImageIcon[] {
             getScaledIcon("icons/greenegg.png", 60, 60),
@@ -150,6 +158,81 @@ public class GameView extends JFrame implements PropertyChangeListener {
         mazePanel.setBackground(SKY_BLUE);
         roomPanel.setBackground(SKY_BLUE);
         questionsPanel.setBackground(SKY_BLUE);
+
+        //testinggggg
+//        myA_Button.addActionListener(e -> selectedAnswer = myOptionA_Label.getText().substring(3));
+//        myB_Button.addActionListener(e -> selectedAnswer = myOptionB_Label.getText().substring(3));
+//        myC_Button.addActionListener(e -> selectedAnswer = myOptionC_Label.getText().substring(3));
+//        myD_Button.addActionListener(e -> selectedAnswer = myOptionD_Label.getText().substring(3));
+
+        myA_Button.addActionListener(e -> selectedAnswer = getOptionText(myOptionA_Label));
+        myB_Button.addActionListener(e -> selectedAnswer = getOptionText(myOptionB_Label));
+        myC_Button.addActionListener(e -> selectedAnswer = getOptionText(myOptionC_Label));
+        myD_Button.addActionListener(e -> selectedAnswer = getOptionText(myOptionD_Label));
+
+        mySubmitButton.addActionListener(e -> {
+            if (selectedAnswer == null) {
+                JOptionPane.showMessageDialog(this, "Please select an answer first.");
+                return;
+            }
+
+            // ✅ Check and capture correctness
+            boolean correct = myController.checkAnswer(selectedAnswer);
+
+            // ✅ Show result to user
+            if (correct) {
+                JOptionPane.showMessageDialog(this, "✅ Correct! You may now move.");
+                enableMovement(true);
+            } else {
+                JOptionPane.showMessageDialog(this,
+                        "❌ Incorrect!\nCorrect answer: " + currentQuestion.getCorrectAnswer(),
+                        "Wrong Answer", JOptionPane.ERROR_MESSAGE);
+                enableMovement(false);
+            }
+
+            // Load next question
+            TriviaQuestion next = myController.getCurrentQuestion();
+            if (next != null) {
+                setQuestion(next);
+            } else {
+                JOptionPane.showMessageDialog(this, "🎉 You've answered all questions!", "Game Over", JOptionPane.INFORMATION_MESSAGE);
+                enableMovement(false);
+                mySubmitButton.setEnabled(false);
+            }
+
+            selectedAnswer = null;
+        });
+
+
+//        mySubmitButton.addActionListener(e -> {
+//            if (selectedAnswer == null) {
+//                JOptionPane.showMessageDialog(this, "Please select an answer first.");
+//                return;
+//            }
+//
+//            boolean correct = currentQuestion.isCorrect(selectedAnswer);
+//
+//            if (correct) {
+//                JOptionPane.showMessageDialog(this, "✅ Correct! You may now move.");
+//                enableMovement(true); // allow movement
+//            } else {
+//                JOptionPane.showMessageDialog(this,
+//                        "❌ Incorrect.\nCorrect Answer: " + currentQuestion.getCorrectAnswer(),
+//                        "Wrong Answer", JOptionPane.ERROR_MESSAGE);
+//                enableMovement(false); // disable movement
+//            }
+//
+//            // Only allow one submission per question
+//            mySubmitButton.setEnabled(false);
+//            selectedAnswer = null;
+//        });
+
+        enableMovement(false);  // disable Up/Down/Left/Right on game start
+
+    }
+    private String getOptionText(JLabel label) {
+        String text = label.getText();
+        return text.substring(text.indexOf(":") + 1).trim();  // removes "A: " etc.
     }
 
     // Helper method for scaling the icons for the room images
@@ -408,37 +491,56 @@ public class GameView extends JFrame implements PropertyChangeListener {
         });
     }
 
-    private void handleMove(Direction theDirection) {
-        Player player = myMaze.getPlayer();
+//
+private void handleMove(Direction theDirection) {
+    Player player = myMaze.getPlayer();
 
-        boolean moved = player.move(theDirection);
+    boolean moved = player.move(theDirection);
 
-        if (moved) {
-            int newRow = player.getRow() * 2;
-            int newCol = player.getCol() * 2;
+    if (moved) {
+        int newRow = player.getRow() * 2;
+        int newCol = player.getCol() * 2;
 
-            System.out.println("Player moved " + theDirection);
-            System.out.println("Current player position: " + newRow + ", " + newCol);
+        System.out.println("Player moved " + theDirection);
+        System.out.println("Current player position: " + newRow + ", " + newCol);
 
-            // Restore the previous icon
-            if (myPreviousRow != -1 && myPreviousCol != -1 && myPreviousIcon != null) {
-                myMazeIconsGrid[myPreviousRow][myPreviousCol].setIcon(myPreviousIcon);
-            }
-
-            // Save the icon at the new location
-            myPreviousIcon = (ImageIcon) myMazeIconsGrid[newRow][newCol].getIcon();
-
-            // Set Mario icon at the new location
-            myMazeIconsGrid[newRow][newCol].setIcon(myMarioIcon);
-            myCurrentRoomIcon.setIcon(myPreviousIcon);
-
-            // Update previous position
-            myPreviousRow = newRow;
-            myPreviousCol = newCol;
-        } else {
-            System.out.println("Move blocked in direction: " + theDirection);
+        // Restore the previous icon
+        if (myPreviousRow != -1 && myPreviousCol != -1 && myPreviousIcon != null) {
+            myMazeIconsGrid[myPreviousRow][myPreviousCol].setIcon(myPreviousIcon);
         }
+
+        // Save the icon at the new location
+        myPreviousIcon = (ImageIcon) myMazeIconsGrid[newRow][newCol].getIcon();
+
+        // Set Mario icon at the new location
+        myMazeIconsGrid[newRow][newCol].setIcon(myMarioIcon);
+        myCurrentRoomIcon.setIcon(myPreviousIcon);
+
+        // Update previous position
+        myPreviousRow = newRow;
+        myPreviousCol = newCol;
+
+        // 🧠 Automatically load next question after successful move
+        if (myController != null) {
+            TriviaQuestion next = myController.getCurrentQuestion();
+            if (next != null) {
+                setQuestion(next);
+            }
+        }
+
+    } else {
+        System.out.println("Move blocked in direction: " + theDirection);
     }
+}
+
+
+    private void enableMovement(boolean enabled) {
+        myUpButton.setEnabled(enabled);
+        myDownButton.setEnabled(enabled);
+        myLeftButton.setEnabled(enabled);
+        myRightButton.setEnabled(enabled);
+    }
+
 
     private void placeMarioAtStart() {
         int row = myMaze.getPlayer().getRow();
@@ -459,6 +561,29 @@ public class GameView extends JFrame implements PropertyChangeListener {
 
     public void actionPerformed(ActionEvent e) {
         // handle UI actions
+    }
+
+    public void setQuestion(TriviaQuestion question) {
+        this.currentQuestion = question;
+
+        myQuestionLabel.setText("Question: " + question.getQuestionText());
+
+        String[] options = question.getMultipleChoices();
+        if (options.length >= 4) {
+            myOptionA_Label.setText("A: " + options[0]);
+            myOptionB_Label.setText("B: " + options[1]);
+            myOptionC_Label.setText("C: " + options[2]);
+            myOptionD_Label.setText("D: " + options[3]);
+        }
+
+        // Reset state
+        //selectedAnswer = null;
+        enableMovement(false);           // Disable movement initially
+        mySubmitButton.setEnabled(true); // Re-enable submit in case it was disabled
+    }
+
+    public void setController(GameController controller) {
+        this.myController = controller;
     }
 
     @Override
