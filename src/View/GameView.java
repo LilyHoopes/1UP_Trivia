@@ -411,9 +411,66 @@ public class GameView extends JFrame implements PropertyChangeListener {
     private void handleMove(Direction theDirection) {
         Player player = myMaze.getPlayer();
 
+        Room currentRoom = myMaze.getCurrentRoom();
+
+        //if current room +-1 in said direction is
+        //ex, up, get current room, -1 in up for new room, if a room we good, if not its not a room
+        //exuse inBounds method from maze?
+
+        //TODO use get col and get row off of the player, then call myMAze.inBounds
+
+        if (currentRoom.hasDoor(theDirection)) {
+            switch (theDirection) {
+                case Direction.UP:
+                    myUpButton.setEnabled(true);
+                    break;
+                case Direction.DOWN:
+                    myDownButton.setEnabled(true);
+                    break;
+                case Direction.LEFT:
+                    myLeftButton.setEnabled(true);
+                    break;
+                case Direction.RIGHT:
+                    myRightButton.setEnabled(true);
+                    break;
+            }
+        //if room does not have a door in that direction, that means we are at an edge, so disbale button
+        } else {
+            switch (theDirection) {
+                case Direction.UP:
+                    myUpButton.setEnabled(false);
+                    break;
+                case Direction.DOWN:
+                    myDownButton.setEnabled(false);
+                    break;
+                case Direction.LEFT:
+                    myLeftButton.setEnabled(false);
+                    break;
+                case Direction.RIGHT:
+                    myRightButton.setEnabled(false);
+                    break;
+            }
+        }
+
         boolean moved = player.move(theDirection);
 
         if (moved) {
+
+            switch (theDirection) {
+                case Direction.UP:
+                    myUpButton.setEnabled(true);
+                    break;
+                case Direction.DOWN:
+                    myDownButton.setEnabled(true);
+                    break;
+                case Direction.LEFT:
+                    myLeftButton.setEnabled(true);
+                    break;
+                case Direction.RIGHT:
+                    myRightButton.setEnabled(true);
+                    break;
+            }
+
             int newRow = player.getRow() * 2;
             int newCol = player.getCol() * 2;
 
@@ -440,12 +497,16 @@ public class GameView extends JFrame implements PropertyChangeListener {
         }
     }
 
+    //rename this method to set up start maybe?
     private void placeMarioAtStart() {
         int row = myMaze.getPlayer().getRow();
         int col = myMaze.getPlayer().getCol();
         myPreviousIcon = (ImageIcon) myMazeIconsGrid[row][col].getIcon();
         myMazeIconsGrid[row][col].setIcon(myMarioIcon);
         myCurrentRoomIcon.setIcon(myPreviousIcon);
+
+        myUpButton.setEnabled(false);
+        myLeftButton.setEnabled(false);
 
         myPreviousRow = row;
         myPreviousCol = col;

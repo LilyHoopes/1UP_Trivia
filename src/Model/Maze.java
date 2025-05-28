@@ -82,7 +82,7 @@ public class Maze implements Serializable {
     }
 
     //checks to see if the given row and col are in bounds
-    boolean isInBounds(int row, int col) {
+    public boolean isInBounds(int row, int col) {
         return row >= 0 && row < myRows && col >= 0 && col < myCols;
     }
 

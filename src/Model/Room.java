@@ -62,6 +62,7 @@ public class Room implements Serializable {
     //Checks whether the adjacent room in the given direction is accessible (door isn't locked)
     public boolean isAdjacentRoomValid(Direction theDir) {
         Door door = myDoors.get(theDir);
-        return door != null && door.getState() != DoorState.LOCKED;
+        return door.getState() != DoorState.LOCKED;
     }
+
 }
