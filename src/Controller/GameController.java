@@ -40,8 +40,13 @@ public class GameController {
     }
 
     public GameController() {
-        myQuestionFactory = new QuestionFactory("trivia_questions.db");
+        myQuestionFactory = new QuestionFactory("src/trivia_questions.db");
+
         myCurrentQuestion = myQuestionFactory.getNextQuestion();
+        if (myCurrentQuestion == null) {
+            System.err.println("No questions loaded. Check your database!");
+            // Optionally, load some default questions or handle gracefully
+        }
     }
 
     public void setView(GameView theView) {
