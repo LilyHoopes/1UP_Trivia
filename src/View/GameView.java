@@ -148,8 +148,9 @@ public class GameView extends JFrame implements PropertyChangeListener {
         myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         myFrame.setResizable(false);
 
+        // ICON for game
         final JLabel iconLabel = new JLabel();
-        final ImageIcon image = new ImageIcon("icons/P1Mario.png");
+        final ImageIcon image = new ImageIcon("icons/1UpMushroom.png");
         iconLabel.setIcon(image);
 
         myFrame.setIconImage(image.getImage());
