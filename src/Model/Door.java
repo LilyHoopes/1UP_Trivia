@@ -43,8 +43,9 @@ public class Door {
      */
     public DoorState getState() {
         //returns current state of door (unlocked, locked, closed)
-        return myState;
+            return myState;
     }
+
 
     /**
      * Returns the trivia question associated with this door.

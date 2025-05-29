@@ -671,18 +671,46 @@ public class GameView extends JFrame implements PropertyChangeListener {
         // UP
         Door upDoor = currentRoom.getDoor(Direction.UP);
         myUpButton.setEnabled(myMaze.isInBounds(row - 1, col) && upDoor != null && !upDoor.isLocked());
+        System.out.println("Current room position: " + row + ", " + col);
+        if (currentRoom.hasDoor(Direction.UP)) {
+            System.out.println("Door state: " + upDoor.getState());
+
+        } else {
+            System.out.println("Current room has no door in direction: UP");
+        }
 
         // DOWN
         Door downDoor = currentRoom.getDoor(Direction.DOWN);
         myDownButton.setEnabled(myMaze.isInBounds(row + 1, col) && downDoor != null && !downDoor.isLocked());
+        System.out.println("Current room position: " + row + ", " + col);
+        if (currentRoom.hasDoor(Direction.DOWN)) {
+            System.out.println("Door state: " + downDoor.getState());
+
+        } else {
+            System.out.println("Current room has no door in direction: DOWN");
+        }
 
         // LEFT
         Door leftDoor = currentRoom.getDoor(Direction.LEFT);
         myLeftButton.setEnabled(myMaze.isInBounds(row, col - 1) && leftDoor != null && !leftDoor.isLocked());
+        System.out.println("Current room position: " + row + ", " + col);
+        if (currentRoom.hasDoor(Direction.LEFT)) {
+            System.out.println("Door state: " + leftDoor.getState());
+
+        } else {
+            System.out.println("Current room has no door in direction: LEFT");
+        }
 
         // RIGHT
         Door rightDoor = currentRoom.getDoor(Direction.RIGHT);
         myRightButton.setEnabled(myMaze.isInBounds(row, col + 1) && rightDoor != null && !rightDoor.isLocked());
+        System.out.println("Current room position: " + row + ", " + col);
+        if (currentRoom.hasDoor(Direction.RIGHT)) {
+            System.out.println("Door state: " + rightDoor.getState());
+
+        } else {
+            System.out.println("Current room has no door in direction: RIGHT");
+        }
     }
 
 

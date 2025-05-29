@@ -178,6 +178,4 @@ public class Maze implements Serializable {
         }
         throw new IndexOutOfBoundsException("Room coordinates out of bounds.");
     }
-
-
 }
