@@ -76,32 +76,6 @@ public class Player implements Serializable {
         return false;
     }
 
-    /**
-     * Attempts to move the player through a door by answering a trivia question.
-     * The door will be opened if the answer is correct, or locked if incorrect.
-     * If opened, the player moves into the next room.
-     *
-     * @param theDir      the direction to attempt moving in
-     * @param userAnswer  the user's answer to the trivia question
-     * @return true if the player moved into the new room
-     */
-    public boolean attemptMove(final Direction theDir, final String userAnswer) {
-        Room current = getCurrentRoom();
-        Door door = current.getDoor(theDir);
-
-        if (door != null && !door.isLocked()) {
-            TriviaQuestion question = door.getQuestion();
-            if (question.isCorrect(userAnswer)) {
-                door.openDoor();
-                return move(theDir);
-            } else {
-                door.lockDoor();
-            }
-        }
-
-        return false;
-    }
-
     // returns true if player reached exit
     public boolean isGameWon() {
         return myPlayerRow == 3 && myPlayerColumn == 3;

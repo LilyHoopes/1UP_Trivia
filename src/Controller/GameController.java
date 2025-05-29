@@ -97,6 +97,12 @@ public class GameController {
         if (myCurrentQuestion != null) {
             boolean correct = myCurrentQuestion.isCorrect(theAnswer);
             System.out.println(theAnswer + " <-- this answer was selected, is: " + correct);
+            if (correct) {
+                //unlock door
+
+            } else {
+                //lock door
+            }
 
             // Move to next question after checking
             myCurrentQuestion = myQuestionFactory.getNextQuestion();
@@ -104,6 +110,7 @@ public class GameController {
         }
         return false;
     }
+
 
     public void startGame() {
         // initialize game logic

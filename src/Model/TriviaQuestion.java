@@ -22,6 +22,7 @@ public class TriviaQuestion {
     public boolean isCorrect(String answer) {
         boolean isCorrect = answer.equalsIgnoreCase(myCorrectAnswer);
         myIsQuestionCorrect = isCorrect;
+
         return isCorrect;
     }
 
