@@ -11,7 +11,7 @@
       </jdbc-additional-properties>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-    <data-source source="LOCAL" name="trivia_questions [2]" uuid="6508e995-e3c2-43c7-97fd-5c065191df46">
+    <data-source source="LOCAL" name="trivia_questions [2]" uuid="f384b738-a5d7-4ddd-8cda-53f0e7ad3e4b">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>

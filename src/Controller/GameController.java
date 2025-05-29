@@ -110,7 +110,6 @@ public class GameController {
      */
     public GameController() {
         myQuestionFactory = new QuestionFactory("src/trivia_questions.db");
-
         myCurrentQuestion = myQuestionFactory.getNextQuestion();
         if (myCurrentQuestion == null) {
             System.err.println("No questions loaded. Check your database!");

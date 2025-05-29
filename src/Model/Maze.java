@@ -62,22 +62,18 @@ public class Maze implements Serializable {
         //this is empty, so arraylist has nothing in it at this point
         System.out.println("myQuestions arrayList contents: " + myQuestions.toString());
 
-        for (TriviaQuestion q : myQuestions) {
-            System.out.println("question: " + q); // or q.getQuestionText() if we want just the text
-        }
-
         myRows = theRows;
         myCols = theCols;
         myMaze = new Room[theRows][theCols]; //make a 2D array that is theRows by theCols big (4x4)
 
         //TODO its still empty at this point when i try printing it out
-        System.out.println("SECOND myQuestions arrayList contents: " + myQuestions.toString());
+        //System.out.println("SECOND myQuestions arrayList contents: " + myQuestions.toString());
 
         initializeRooms();
         initializeDoors();
 
         //TODO this is STILL empty, idk when it gets populated
-        System.out.println("THIRD myQuestions arrayList contents: " + myQuestions.toString());
+        //System.out.println("THIRD myQuestions arrayList contents: " + myQuestions.toString());
 
         // Initialize player, will start at (0,0)
         myPlayer = new Player(this);

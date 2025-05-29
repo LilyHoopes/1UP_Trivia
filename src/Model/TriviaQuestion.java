@@ -47,18 +47,6 @@ public class TriviaQuestion {
     }
 
     /**
-     * TODO: Keep this?? Or no?
-     * Retrieves a random question.
-     *
-     * @return null.
-     */
-    //TODO i made this method just so model could run, not sure if this is needed
-    // or should be here, which is why i have it returning nothing
-    public static TriviaQuestion getRandomQuestion() {
-        return null;
-    }
-
-    /**
      * Checks whether the given answer is correct.
      *
      * @param theAnswer the answer to check.

@@ -109,7 +109,11 @@ public class QuestionFactory {
      * @return the list of TriviaQuestion objects.
      */
     public static ArrayList<TriviaQuestion> getQuestions() {
-        return myQuestions;
+        if (myQuestions.isEmpty()) {
+            System.out.println("in isEmpty");
+            new QuestionFactory("src/trivia_questions.db");
+        }
+        return new ArrayList<>(myQuestions);
     }
 
     /**
