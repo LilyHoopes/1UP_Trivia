@@ -1,36 +1,63 @@
-package Model;
-
 /*
-Maze should:
--initialize maze with room objects
--link rooms with shared door objects
--track and update player location
--determine win and loss conditions
--hold a player instance
+ * This class represents the maze structure.
+ * It handles:
+ * - Room and door initialization
+ * - Player placement and movement
+ * - Win/loss tracking
  */
 
+package Model;
 
 import java.awt.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * Represents the maze structure for the game.
+ *
+ * Maze responsibilities:
+ * - Initialize maze with room objects
+ * - link rooms with shared door objects
+ * - Track and update player location
+ * - Determine win and loss conditions
+ * - hold a player instance
+ *
+ * @author Lily Hoopes
+ * @author Komalpreet Dhaliwal
+ * @author Christiannel Maningat
+ * @version 5/25/2025
+ */
+
 public class Maze implements Serializable {
 
-
+    /** 2D array of rooms forming the maze grid. */
     private final Room[][] myMaze;
+
+    /** Number of rows in the maze. */
     private final int myRows; //number of rows in maze
+
+    /** Number of columns in the maze. */
     private final int myCols; //number of cols in maze
+
+    /** The player navigating the maze. */
     private final Player myPlayer; //instance of a player in the maze
 
-    ArrayList<TriviaQuestion> myQuestions;
+    /** A list of trivia questions to assign to doors. */
+    private ArrayList<TriviaQuestion> myQuestions;
 
-    // constructor: initialize a maze with the number of rows and cols
+    /**
+     * Constructs a maze of given dimensions, loads trivia questions,
+     * creates rooms, connects them with doors, and places the player at start.
+     *
+     * @param theRows number of rows for the maze.
+     * @param theCols number of columns for the maze.
+     */
     public Maze(final int theRows, final int theCols) {
         System.out.println("Inside maze Constructor");
-        myQuestions = QuestionFactory.getQuestions(); // ⬅️ this copies the list in
+        myQuestions = QuestionFactory.getQuestions(); // this copies the list in
         //System.out.println("myQuestions arrayList contents: " + myQuestions.toString());
         for (TriviaQuestion q : myQuestions) {
-            System.out.println("question: " + q); // or q.getQuestionText() if you want just the text
+            System.out.println("question: " + q); // or q.getQuestionText() if we want just the text
         }
 
         myRows = theRows;
@@ -44,12 +71,21 @@ public class Maze implements Serializable {
         myPlayer = new Player(this);
     }
 
+    /**
+     * Returns the player instance navigating this maze.
+     *
+     * @return the maze player.
+     */
     public Player getPlayer() {
         return myPlayer;
     }
 
-    //creates a new room object for each cell in the maze
+
+    /**
+     * Creates room objects for each cell in the grid.
+     */
     private void initializeRooms() {
+        //creates a new room object for each cell in the maze
         for (int row = 0; row < myRows; row++) {
             for (int col = 0; col < myCols; col++) {
                 myMaze[row][col] = new Room(row, col);
@@ -57,9 +93,14 @@ public class Maze implements Serializable {
         }
     }
 
-    //connect rooms with doors, each door is shared between two rooms
-    //example, rooms A's right door is room B's left door, should be same door
+    /**
+     * Connects adjacent rooms with shared doors and assigns trivia questions.
+     * Doors are created only if not already present and questions remain.
+     */
     private void initializeDoors() {
+        //connect rooms with doors, each door is shared between two rooms
+        //example, rooms A's right door is room B's left door, should be same door
+
         //loop through each room in the grid
         for (int row = 0; row < myRows; row++) {
             for (int col = 0; col < myCols; col++) {
@@ -70,11 +111,13 @@ public class Maze implements Serializable {
                     int newRow = row + dir.getRowOffset();
                     int newCol = col + dir.getColOffset();
 
-                    //check if this room is in bounds, if so, assign the adjacent to 'neighbor' for each direction
+                    //check if this room is in bounds, if so, assign the adjacent
+                    // to 'neighbor' for each direction
                     if (isInBounds(newRow, newCol)) {
                         Room neighbor = myMaze[newRow][newCol];
 
-                        // Only create and assign a new door if the current room doesn't already have one in that direction
+                        // Only create and assign a new door if the current room
+                        // doesn't already have one in that direction
                         if (current.getDoor(dir) == null) {
 
                             if (!myQuestions.isEmpty()) {
@@ -87,8 +130,8 @@ public class Maze implements Serializable {
                             } else {
                                 // Handle the case when questions run out.
                                 System.err.println("No more trivia questions available for doors!");
-                                // You can create a Door without a question, or break/return, or throw an exception,
-                                // depending on your app design.
+                                // You can create a Door without a question, or break/return,
+                                // or throw an exception, depending on your app design.
                             }
 
                         }
@@ -98,24 +141,43 @@ public class Maze implements Serializable {
         }
     }
 
-    //checks to see if the given row and col are in bounds
-    public boolean isInBounds(int row, int col) {
-        return row >= 0 && row < myRows && col >= 0 && col < myCols;
+    /**
+     * Checks if given coordinates are within maze bounds.
+     *
+     * @param theRow theRow index.
+     * @param theCol column index.
+     * @return true if in bounds, false otherwise.
+     */
+    public boolean isInBounds(final int theRow, final int theCol) {
+        //checks to see if the given theRow and theCol are in bounds
+        return theRow >= 0 && theRow < myRows && theCol >= 0 && theCol < myCols;
     }
 
-    //returns the room player is currently in
+    /**
+     * Returns the room where the player currently is.
+     *
+     * @return current room of the player.
+     */
     public Room getCurrentRoom() {
+        //returns the room player is currently in
         return myMaze[myPlayer.getRow()][myPlayer.getCol()];
     }
 
-    //returns the Room at specific coordinates
+    /**
+     * Returns the room at specified coordinates if valid.
+     *
+     * @param theRow target row index.
+     * @param theCol target column index.
+     * @return the room at given position.
+     * @throws IndexOutOfBoundsException if coordinates is out of range.
+     */
     public Room getRoomAt(final int theRow, final int theCol) {
+        //returns the Room at specific coordinates
         if (isInBounds(theRow, theCol)) {
             return myMaze[theRow][theCol];
         }
         throw new IndexOutOfBoundsException("Room coordinates out of bounds.");
     }
-
 
 
 }

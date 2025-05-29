@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="908dcc05-d40f-4de3-9e9b-52d2aba2df13" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/1UP_Trivia/Controller/GameController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/1UP_Trivia/Model/Direction.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/1UP_Trivia/Model/Door.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/1UP_Trivia/Model/Maze.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/1UP_Trivia/Model/Player.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/1UP_Trivia/Model/QuestionFactory.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/1UP_Trivia/Model/Room.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/1UP_Trivia/Model/TriviaQuestion.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/1UP_Trivia/View/GameView$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/1UP_Trivia/View/GameView$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/1UP_Trivia/View/GameView$3.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/1UP_Trivia/View/GameView$4.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/1UP_Trivia/View/GameView$5.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/1UP_Trivia/View/GameView$6.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/1UP_Trivia/View/GameView$7.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/1UP_Trivia/View/GameView$8.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/1UP_Trivia/View/GameView$9.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/1UP_Trivia/View/GameView.class" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Enum" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;christiannellyle&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/LilyHoopes/1UP_Trivia.git&quot;,
+    &quot;accountId&quot;: &quot;31154ca2-6076-4e33-91c5-f207d271af59&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 7
+}</component>
+  <component name="ProjectId" id="2xEt1QhnYUjan2QjytwB97scCGA" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.GameController.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/ajlyl/OneDrive - UW/360/1UP_Trivia",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\ajlyl\OneDrive - UW\360\1UP_Trivia\icons" />
+    </key>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-fbdcb00ec9e3-intellij.indexing.shared.core-IU-251.25410.129" />
+        <option value="bundled-js-predefined-d6986cc7102b-6a121458b545-JavaScript-IU-251.25410.129" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="908dcc05-d40f-4de3-9e9b-52d2aba2df13" name="Changes" comment="" />
+      <created>1747514845088</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1747514845088</updated>
+      <workItem from="1747514847293" duration="1347000" />
+      <workItem from="1747516426775" duration="2812000" />
+      <workItem from="1747705186831" duration="12008000" />
+      <workItem from="1748317009518" duration="312000" />
+      <workItem from="1748382455215" duration="1641000" />
+      <workItem from="1748406842286" duration="961000" />
+      <workItem from="1748453680384" duration="6679000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

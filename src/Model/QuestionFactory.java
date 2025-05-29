@@ -1,20 +1,49 @@
+/*
+ * Responsible for loading trivia questions from an SQLite database and
+ * serving them to the game in randomized order. This class maintains
+ * a static question bank and provides sequential access.
+ */
+
 package Model;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**
+ * Factory class responsible for loading trivia questions from a database
+ * and providing access to them in a randomized order.
+ *
+ * @author Lily Hoopes
+ * @author Komalpreet Dhaliwal
+ * @author Christiannel Maningat
+ * @version 5/20/2025
+ */
+
 public class QuestionFactory {
-    private final String dbPath;
+
+    /** The file path to the SQLite database. */
+    private final String myDBPath;
+
+    /** The list of loaded trivia questions. */
     private static final ArrayList<TriviaQuestion> myQuestions = new ArrayList<>();
 
+    /** The current index of the question to return. */
     private int currentIndex = 0;
 
-    public QuestionFactory(String dbPath) {
-        this.dbPath = dbPath;
+    /**
+     * Constructs a QuestionFactory and loads trivia questions from the specified database.
+     *
+     * @param theDBPath the file path to the SQLite database.
+     */
+    public QuestionFactory(final String theDBPath) {
+        this.myDBPath = theDBPath;
         loadQuestionsFromDatabase();
     }
 
+    /**
+     * Loads trivia questions from the SQLite database and stores them in a shuffled list.
+     */
     private void loadQuestionsFromDatabase() {
         final String query = """
             SELECT question, option_a, option_b, option_c, option_d, correct_answer FROM TriviaQuestions;
@@ -31,28 +60,40 @@ public class QuestionFactory {
                 }
             }
 
-        } catch (SQLException e) {
-            System.err.printf("Failed to load trivia questions: %s%n", e.getMessage());
+        } catch (SQLException theError) {
+            System.err.printf("Failed to load trivia questions: %s%n", theError.getMessage());
             // Consider logging or rethrowing as a runtime exception depending on your use case
         }
         Collections.shuffle(myQuestions);
     }
 
+    /**
+     * Establishes and returns a connection to the SQLite database.
+     *
+     * @return the database connection.
+     * @throws SQLException if the connection fails.
+     */
     private Connection connect() throws SQLException {
-        String jdbcUrl = String.format("jdbc:sqlite:%s", dbPath);
+        String jdbcUrl = String.format("jdbc:sqlite:%s", myDBPath);
         return DriverManager.getConnection(jdbcUrl);
     }
 
-    private TriviaQuestion mapRowToQuestion(ResultSet rs) {
+    /**
+     * Maps a result set row to a TriviaQuestion object.
+     *
+     * @param theRS the result set row.
+     * @return a TriviaQuestion object or null if mapping fails.
+     */
+    private TriviaQuestion mapRowToQuestion(final ResultSet theRS) {
         try {
-            String questionText = rs.getString("question");
+            String questionText = theRS.getString("question");
             String[] options = {
-                    rs.getString("option_a"),
-                    rs.getString("option_b"),
-                    rs.getString("option_c"),
-                    rs.getString("option_d")
+                    theRS.getString("option_a"),
+                    theRS.getString("option_b"),
+                    theRS.getString("option_c"),
+                    theRS.getString("option_d")
             };
-            String correctAnswer = rs.getString("correct_answer");
+            String correctAnswer = theRS.getString("correct_answer");
 
             return new TriviaQuestion(questionText, options, correctAnswer);
         } catch (SQLException e) {
@@ -61,12 +102,21 @@ public class QuestionFactory {
         }
     }
 
+    /**
+     * Returns the list of loaded trivia questions.
+     *
+     * @return the list of TriviaQuestion objects.
+     */
     public static ArrayList<TriviaQuestion> getQuestions() {
         return myQuestions;
     }
 
-    //for testing
+    /**
+     * Prints all loaded trivia questions to the console.
+     * Used for testing and debugging.
+     */
     public static void printQuestions() {
+        //FOR TESTING
         ArrayList<TriviaQuestion> questions = getQuestions();
 
         if (questions.isEmpty()) {
@@ -78,7 +128,11 @@ public class QuestionFactory {
         }
     }
 
-
+    /**
+     * Returns the next trivia question in the sequence, or null if all questions have been returned.
+     *
+     * @return the next TriviaQuestion or null if none remain.
+     */
     public TriviaQuestion getNextQuestion() {
         if (currentIndex < myQuestions.size()) {
             return myQuestions.get(currentIndex++);
@@ -87,6 +141,11 @@ public class QuestionFactory {
         }
     }
 
+    /**
+     * Returns the number of trivia questions loaded.
+     *
+     * @return the number of questions.
+     */
     public int size() {
         return myQuestions.size();
     }

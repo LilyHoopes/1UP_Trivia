@@ -1,17 +1,51 @@
+/*
+ * The GameController class manages the core logic of the Maze Trivia Game.
+ * It acts as the bridge between the Model and View layers, handling user input,
+ * checking for trivia answers, managing game progress, and coordinating the state
+ * changes. This controller is responsible for loading questions, evaluating answers,
+ * tracking game status (win/loss), and saving/loading the game state.
+ *
+ * This class follows the MVC design pattern and helps maintain separation of concerns,
+ * allowing the View to remain UI-focused and the Model to handle data related tasks.
+ */
+
 package Controller;
 import View.GameView;
 import Model.*;
 
 import java.awt.*;
 
+/**
+ * Controller class for the Maze Trivia Game, handling game flow,
+ * question retrieval, and interaction between the model and view layers.
+ *
+ * @author Lily Hoopes
+ * @author Komalpreet Dhaliwal
+ * @author Christiannel Maningat
+ * @version 5/7/2025
+ */
 public class GameController {
 
+    /** Flag showing whether the game has been won or not. */
     private boolean myGameWon;
+
     //private Maze myMaze;
+
+    /** The view component of the game. */
     private GameView myView;
+
+    /** Factory for loading trivia questions. */
     private QuestionFactory myQuestionFactory;
+
+    /** The current trivia question to display and check. */
     private TriviaQuestion myCurrentQuestion;
 
+    /**
+     * Entry point for the application. Initializes MVC components,
+     * loads the first trivia question, and sets up the UI.
+     *
+     * @param theArgs command-line arguments.
+     */
     public static void main(final String[] theArgs) {
         EventQueue.invokeLater(() -> {
 
@@ -21,7 +55,7 @@ public class GameController {
             final GameView view = new GameView(maze);
             GameController controller = new GameController();
             controller.setView(view);
-            view.setController(controller); // 🔥 this connects the two
+            view.setController(controller); // this connects the two
 
             QuestionFactory.printQuestions();
 
@@ -52,7 +86,13 @@ public class GameController {
 
     }
 
-    public void checkGameStatus(Maze theMaze) {
+    /**
+     * Checks the player's status in the maze and notifies the view
+     * if the game has been won or lost.
+     *
+     * @param theMaze the Maze model to check for win/loss conditions.
+     */
+    public void checkGameStatus(final Maze theMaze) {
         System.out.println("in checkGameStatus");
         Player player = theMaze.getPlayer();
         if (player.isGameWon()) {
@@ -64,7 +104,10 @@ public class GameController {
         }
     }
 
-
+    /**
+     * Constructs a GameController, initializes the question factory
+     * and loads the first trivia question from the database.
+     */
     public GameController() {
         myQuestionFactory = new QuestionFactory("src/trivia_questions.db");
 
@@ -75,25 +118,52 @@ public class GameController {
         }
     }
 
-    public void setView(GameView theView) {
+    /**
+     * Sets the view component for this controller.
+     *
+     * @param theView the GameView to associate with this controller.
+     */
+    public void setView(final GameView theView) {
         myView = theView;
     }
 
+    /**
+     * Returns whether the game has been won.
+     *
+     * @return true if the game is won, false otherwise.
+     */
     public boolean getGameWon() {
         return myGameWon;
     }
 
+    /**
+     * Sets the game-won flag.
+     *
+     * @param theGameWon true to mark the game as won, false otherwise.
+     */
     public void setGameWon(final boolean theGameWon) {
         myGameWon = theGameWon;
     }
 
-    // Call this to get the current trivia question
+    /**
+     * Retrieves the current trivia question.
+     *
+     * @return the current TriviaQuestion, or null if none
+     */
     public TriviaQuestion getCurrentQuestion() {
+        // Call this to get the current trivia question!
         return myCurrentQuestion;
     }
 
-    // Call this to validate a user's answer
-    public boolean checkAnswer(String theAnswer) {
+    /**
+     * Validates the user's answer against the current trivia question,
+     * advances to the next question, and returns the correctness.
+     *
+     * @param theAnswer the user's answer to check.
+     * @return true if the answer is correct, false otherwise.
+     */
+    public boolean checkAnswer(final String theAnswer) {
+        // Call this to validate a user's answer
         if (myCurrentQuestion != null) {
             boolean correct = myCurrentQuestion.isCorrect(theAnswer);
             System.out.println(theAnswer + " <-- this answer was selected, is: " + correct);
@@ -111,19 +181,30 @@ public class GameController {
         return false;
     }
 
-
+    /**
+     * Initializes and starts the game logic.
+     */
     public void startGame() {
         // initialize game logic
     }
 
+    /**
+     * Saves the current game state to storage.
+     */
     public void saveGame() {
         // serialize CurrentGameState
     }
 
+    /**
+     * Loads the game state from persistent storage.
+     */
     public void loadGame() {
         // deserialize CurrentGameState
     }
 
+    /**
+     * Restarts the game by resetting state and loading initial settings.
+     */
     public void restartGame() {
         // reset game state
     }

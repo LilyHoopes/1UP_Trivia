@@ -1,3 +1,9 @@
+/*
+ * The GameView class is responsible for displaying the game window, including the maze grid,
+ * player movement, trivia questions, and UI interactions. It observes changes in the model
+ * using the PropertyChangeListener interface.
+ */
+
 package View;
 
 import java.awt.*;
@@ -13,27 +19,79 @@ import Controller.GameController;
 import Model.*;
 import Model.TriviaQuestion;
 
+/**
+ * GameView is responsible for displaying the graphical user interface (GUI)
+ * of the trivia maze game. It handles user interactions, displays the maze grid,
+ * questions, answers, and manages player movements.
+ *
+ * @author Lily Hoopes
+ * @author Komalpreet Dhaliwal
+ * @author Christiannel Maningat
+ * @version 5/7/2025
+ */
+
 public class GameView extends JFrame implements PropertyChangeListener {
 
+    // --------Controller & Game State----------
+    /** Reference to the controller that manages game logic and state transitions. */
     private GameController myController;
-    private TriviaQuestion currentQuestion;
-    private String selectedAnswer = null;
-    private JButton clickedButton = null; //just the actual button they clicked, we highlight this one
 
+    /** The current trivia question displayed to the user. */
+    private TriviaQuestion myCurrentQuestion;
+
+    /** The answer currently selected by the player. */
+    private String mySelectedAnswer = null;
+
+    /** The button the user last clicked to answer a question. */
+    private JButton myClickedButton = null; //just the actual button they clicked, we highlight this one
+
+
+
+    // --------Window & Visual Settings----------
+
+    /** The main frame of the game window. */
     private final JFrame myFrame;
+
+    /** Custom sky blue color used for background and UI elements. */
     private final Color SKY_BLUE = new Color(135, 206, 235);
 
+
+
+    // --------Room Panel----------
+
+    /** Label displaying the current room's icon. */
     private final JLabel myCurrentRoomIcon; //JLabel for room panel
+
+    /** Button for moving the player up, down, left and right in the maze. */
     private final JButton myUpButton, myDownButton, myLeftButton, myRightButton; //JButtons for room panel
 
-    private final JLabel myQuestionLabel, myOptionA_Label, myOptionB_Label, myOptionC_Label, myOptionD_Label; //JLabels for the questions panel
-    private final JButton myA_Button, myB_Button, myC_Button, myD_Button, mySubmitButton; //JButtons for questions panel
 
+
+    // --------Question Panel--------
+
+    /** Label displaying the current trivia question, and labels for the following answer options A, B, C, or D. */
+    private final JLabel myQuestionLabel, myOptionA_Label, myOptionB_Label, myOptionC_Label, myOptionD_Label;
+    //JLabels for the questions panel
+
+    /** Buttons to select answer A, b, C, or D and also a submit button to submit selected answer. */
+    private final JButton myA_Button, myB_Button, myC_Button, myD_Button, mySubmitButton;
+    //JButtons for questions panel
+
+
+
+    // --------Maze Panel & Icons--------
+
+    /** 2D array of labels representing the visual grid of the maze. */
     //JLabels for the maze panel
     private final JLabel[][] myMazeIconsGrid = new JLabel[7][7];
 
+
+    /**
+     * Array of various icons used to populate rooms in the maze.
+     * Each icon represents a different room or item type.
+     */
     private final ImageIcon[] myRoomIcons = new ImageIcon[] {
-            getScaledIcon("icons/greenegg.png", 60, 60),
+            getScaledIcon("icons/redmushroom.png", 60, 60),
             getScaledIcon("icons/key.png", 60, 60),
             getScaledIcon("icons/cherries.png", 60, 60),
             getScaledIcon("icons/blueegg.png", 60, 60),
@@ -47,20 +105,39 @@ public class GameView extends JFrame implements PropertyChangeListener {
             getScaledIcon("icons/fireflower.png", 60, 60),
             getScaledIcon("icons/coin.png", 60, 60),
             getScaledIcon("icons/rainbowstar.png", 60, 60),
-            getScaledIcon("icons/redmushroom.png", 60, 60),
+            getScaledIcon("icons/greenegg.png", 60, 60),
             getScaledIcon("icons/1upmushroom.png", 60, 60)
     };
 
-    private ImageIcon myPreviousIcon;  // stores the last icon Mario replaced
-    private int myPreviousRow = -1;    // previous player position
-    private int myPreviousCol = -1;    // previous player position
-    private final ImageIcon myMarioIcon = getScaledIcon("icons/P1Mario.png", 60, 60);
 
-    //instance of maze
+
+    // --------Player position & Icon tracking--------
+
+    /** Stores the icon of the room before character moved into it. Used to restore the room state. */
+    private ImageIcon myPreviousIcon;  // stores the last icon Mario replaced
+
+    /** The row index of character’s previous position. */
+    private int myPreviousRow = -1;    // previous player position
+
+    /** The column index of character’s previous position. */
+    private int myPreviousCol = -1;    // previous player position
+
+    /** Icon representing the Mario player avatar. */
+    private final ImageIcon myMarioIcon = getScaledIcon("icons/P1Mario.png", 60, 60);
+    // TODO: Include character selection code variable
+
+    /** The Maze model object representing the current layout and room state. */
     private final Maze myMaze;
 
-    //constructor for GameView
-    public GameView(Maze theMaze) {
+    /**
+     * Constructs the main game window for the Trivia Maze.
+     * Initializes the frame, panels, buttons, and listeners,
+     * and displays the UI.
+     *
+     * @param theMaze the Maze model that this view will visualize.
+     */
+    public GameView(final Maze theMaze) {
+        //constructor for GameView
 
         myMaze = theMaze;
 
@@ -163,7 +240,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
         myD_Button.addActionListener(e -> clickedAnswerButton(myD_Button, getOptionText(myOptionD_Label)));
 
         mySubmitButton.addActionListener(e -> {
-            if (selectedAnswer == null) {
+            if (mySelectedAnswer == null) {
                 JOptionPane.showMessageDialog(this, "Please select an answer first.");
                 return;
             }
@@ -174,15 +251,15 @@ public class GameView extends JFrame implements PropertyChangeListener {
             myC_Button.setBackground(null);
             myD_Button.setBackground(null);
 
-            // ✅ Check and capture correctness
-            boolean correct = myController.checkAnswer(selectedAnswer);
+            // Check and capture correctness
+            boolean correct = myController.checkAnswer(mySelectedAnswer);
 
-            // ✅ Show result to user
+            // Show result to user
             if (correct) {
                 JOptionPane.showMessageDialog(this, "✅ Correct! You may now move.");
             } else {
                 JOptionPane.showMessageDialog(this,
-                        "❌ Incorrect!\nCorrect answer: " + currentQuestion.getCorrectAnswer(),
+                        "❌ Incorrect!\nCorrect answer: " + myCurrentQuestion.getCorrectAnswer(),
                         "Wrong Answer", JOptionPane.ERROR_MESSAGE);
             }
 
@@ -195,37 +272,63 @@ public class GameView extends JFrame implements PropertyChangeListener {
                 mySubmitButton.setEnabled(false);
             }
 
-            selectedAnswer = null;
+            mySelectedAnswer = null;
         });
 
     }
 
-    private String getOptionText(JLabel label) {
-        String text = label.getText();
+    /**
+     * Extracts the answer text from a labeled option.
+     *
+     * @param theLabel the JLabel containing text like "A: Mushroom".
+     * @return the answer portion (e.g. "Mushroom").
+     */
+    private String getOptionText(final JLabel theLabel) {
+        String text = theLabel.getText();
         return text.substring(text.indexOf(":") + 1).trim();  // removes "A: " etc.
     }
 
-    private void clickedAnswerButton(JButton button, String answerText) {
+    /**
+     * Highlights the clicked answer button and stores the selected answer.
+     *
+     * @param theButton the JButton the user clicked.
+     * @param theAnswerText the text of the answer chosen.
+     */
+    private void clickedAnswerButton(final JButton theButton, final String theAnswerText) {
         // Reset old button background
-        if (clickedButton != null) {
-            clickedButton.setBackground(null); // reset to default
+        if (myClickedButton != null) {
+            myClickedButton.setBackground(null); // reset to default
         }
 
         // Highlight new button
-        button.setBackground(Color.YELLOW);
-        clickedButton = button;
+        theButton.setBackground(Color.YELLOW);
+        myClickedButton = theButton;
 
         // Store answer
-        selectedAnswer = answerText;
+        mySelectedAnswer = theAnswerText;
     }
 
-    // Helper method for scaling the icons for the room images
-    private ImageIcon getScaledIcon(String path, int width, int height) {
-        ImageIcon icon = new ImageIcon(path);
-        Image scaledImage = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
+
+    /**
+     * Loads an ImageIcon from disk and scales it smoothly.
+     *
+     * @param thePath   file path to the image.
+     * @param theWidth  desired icon width.
+     * @param theHeight desired icon height.
+     * @return a new ImageIcon scaled to the given dimensions.
+     */
+    private ImageIcon getScaledIcon(final String thePath, final int theWidth, final int theHeight) {
+        // Helper method for scaling the icons for the room images
+        ImageIcon icon = new ImageIcon(thePath);
+        Image scaledImage = icon.getImage().getScaledInstance(theWidth, theHeight, Image.SCALE_SMOOTH);
         return new ImageIcon(scaledImage);
     }
 
+    /**
+     * Builds and returns the panel containing the directional room controls.
+     *
+     * @return a JPanel laid out with Up/Down/Left/Right buttons and the current room icon.
+     */
     private JPanel createRoomPanel() {
         JPanel roomPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -264,6 +367,11 @@ public class GameView extends JFrame implements PropertyChangeListener {
         return roomPanel;
     }
 
+    /**
+     * Builds and returns the panel showing the current trivia question and answer buttons.
+     *
+     * @return a JPanel containing the question label, option labels, and submit button.
+     */
     private JPanel createQuestionsPanel() {
         final JPanel questionsPanel = new JPanel(new BorderLayout());
 
@@ -294,6 +402,11 @@ public class GameView extends JFrame implements PropertyChangeListener {
         return questionsPanel;
     }
 
+    /**
+     * Builds and returns the maze grid panel populated with room and pipe icons.
+     *
+     * @return a JPanel arranged in a 7×7 GridLayout for the maze display.
+     */
     private JPanel createMazePanel() {
 
         final JPanel mazePanel = new JPanel(new GridLayout(7,7, 5, 5));
@@ -309,6 +422,10 @@ public class GameView extends JFrame implements PropertyChangeListener {
         return mazePanel;
     }
 
+    /**
+     * Populates the internal 7×7 JLabel grid with room and pipe icons.
+     * Called once during view initialization.
+     */
     private void populateMazeGrid() {
         int roomIndex = 0;  // index for the room icons
 
@@ -342,6 +459,9 @@ public class GameView extends JFrame implements PropertyChangeListener {
         }
     }
 
+    /**
+     * Builds and installs the application menu bar with Game, File, and Help menus.
+     */
     private void createMenuBar() {
         final JMenuBar menuBar = new JMenuBar();
 
@@ -432,7 +552,13 @@ public class GameView extends JFrame implements PropertyChangeListener {
         });
     }
 
-    private void setupKeyBindings(JPanel thePanel) {
+    /**
+     * Sets up key bindings for WASD and arrow keys.
+     * Binds each key to movement actions using an InputMap and ActionMap.
+     *
+     * @param thePanel The main panel component used for binding key actions.
+     */
+    private void setupKeyBindings(final JPanel thePanel) {
         InputMap inputMap = thePanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
         ActionMap actionMap = thePanel.getActionMap();
 
@@ -475,7 +601,14 @@ public class GameView extends JFrame implements PropertyChangeListener {
         });
     }
 
-    private void handleMove(Direction theDirection) {
+    /**
+     * Handles the player's movement in the specified direction.
+     * Updates the visual grid to reflect the new position of the player,
+     * restores the icon of the previous room, and updates the room and question displays.
+     *
+     * @param theDirection The direction in which the player attempts to move.
+     */
+    private void handleMove(final Direction theDirection) {
         Player player = myMaze.getPlayer();
 
         boolean moved = player.move(theDirection);
@@ -493,18 +626,18 @@ public class GameView extends JFrame implements PropertyChangeListener {
                 myMazeIconsGrid[myPreviousRow][myPreviousCol].setIcon(myPreviousIcon);
             }
 
-            // Save the icon at the new location
+            //Save the icon at the new location
             myPreviousIcon = (ImageIcon) myMazeIconsGrid[newRow][newCol].getIcon();
 
-            // Set Mario icon at the new location
+            //Set Mario icon at the new location
             myMazeIconsGrid[newRow][newCol].setIcon(myMarioIcon);
             myCurrentRoomIcon.setIcon(myPreviousIcon);
 
-            // Update previous position
+            //Update previous position
             myPreviousRow = newRow;
             myPreviousCol = newCol;
 
-            // ✅ Update movement buttons based on new position
+            //Update movement buttons based on new position
             updateMovementButtons();
 
             //check if is game won or lost
@@ -522,6 +655,10 @@ public class GameView extends JFrame implements PropertyChangeListener {
         }
     }
 
+    /**
+     * Updates the state of movement buttons (UP, DOWN, LEFT, RIGHT).
+     * Buttons are enabled only if the corresponding door exists and is unlocked.
+     */
     private void updateMovementButtons() {
         Player player = myMaze.getPlayer();
         Room currentRoom = myMaze.getCurrentRoom();
@@ -547,7 +684,13 @@ public class GameView extends JFrame implements PropertyChangeListener {
     }
 
 
-    //rename this method to set up start maybe?
+
+    /**
+     * Initializes the maze visual grid with the player's starting position.
+     * Saves the initial icon and sets the Mario icon on the grid.
+     * Disables impossible initial movement directions.
+     */
+    // TODO: rename this method to set up start maybe?
     private void initializeMazeContents() {
         int row = myMaze.getPlayer().getRow();
         int col = myMaze.getPlayer().getCol();
@@ -564,26 +707,56 @@ public class GameView extends JFrame implements PropertyChangeListener {
         myPreviousCol = col;
     }
 
+    // TODO: Need to complete
+    /**
+     * Displays a message indicating the player has won the game.
+     */
     public void showWinMessage() { }
 
+    /**
+     * Displays a message indicating the player has lost the game.
+     */
     public void showLossMessage() { }
 
+    /**
+     * Displays a message indicating an invalid action occurred,
+     * such as selecting a locked door or making an illegal move.
+     */
     public void showInvalidMessage() { }
 
-    public void actionPerformed(ActionEvent e) {
+    /**
+     * Handles generic UI actions triggered by GUI components (e.g., buttons).
+     * Should route the event to the appropriate game logic or UI update.
+     *
+     * @param theE The ActionEvent triggered by a user interaction.
+     */
+    public void actionPerformed(ActionEvent theE) {
         // handle UI actions
     }
 
-    public void setController(GameController theController) {
+
+    /**
+     * Sets the controller for the GUI to delegate control logic.
+     *
+     * @param theController The GameController instance to connect with the view.
+     */
+    public void setController(final GameController theController) {
         this.myController = theController;
     }
 
-    public void setQuestion(TriviaQuestion question) {
-        this.currentQuestion = question;
+    /**
+     * Sets and displays a new trivia question and its answer options on the UI.
+     * Enables the submit button for the user to provide an answer.
+     *
+     * @param theQuestion The TriviaQuestion object containing the question
+     *                   and its answer options.
+     */
+    public void setQuestion(final TriviaQuestion theQuestion) {
+        this.myCurrentQuestion = theQuestion;
 
-        myQuestionLabel.setText("Question: " + question.getQuestionText());
+        myQuestionLabel.setText("Question: " + theQuestion.getQuestionText());
 
-        String[] options = question.getMultipleChoices();
+        String[] options = theQuestion.getMultipleChoices();
         if (options.length >= 4) {
             myOptionA_Label.setText("A: " + options[0]);
             myOptionB_Label.setText("B: " + options[1]);
@@ -607,8 +780,15 @@ public class GameView extends JFrame implements PropertyChangeListener {
 //    }
 
 
+    /**
+     * Called when a bound property is changed. Used to update the view based on changes
+     * in the model or controller. Implementation to be customized based on application logic.
+     *
+     * @param theEvt A PropertyChangeEvent object describing the event source and the property
+     *              that has changed.
+     */
     @Override
-    public void propertyChange(PropertyChangeEvent theEvt) {
-
+    public void propertyChange(final PropertyChangeEvent theEvt) {
+        // method implementation
     }
 }
