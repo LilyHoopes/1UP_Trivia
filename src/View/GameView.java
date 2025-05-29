@@ -713,8 +713,6 @@ public class GameView extends JFrame implements PropertyChangeListener {
         }
     }
 
-
-
     /**
      * Initializes the maze visual grid with the player's starting position.
      * Saves the initial icon and sets the Mario icon on the grid.

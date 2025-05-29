@@ -43,7 +43,7 @@ public class Maze implements Serializable {
     private final Player myPlayer; //instance of a player in the maze
 
     /** A list of trivia questions to assign to doors. */
-    private ArrayList<TriviaQuestion> myQuestions;
+    private final ArrayList<TriviaQuestion> myQuestions;
 
     /**
      * Constructs a maze of given dimensions, loads trivia questions,
@@ -53,9 +53,14 @@ public class Maze implements Serializable {
      * @param theCols number of columns for the maze.
      */
     public Maze(final int theRows, final int theCols) {
+
+        //TODO the arraylist isnt getting poopulatled here?
         System.out.println("Inside maze Constructor");
         myQuestions = QuestionFactory.getQuestions(); // this copies the list in
-        //System.out.println("myQuestions arrayList contents: " + myQuestions.toString());
+
+        //this is empty, so arraylist has nothing in it at this point
+        System.out.println("myQuestions arrayList contents: " + myQuestions.toString());
+
         for (TriviaQuestion q : myQuestions) {
             System.out.println("question: " + q); // or q.getQuestionText() if we want just the text
         }
@@ -64,8 +69,14 @@ public class Maze implements Serializable {
         myCols = theCols;
         myMaze = new Room[theRows][theCols]; //make a 2D array that is theRows by theCols big (4x4)
 
+        //TODO its still empty at this point when i try printing it out
+        System.out.println("SECOND myQuestions arrayList contents: " + myQuestions.toString());
+
         initializeRooms();
         initializeDoors();
+
+        //TODO this is STILL empty, idk when it gets populated
+        System.out.println("THIRD myQuestions arrayList contents: " + myQuestions.toString());
 
         // Initialize player, will start at (0,0)
         myPlayer = new Player(this);
@@ -92,6 +103,8 @@ public class Maze implements Serializable {
             }
         }
     }
+
+    //TODO it seems that the rooms dont have the doors when they should, testing showed no doors exist anywheres
 
     /**
      * Connects adjacent rooms with shared doors and assigns trivia questions.
