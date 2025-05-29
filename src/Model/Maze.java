@@ -105,6 +105,8 @@ public class Maze implements Serializable {
     }
 
     //TODO it seems that the rooms dont have the doors when they should, testing showed no doors exist anywheres
+    //TODO i should probably jut rewrite this entire method bc it confusing, should i hard code in doors to each room?
+    //TODO probably should do it as i did but something aint right, figure out the issue
 
     /**
      * Connects adjacent rooms with shared doors and assigns trivia questions.
