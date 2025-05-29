@@ -135,6 +135,10 @@ public class Maze implements Serializable {
                         // doesn't already have one in that direction
                         if (current.getDoor(dir) == null) {
 
+                            //TODO there is no doors so the player cant move bc the arraylist is alwasy empty
+                            //TODO so it never actually creates the doors in the firt place
+
+
                             if (!myQuestions.isEmpty()) {
                                 TriviaQuestion singleQuestion = myQuestions.get(0);
                                 myQuestions.remove(0);
