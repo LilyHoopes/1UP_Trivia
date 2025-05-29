@@ -289,6 +289,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
         return text.substring(text.indexOf(":") + 1).trim();  // removes "A: " etc.
     }
 
+    //TODO change this to cute mario icons we select
     /**
      * Highlights the clicked answer button and stores the selected answer.
      *
