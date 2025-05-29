@@ -48,6 +48,7 @@ public class QuestionFactory {
         final String query = """
             SELECT question, option_a, option_b, option_c, option_d, correct_answer FROM TriviaQuestions;
         """;
+        System.out.println("Inside loadQuestionsFromDatabase");
 
         try (Connection conn = connect();
              PreparedStatement pstmt = conn.prepareStatement(query);

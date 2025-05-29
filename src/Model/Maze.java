@@ -56,6 +56,7 @@ public class Maze implements Serializable {
 
         //TODO the arraylist isnt getting poopulatled here?
         System.out.println("Inside maze Constructor");
+
         myQuestions = QuestionFactory.getQuestions(); // this copies the list in
 
         //this is empty, so arraylist has nothing in it at this point
