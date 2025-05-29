@@ -1,7 +1,5 @@
 package View;
 
-//meow biutcthhhhh
-
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.GridLayout;
@@ -169,6 +167,12 @@ public class GameView extends JFrame implements PropertyChangeListener {
                 JOptionPane.showMessageDialog(this, "Please select an answer first.");
                 return;
             }
+
+            //set color back to null once they click submit
+            myA_Button.setBackground(null);
+            myB_Button.setBackground(null);
+            myC_Button.setBackground(null);
+            myD_Button.setBackground(null);
 
             // ✅ Check and capture correctness
             boolean correct = myController.checkAnswer(selectedAnswer);

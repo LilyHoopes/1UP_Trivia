@@ -12,6 +12,7 @@ Maze should:
 
 import java.awt.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Maze implements Serializable {
 
@@ -21,8 +22,17 @@ public class Maze implements Serializable {
     private final int myCols; //number of cols in maze
     private final Player myPlayer; //instance of a player in the maze
 
+    ArrayList<TriviaQuestion> myQuestions;
+
     // constructor: initialize a maze with the number of rows and cols
     public Maze(final int theRows, final int theCols) {
+        System.out.println("Inside maze Constructor");
+        myQuestions = QuestionFactory.getQuestions(); // ⬅️ this copies the list in
+        //System.out.println("myQuestions arrayList contents: " + myQuestions.toString());
+        for (TriviaQuestion q : myQuestions) {
+            System.out.println("question: " + q); // or q.getQuestionText() if you want just the text
+        }
+
         myRows = theRows;
         myCols = theCols;
         myMaze = new Room[theRows][theCols]; //make a 2D array that is theRows by theCols big (4x4)
@@ -60,20 +70,27 @@ public class Maze implements Serializable {
                     int newRow = row + dir.getRowOffset();
                     int newCol = col + dir.getColOffset();
 
-                    //check if this room is in bounds, if so, assign the adjacent to 'neighbor'
+                    //check if this room is in bounds, if so, assign the adjacent to 'neighbor' for each direction
                     if (isInBounds(newRow, newCol)) {
                         Room neighbor = myMaze[newRow][newCol];
 
                         // Only create and assign a new door if the current room doesn't already have one in that direction
                         if (current.getDoor(dir) == null) {
-                            Door sharedDoor = new Door(TriviaQuestion.getRandomQuestion());
 
-                            //TODO this is where questions are pulled from the trivia question class
-                            //TODO the line is commented out for now
+                            if (!myQuestions.isEmpty()) {
+                                TriviaQuestion singleQuestion = myQuestions.get(0);
+                                myQuestions.remove(0);
+                                Door sharedDoor = new Door(singleQuestion);
 
-                            //add door to current room in dir direction
-                            current.addDoor(dir, sharedDoor);
-                            neighbor.addDoor(dir.opposite(), sharedDoor);
+                                current.addDoor(dir, sharedDoor);
+                                neighbor.addDoor(dir.opposite(), sharedDoor);
+                            } else {
+                                // Handle the case when questions run out.
+                                System.err.println("No more trivia questions available for doors!");
+                                // You can create a Door without a question, or break/return, or throw an exception,
+                                // depending on your app design.
+                            }
+
                         }
                     }
                 }

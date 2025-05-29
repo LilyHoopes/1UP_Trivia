@@ -23,6 +23,9 @@ public class GameController {
             controller.setView(view);
             view.setController(controller); // 🔥 this connects the two
 
+            QuestionFactory.printQuestions();
+
+
             // Display first question
             TriviaQuestion currentQuestion = controller.getCurrentQuestion();
             if (currentQuestion != null) {

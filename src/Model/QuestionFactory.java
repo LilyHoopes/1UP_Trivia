@@ -6,7 +6,7 @@ import java.util.Collections;
 
 public class QuestionFactory {
     private final String dbPath;
-    private final ArrayList<TriviaQuestion> questions = new ArrayList<>();
+    private static final ArrayList<TriviaQuestion> myQuestions = new ArrayList<>();
 
     private int currentIndex = 0;
 
@@ -27,7 +27,7 @@ public class QuestionFactory {
             while (rs.next()) {
                 TriviaQuestion question = mapRowToQuestion(rs);
                 if (question != null) {
-                    questions.add(question);
+                    myQuestions.add(question);
                 }
             }
 
@@ -35,7 +35,7 @@ public class QuestionFactory {
             System.err.printf("Failed to load trivia questions: %s%n", e.getMessage());
             // Consider logging or rethrowing as a runtime exception depending on your use case
         }
-        Collections.shuffle(questions);
+        Collections.shuffle(myQuestions);
     }
 
     private Connection connect() throws SQLException {
@@ -61,19 +61,33 @@ public class QuestionFactory {
         }
     }
 
-    public ArrayList<TriviaQuestion> getAllQuestions() {
-        return questions;
+    public static ArrayList<TriviaQuestion> getQuestions() {
+        return myQuestions;
     }
 
+    //for testing
+    public static void printQuestions() {
+        ArrayList<TriviaQuestion> questions = getQuestions();
+
+        if (questions.isEmpty()) {
+            System.out.println("Question list is EMPTY.");
+        } else {
+            for (int i = 0; i < questions.size(); i++) {
+                System.out.println("Q" + (i + 1) + ": " + questions.get(i));
+            }
+        }
+    }
+
+
     public TriviaQuestion getNextQuestion() {
-        if (currentIndex < questions.size()) {
-            return questions.get(currentIndex++);
+        if (currentIndex < myQuestions.size()) {
+            return myQuestions.get(currentIndex++);
         } else {
             return null; // or reset index to loop: currentIndex = 0;
         }
     }
 
     public int size() {
-        return questions.size();
+        return myQuestions.size();
     }
 }

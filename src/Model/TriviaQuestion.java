@@ -36,4 +36,11 @@ public class TriviaQuestion {
     public String getCorrectAnswer() {
         return myCorrectAnswer;
     }
+
+    //for testing
+    @Override
+    public String toString() {
+        return "Question: " + myQuestionText + " | Answer: " + myCorrectAnswer;
+    }
+
 }
