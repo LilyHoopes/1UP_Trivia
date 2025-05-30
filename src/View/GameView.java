@@ -14,6 +14,7 @@ import java.beans.PropertyChangeListener;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import Controller.GameController;
 import Model.*;
@@ -88,7 +89,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
 
     /**
      * Array of various icons used to populate rooms in the maze.
-     * Each icon represents a different room or item type.
+     * Each icon represents a different room.
      */
     private final ImageIcon[] myRoomIcons = new ImageIcon[] {
             getScaledIcon("icons/redmushroom.png", 60, 60),
@@ -109,6 +110,8 @@ public class GameView extends JFrame implements PropertyChangeListener {
             getScaledIcon("icons/1upmushroom.png", 60, 60)
     };
 
+    // BRICK ICON
+    final ImageIcon longBrickIcon = getScaledIcon("icons/longbrick.png", 60, 60);
 
 
     // --------Player position & Icon tracking--------
@@ -204,6 +207,10 @@ public class GameView extends JFrame implements PropertyChangeListener {
         mazePanel.setPreferredSize(new Dimension(450, 450));
         final JPanel roomPanel = createRoomPanel();
         roomPanel.setPreferredSize(new Dimension(300, 300));
+
+        final JPanel longBrickPanel = createLongBrickPanel();
+        longBrickPanel.setPreferredSize(new Dimension(600, 60));
+
         final JPanel questionsPanel = createQuestionsPanel();
         questionsPanel.setPreferredSize(new Dimension(600, 150));
 
@@ -218,6 +225,8 @@ public class GameView extends JFrame implements PropertyChangeListener {
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         mainPanel.add(topPanel);
+        // TODO: Adding longggg brick panel
+        mainPanel.add(longBrickPanel);
         mainPanel.add(questionsPanel);
 
         myFrame.getContentPane().add(mainPanel);
@@ -233,6 +242,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
         myFrame.setBackground(SKY_BLUE);  // sky blue
         mazePanel.setBackground(SKY_BLUE);
         roomPanel.setBackground(SKY_BLUE);
+        //longBrickPanel.setBackground(SKY_BLUE); // TODO: Added!!
         questionsPanel.setBackground(SKY_BLUE);
 
         myA_Button.addActionListener(e -> clickedAnswerButton(myA_Button, getOptionText(myOptionA_Label)));
@@ -461,6 +471,21 @@ public class GameView extends JFrame implements PropertyChangeListener {
         }
     }
 
+    private JPanel createLongBrickPanel() {
+        final JPanel longBrickPanel = new JPanel();
+        //longBrickPanel.setAlignmentX(Component.CENTER_ALIGNMENT); //centers long bwickk
+
+        // loading looong brick into icon
+        //ImageIcon longBrickIcon = new ImageIcon("icons/looongBrick.png");
+
+        // put icon into jlabel and add to panel
+        JLabel brickLabel = new JLabel(longBrickIcon);
+        longBrickPanel.add(brickLabel);
+
+        return longBrickPanel;
+    }
+
+
     /**
      * Builds and installs the application menu bar with Game, File, and Help menus.
      */
@@ -498,7 +523,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
         fileMenu.add(fileSave);
         fileMenu.add(fileLoad);
 
-        //Add eac menu section to the menu bar
+        //Add each menu section to the menu bar
         menuBar.add(gameMenu);
         menuBar.add(fileMenu);
         menuBar.add(helpMenu);
@@ -534,10 +559,16 @@ public class GameView extends JFrame implements PropertyChangeListener {
         aboutItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent theEvent) {
+
+                ImageIcon icon = new ImageIcon(getScaledIcon("icons/mysterybox.png", 100, 100).getImage());
+
                 // About the game and creators
                 JOptionPane.showMessageDialog(null,
-                        "1UP Trivia Maze\nWritten in Java\nAuthors: Lily, Christiannel, Komalpreet",
-                        "About 1UP Trivia Maze", JOptionPane.INFORMATION_MESSAGE);
+                        "This is a recreation of the project Trivia Maze with a twist involving the Mario Bros" +
+                                " universe,\ngetting renamed as the 1-UP Trivia Maze! This program was written in Java with" +
+                                " versions 21 and 23.\nThis trivia maze game was written by Lily Hoopes, Christiannel Maningat," +
+                                " and Komalpreet Dhaliwal.\nAll three who are students whom attend the University of Washington Tacoma.",
+                        "About 1-UP Trivia Maze", JOptionPane.INFORMATION_MESSAGE, icon);
             }
         });
 
@@ -545,11 +576,23 @@ public class GameView extends JFrame implements PropertyChangeListener {
             @Override
             public void actionPerformed(final ActionEvent theEvent) {
                 // The rules of trivia game
+
+                // added 1up mushroom image to add to pane
+                ImageIcon icon = new ImageIcon(getScaledIcon("icons/jumpingMario.png", 100, 100).getImage());
+
+
                 JOptionPane.showMessageDialog(null,
-                        "1UP Trivia Game Rules:\n1. Choose a direction to move\n2. Once at a door, " +
-                                "answer the trivia question and submit\n3. If correct, you may open that door and move" +
-                                "to a new room and keep answering questions\n4. THIS IS NOT DONE FINISH RULES",
-                        "1UP Trivia Game Rules", JOptionPane.INFORMATION_MESSAGE);
+                        "Welcome to 1-UP Trivia Maze!\n\nThis game will test your knowledge" +
+                                " on the Mario Bros Universe!\n\nHere are the rules:\n1. Choose a direction to move," +
+                                " either LEFT, RIGHT, UP, or DOWN.\n2. Once at a door, answer the trivia question " +
+                                "and press submit.\n3. If correct, the door will unlock, allowing you travel through the pipes to a new room.\n" +
+                                "4. From this point you must keep answering questions. But if answered wrong, the door\n" +
+                                " will lock, pushing you back to where you were before!\n5. " +
+                                "Answer questions carefully and find your way out of the maze!\n\nGood luck, friends. Lets-a-go!",
+                        "1-UP Trivia Game Rules",
+                        JOptionPane.INFORMATION_MESSAGE,
+                        icon);
+
             }
         });
     }
