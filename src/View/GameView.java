@@ -111,7 +111,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
     };
 
     // BRICK ICON
-    final ImageIcon longBrickIcon = getScaledIcon("icons/looongBrick.png", 600, 60);
+    final ImageIcon longBrickIcon = getScaledIcon("icons/looongBrick.png", 1125, 100);
 
     // --------Player position & Icon tracking--------
 
@@ -241,7 +241,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
         myFrame.setBackground(SKY_BLUE);  // sky blue
         mazePanel.setBackground(SKY_BLUE);
         roomPanel.setBackground(SKY_BLUE);
-        //longBrickPanel.setBackground(SKY_BLUE); // TODO: Added!!
+        longBrickPanel.setBackground(SKY_BLUE); // TODO: Added!!
         questionsPanel.setBackground(SKY_BLUE);
 
         myA_Button.addActionListener(e -> clickedAnswerButton(myA_Button, getOptionText(myOptionA_Label)));
@@ -478,6 +478,9 @@ public class GameView extends JFrame implements PropertyChangeListener {
     private JPanel createLongBrickPanel() {
         final JPanel longBrickPanel = new JPanel();
         //longBrickPanel.setAlignmentX(Component.CENTER_ALIGNMENT); //centers long bwickk
+
+        longBrickPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+
 
         // loading looong brick into icon
         //ImageIcon longBrickIcon = new ImageIcon("icons/looongBrick.png");
