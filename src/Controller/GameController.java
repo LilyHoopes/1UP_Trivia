@@ -33,6 +33,9 @@ public class GameController {
     private Player myPlayer;
     private GameView myView;
 
+    private Door myPendingDoor;
+    private Direction myPendingDirection;
+
     /** Factory for loading trivia questions. */
     private QuestionFactory myQuestionFactory;
 
@@ -58,7 +61,8 @@ public class GameController {
             controller.setMaze(maze);
             controller.setPlayer(player);
 
-            QuestionFactory.printQuestions();
+            //for testing
+            //QuestionFactory.printQuestions();
 
             //TODO we dont wanna show the first question until the user tries to move into a new room, facing a door
             // Display first question
@@ -166,33 +170,41 @@ public class GameController {
         return myCurrentQuestion;
     }
 
-    /**
-     * Validates the user's answer against the current trivia question,
-     * advances to the next question, and returns the correctness.
-     *
-     * @param theAnswer the user's answer to check.
-     * @return true if the answer is correct, false otherwise.
-     */
-    public boolean checkAnswer(final String theAnswer) {
-        // Call this to validate a user's answer
-        if (myCurrentQuestion != null) {
-            boolean correct = myCurrentQuestion.isCorrect(theAnswer);
-            System.out.println(theAnswer + " <-- this answer was selected, is: " + correct);
-            if (correct) {
-                //unlock door
-
-            } else {
-                //lock door
-            }
-
-            // Move to next question after checking
-            myCurrentQuestion = myQuestionFactory.getNextQuestion();
-            return correct;
+    //TODO LILYFIXHERE
+    //TODO the probolem is that the label says the correct answer but for some reason the actaul value
+    //is the correct answer but for the question from the other door in the room
+    //TODO i dont think pending door and direction are actually holding any value so you should print those out
+    //TODO check if the isCorrect method is working, put a print statement there too
+    public boolean checkAnswerAndMove(String theAnswer) {
+        if (myPendingDoor == null || myPendingDirection == null || myCurrentQuestion == null) {
+            System.err.println("No pending door/direction/question set.");
+            return false;
         }
-        return false;
+
+        //TODO LILYFIXHERE
+        boolean correct = myCurrentQuestion.isCorrect(theAnswer);
+        System.out.println("checkAnswerAndMove boolean correct: " + correct);
+
+        if (correct) {
+            myPendingDoor.openDoor();
+            myPlayer.moveThroughOpenDoor(myPendingDirection);
+            myView.handleMoveThroughOpenDoor(myPendingDirection);
+        } else {
+            myPendingDoor.lockDoor();
+        }
+
+        myCurrentQuestion = myQuestionFactory.getNextQuestion(); // next trivia for next door
+        myPendingDoor = null;
+        myPendingDirection = null;
+
+        return correct;
     }
 
+
     public void attemptMove(Direction theDirection) {
+
+        System.out.println("inside the attemptMove method in controller");
+
         Room currentRoom = myMaze.getRoomAt(myPlayer.getRow(), myPlayer.getCol());
         Door targetDoor = currentRoom.getDoor(theDirection);
 
@@ -216,7 +228,11 @@ public class GameController {
 
             case CLOSED:
                 System.out.println("Door is closed. Showing trivia question...");
-                //myView.displayTriviaQuestion(targetDoor.getQuestion(), targetDoor, theDirection); //this does not work bc there is no method for this, i want to solve this a different way
+                myPendingDoor = targetDoor;
+                myPendingDirection = theDirection;
+                TriviaQuestion myCurrentQuestion = targetDoor.getQuestion();
+                System.out.println("Question for this door: " + myCurrentQuestion);
+                myView.displayTriviaQuestion(myCurrentQuestion);
                 break;
 
             case LOCKED:
@@ -239,17 +255,21 @@ public class GameController {
 
     //for testing
     public void printDoorsForCurrentRoom(Room currentRoom) {
-        System.out.println("Doors in the current room:");
+        System.out.println("Doors in the current room:\n");
         Door northDoor = currentRoom.getDoor(Direction.UP);
+        System.out.println("UP door:\n");
         if (northDoor != null) northDoor.printState();
 
         Door southDoor = currentRoom.getDoor(Direction.DOWN);
+        System.out.println("DOWN door:\n");
         if (southDoor != null) southDoor.printState();
 
         Door eastDoor = currentRoom.getDoor(Direction.LEFT);
+        System.out.println("LEFT door:\n");
         if (eastDoor != null) eastDoor.printState();
 
         Door westDoor = currentRoom.getDoor(Direction.RIGHT);
+        System.out.println("RIGHT door:\n");
         if (westDoor != null) westDoor.printState();
     }
 

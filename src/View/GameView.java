@@ -33,6 +33,9 @@ import Model.TriviaQuestion;
 
 public class GameView extends JFrame implements PropertyChangeListener {
 
+    private Direction currentDirection;
+    private Door currentDoor;
+
     // --------Controller & Game State----------
     /** Reference to the controller that manages game logic and state transitions. */
     private GameController myController;
@@ -109,6 +112,11 @@ public class GameView extends JFrame implements PropertyChangeListener {
             getScaledIcon("icons/greenegg.png", 60, 60),
             getScaledIcon("icons/1upmushroom.png", 60, 60)
     };
+
+    // Load Icons
+    ImageIcon correctIcon = new ImageIcon("icons/thumbsUPMario.png");
+    ImageIcon incorrectIcon = new ImageIcon("icons/sadMario.png");
+
 
     // BRICK ICON
     final ImageIcon longBrickIcon = getScaledIcon("icons/looongBrick.png", 400, 100);
@@ -254,21 +262,13 @@ public class GameView extends JFrame implements PropertyChangeListener {
                 return;
             }
 
-            //set color back to null once they click submit
-            myA_Button.setBackground(null);
-            myB_Button.setBackground(null);
-            myC_Button.setBackground(null);
-            myD_Button.setBackground(null);
-
-            // Check and capture correctness
-            boolean correct = myController.checkAnswer(mySelectedAnswer);
-
-            // Load Icons
-            ImageIcon correctIcon = new ImageIcon("icons/thumbsUPMario.png");
-            ImageIcon incorrectIcon = new ImageIcon("icons/sadMario.png");
+            //TODO LILYFIXHERE
+            boolean correct = myController.checkAnswerAndMove(mySelectedAnswer);
+            System.out.println("correct boolean: " + correct);
 
             // Show result to user
             if (correct) {
+
                 JOptionPane.showMessageDialog(this, "Correct! You may now move.",
                         "Correct!", JOptionPane.INFORMATION_MESSAGE, correctIcon);
             } else {
@@ -276,6 +276,15 @@ public class GameView extends JFrame implements PropertyChangeListener {
                         "Incorrect!\nCorrect answer: " + myCurrentQuestion.getCorrectAnswer(),
                         "Wrong Answer", JOptionPane.ERROR_MESSAGE, incorrectIcon);
             }
+
+            //set color back to null once they click submit
+            myA_Button.setBackground(null);
+            myB_Button.setBackground(null);
+            myC_Button.setBackground(null);
+            myD_Button.setBackground(null);
+
+            // Check and capture correctness
+
 
             // Load next question
             TriviaQuestion next = myController.getCurrentQuestion();
@@ -289,6 +298,13 @@ public class GameView extends JFrame implements PropertyChangeListener {
             mySelectedAnswer = null;
         });
 
+    }
+
+    public void displayTriviaQuestion(TriviaQuestion theQuestion) {
+
+        setQuestion(theQuestion);
+        // Show trivia panel
+        //questionsPanel.setVisible(true);
     }
 
     /**
@@ -491,7 +507,6 @@ public class GameView extends JFrame implements PropertyChangeListener {
 
         return longBrickPanel;
     }
-
 
     /**
      * Builds and installs the application menu bar with Game, File, and Help menus.
@@ -728,12 +743,13 @@ public class GameView extends JFrame implements PropertyChangeListener {
         int row = player.getRow();
         int col = player.getCol();
 
+        System.out.println("Current room position: " + row + ", " + col);
+
         // UP
         Door upDoor = currentRoom.getDoor(Direction.UP);
         myUpButton.setEnabled(myMaze.isInBounds(row - 1, col) && upDoor != null && !upDoor.isLocked());
-        //System.out.println("Current room position: " + row + ", " + col);
         if (currentRoom.hasDoor(Direction.UP)) {
-            //System.out.println("Door state: " + upDoor.getState());
+            System.out.println("Up door state: " + upDoor.getState());
 
         } else {
             System.out.println("Current room has no door in direction: UP");
@@ -742,9 +758,8 @@ public class GameView extends JFrame implements PropertyChangeListener {
         // DOWN
         Door downDoor = currentRoom.getDoor(Direction.DOWN);
         myDownButton.setEnabled(myMaze.isInBounds(row + 1, col) && downDoor != null && !downDoor.isLocked());
-        //System.out.println("Current room position: " + row + ", " + col);
         if (currentRoom.hasDoor(Direction.DOWN)) {
-            //System.out.println("Door state: " + downDoor.getState());
+            System.out.println("Down door state: " + downDoor.getState());
         } else {
             System.out.println("Current room has no door in direction: DOWN");
         }
@@ -752,9 +767,8 @@ public class GameView extends JFrame implements PropertyChangeListener {
         // LEFT
         Door leftDoor = currentRoom.getDoor(Direction.LEFT);
         myLeftButton.setEnabled(myMaze.isInBounds(row, col - 1) && leftDoor != null && !leftDoor.isLocked());
-        //System.out.println("Current room position: " + row + ", " + col);
         if (currentRoom.hasDoor(Direction.LEFT)) {
-            //System.out.println("Door state: " + leftDoor.getState());
+            System.out.println("Left door state: " + leftDoor.getState());
 
         } else {
             System.out.println("Current room has no door in direction: LEFT");
@@ -763,9 +777,8 @@ public class GameView extends JFrame implements PropertyChangeListener {
         // RIGHT
         Door rightDoor = currentRoom.getDoor(Direction.RIGHT);
         myRightButton.setEnabled(myMaze.isInBounds(row, col + 1) && rightDoor != null && !rightDoor.isLocked());
-        //System.out.println("Current room position: " + row + ", " + col);
         if (currentRoom.hasDoor(Direction.RIGHT)) {
-            //System.out.println("Door state: " + rightDoor.getState());
+            System.out.println("Right door state: " + rightDoor.getState());
 
         } else {
             System.out.println("Current room has no door in direction: RIGHT");
