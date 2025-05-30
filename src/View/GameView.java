@@ -839,6 +839,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
         mySubmitButton.setEnabled(true); // Re-enable submit in case it was disabled
     }
 
+
     /**
      * Called when a bound property is changed. Used to update the view based on changes
      * in the model or controller. Implementation to be customized based on application logic.

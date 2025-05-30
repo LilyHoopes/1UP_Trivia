@@ -29,10 +29,9 @@ public class GameController {
     /** Flag showing whether the game has been won or not. */
     private boolean myGameWon;
 
-    //private Maze myMaze;
-
-    /** The view component of the game. */
-    private GameView myView;
+    private static Maze myMaze;
+    private static Player myPlayer;
+    private static GameView myView;
 
     /** Factory for loading trivia questions. */
     private QuestionFactory myQuestionFactory;
@@ -49,21 +48,19 @@ public class GameController {
     public static void main(final String[] theArgs) {
         EventQueue.invokeLater(() -> {
 
-            Maze maze = new Maze(4, 4);
-            Player player = maze.getPlayer();
-
-            final GameView view = new GameView(maze);
             GameController controller = new GameController();
-            controller.setView(view);
-            view.setController(controller); // this connects the two
+            myMaze = new Maze(4,4);
+            myPlayer = myMaze.getPlayer();
+            myView = new GameView(myMaze);
+            controller.setView(myView);
+            myView.setController(controller); // this connects the two
 
             QuestionFactory.printQuestions();
-
 
             // Display first question
             TriviaQuestion currentQuestion = controller.getCurrentQuestion();
             if (currentQuestion != null) {
-                view.setQuestion(currentQuestion);
+                myView.setQuestion(currentQuestion);
             }
 
 //            // Try moving
@@ -81,9 +78,25 @@ public class GameController {
             controller.saveGame();
             controller.loadGame();
             //maybe goes here??
-            view.setController(controller);
+            myView.setController(controller);
         });
 
+    }
+
+    /**
+     * Constructs a GameController, initializes the question factory
+     * and loads the first trivia question from the database.
+     */
+    public GameController() {
+
+        myQuestionFactory = new QuestionFactory("src/trivia_questions.db");
+        myCurrentQuestion = myQuestionFactory.getNextQuestion();
+        //myView = new GameView(this, myMaze); // assume GameView accepts controller and maze
+
+        if (myCurrentQuestion == null) {
+            System.err.println("No questions loaded. Check your database!");
+            // Optionally, load some default questions or handle gracefully
+        }
     }
 
     /**
@@ -104,18 +117,6 @@ public class GameController {
         }
     }
 
-    /**
-     * Constructs a GameController, initializes the question factory
-     * and loads the first trivia question from the database.
-     */
-    public GameController() {
-        myQuestionFactory = new QuestionFactory("src/trivia_questions.db");
-        myCurrentQuestion = myQuestionFactory.getNextQuestion();
-        if (myCurrentQuestion == null) {
-            System.err.println("No questions loaded. Check your database!");
-            // Optionally, load some default questions or handle gracefully
-        }
-    }
 
     /**
      * Sets the view component for this controller.
@@ -179,6 +180,27 @@ public class GameController {
         }
         return false;
     }
+
+    private void printCurrentRoomDoorStates() {
+        Room currentRoom = myMaze.getRoomAt(myPlayer.getRow(), myPlayer.getCol());
+        System.out.println("Player is in room at (" + myPlayer.getRow() + ", " + myPlayer.getCol() + ")");
+        for (Direction dir : Direction.values()) {
+            Door door = currentRoom.getDoor(dir);
+            if (door != null) {
+                System.out.println("Door to " + dir);
+                System.out.println("  State: " + door.getState());
+                TriviaQuestion question = door.getQuestion();
+                if (question != null) {
+                    System.out.println("  Question: " + question.getQuestionText());
+                } else {
+                    System.out.println("  No question assigned.");
+                }
+            } else {
+                System.out.println("No door to " + dir);
+            }
+        }
+    }
+
 
     /**
      * Initializes and starts the game logic.
