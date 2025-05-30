@@ -271,11 +271,11 @@ public class GameView extends JFrame implements PropertyChangeListener {
 
             // Show result to user
             if (correct) {
-                JOptionPane.showMessageDialog(this, "✅ Correct! You may now move.",
+                JOptionPane.showMessageDialog(this, "Correct! You may now move.",
                         "Correct!", JOptionPane.INFORMATION_MESSAGE, correctIcon);
             } else {
                 JOptionPane.showMessageDialog(this,
-                        "❌ Incorrect!\nCorrect answer: " + myCurrentQuestion.getCorrectAnswer(),
+                        "Incorrect!\nCorrect answer: " + myCurrentQuestion.getCorrectAnswer(),
                         "Wrong Answer", JOptionPane.ERROR_MESSAGE, incorrectIcon);
             }
 
