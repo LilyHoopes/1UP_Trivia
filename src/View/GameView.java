@@ -111,8 +111,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
     };
 
     // BRICK ICON
-    final ImageIcon longBrickIcon = getScaledIcon("icons/longbrick.png", 60, 60);
-
+    final ImageIcon longBrickIcon = getScaledIcon("icons/looongBrick.png", 600, 60);
 
     // --------Player position & Icon tracking--------
 
