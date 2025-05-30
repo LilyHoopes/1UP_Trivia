@@ -793,23 +793,6 @@ public class GameView extends JFrame implements PropertyChangeListener {
         myPreviousCol = col;
     }
 
-    // TODO: Need to complete
-    /**
-     * Displays a message indicating the player has won the game.
-     */
-    public void showWinMessage() { }
-
-    /**
-     * Displays a message indicating the player has lost the game.
-     */
-    public void showLossMessage() { }
-
-    /**
-     * Displays a message indicating an invalid action occurred,
-     * such as selecting a locked door or making an illegal move.
-     */
-    public void showInvalidMessage() { }
-
     /**
      * Handles generic UI actions triggered by GUI components (e.g., buttons).
      * Should route the event to the appropriate game logic or UI update.
@@ -819,7 +802,6 @@ public class GameView extends JFrame implements PropertyChangeListener {
     public void actionPerformed(ActionEvent theE) {
         // handle UI actions
     }
-
 
     /**
      * Sets the controller for the GUI to delegate control logic.
@@ -854,17 +836,6 @@ public class GameView extends JFrame implements PropertyChangeListener {
         //selectedAnswer = null;
         mySubmitButton.setEnabled(true); // Re-enable submit in case it was disabled
     }
-
-//    public void showGameWon() {
-//        JOptionPane.showMessageDialog(this, "🎉 You won the game!");
-//        //disableAllControls(); // Optionally disable buttons
-//    }
-//
-//    public void showGameLost() {
-//        JOptionPane.showMessageDialog(this, "💀 You're trapped! Game Over.");
-//        //disableAllControls(); // Optionally disable buttons
-//    }
-
 
     /**
      * Called when a bound property is changed. Used to update the view based on changes
