@@ -167,11 +167,10 @@ public class GameView extends JFrame implements PropertyChangeListener {
         myRightButton = new JButton("Right");
 
         //action listeners for up down left right buttons
-        myUpButton.addActionListener(e -> handleMove(Direction.UP));
-        myDownButton.addActionListener(e -> handleMove(Direction.DOWN));
-        myLeftButton.addActionListener(e -> handleMove(Direction.LEFT));
-        myRightButton.addActionListener(e -> handleMove(Direction.RIGHT));
-
+        myUpButton.addActionListener(e -> myController.attemptMove(Direction.UP));
+        myDownButton.addActionListener(e -> myController.attemptMove(Direction.DOWN));
+        myLeftButton.addActionListener(e -> myController.attemptMove(Direction.LEFT));
+        myRightButton.addActionListener(e -> myController.attemptMove(Direction.RIGHT));
 
         myCurrentRoomIcon = new JLabel(""); //where current room will be displayed
         //myCurrentRoomIcon.setIcon()
@@ -304,6 +303,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
     }
 
     //TODO change this to cute mario icons we select
+    //TODO change this to radio buttons
     /**
      * Highlights the clicked answer button and stores the selected answer.
      *
@@ -640,25 +640,25 @@ public class GameView extends JFrame implements PropertyChangeListener {
         actionMap.put("moveUp", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent theEvent) {
-                handleMove(Direction.UP);
+                handleMoveThroughOpenDoor(Direction.UP);
             }
         });
         actionMap.put("moveLeft", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent theEvent) {
-                handleMove(Direction.LEFT);
+                handleMoveThroughOpenDoor(Direction.LEFT);
             }
         });
         actionMap.put("moveDown", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent theEvent) {
-                handleMove(Direction.DOWN);
+                handleMoveThroughOpenDoor(Direction.DOWN);
             }
         });
         actionMap.put("moveRight", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent theEvent) {
-                handleMove(Direction.RIGHT);
+                handleMoveThroughOpenDoor(Direction.RIGHT);
             }
         });
     }
@@ -670,10 +670,10 @@ public class GameView extends JFrame implements PropertyChangeListener {
      *
      * @param theDirection The direction in which the player attempts to move.
      */
-    private void handleMove(final Direction theDirection) {
+    public void handleMoveThroughOpenDoor(final Direction theDirection) {
         Player player = myMaze.getPlayer();
 
-        boolean moved = player.move(theDirection);
+        boolean moved = player.moveThroughOpenDoor(theDirection);
 
         if (moved) {
 
@@ -731,9 +731,9 @@ public class GameView extends JFrame implements PropertyChangeListener {
         // UP
         Door upDoor = currentRoom.getDoor(Direction.UP);
         myUpButton.setEnabled(myMaze.isInBounds(row - 1, col) && upDoor != null && !upDoor.isLocked());
-        System.out.println("Current room position: " + row + ", " + col);
+        //System.out.println("Current room position: " + row + ", " + col);
         if (currentRoom.hasDoor(Direction.UP)) {
-            System.out.println("Door state: " + upDoor.getState());
+            //System.out.println("Door state: " + upDoor.getState());
 
         } else {
             System.out.println("Current room has no door in direction: UP");
@@ -742,10 +742,9 @@ public class GameView extends JFrame implements PropertyChangeListener {
         // DOWN
         Door downDoor = currentRoom.getDoor(Direction.DOWN);
         myDownButton.setEnabled(myMaze.isInBounds(row + 1, col) && downDoor != null && !downDoor.isLocked());
-        System.out.println("Current room position: " + row + ", " + col);
+        //System.out.println("Current room position: " + row + ", " + col);
         if (currentRoom.hasDoor(Direction.DOWN)) {
-            System.out.println("Door state: " + downDoor.getState());
-
+            //System.out.println("Door state: " + downDoor.getState());
         } else {
             System.out.println("Current room has no door in direction: DOWN");
         }
@@ -753,9 +752,9 @@ public class GameView extends JFrame implements PropertyChangeListener {
         // LEFT
         Door leftDoor = currentRoom.getDoor(Direction.LEFT);
         myLeftButton.setEnabled(myMaze.isInBounds(row, col - 1) && leftDoor != null && !leftDoor.isLocked());
-        System.out.println("Current room position: " + row + ", " + col);
+        //System.out.println("Current room position: " + row + ", " + col);
         if (currentRoom.hasDoor(Direction.LEFT)) {
-            System.out.println("Door state: " + leftDoor.getState());
+            //System.out.println("Door state: " + leftDoor.getState());
 
         } else {
             System.out.println("Current room has no door in direction: LEFT");
@@ -764,9 +763,9 @@ public class GameView extends JFrame implements PropertyChangeListener {
         // RIGHT
         Door rightDoor = currentRoom.getDoor(Direction.RIGHT);
         myRightButton.setEnabled(myMaze.isInBounds(row, col + 1) && rightDoor != null && !rightDoor.isLocked());
-        System.out.println("Current room position: " + row + ", " + col);
+        //System.out.println("Current room position: " + row + ", " + col);
         if (currentRoom.hasDoor(Direction.RIGHT)) {
-            System.out.println("Door state: " + rightDoor.getState());
+            //System.out.println("Door state: " + rightDoor.getState());
 
         } else {
             System.out.println("Current room has no door in direction: RIGHT");

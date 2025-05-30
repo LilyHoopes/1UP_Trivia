@@ -52,6 +52,8 @@ public class Room implements Serializable {
 //        myIcon = theIcon;
 //    }
 
+
+
     /**
      * Returns the icon image for this room.
      *

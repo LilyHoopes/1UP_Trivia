@@ -29,9 +29,9 @@ public class GameController {
     /** Flag showing whether the game has been won or not. */
     private boolean myGameWon;
 
-    private static Maze myMaze;
-    private static Player myPlayer;
-    private static GameView myView;
+    private Maze myMaze;
+    private Player myPlayer;
+    private GameView myView;
 
     /** Factory for loading trivia questions. */
     private QuestionFactory myQuestionFactory;
@@ -49,19 +49,23 @@ public class GameController {
         EventQueue.invokeLater(() -> {
 
             GameController controller = new GameController();
-            myMaze = new Maze(4,4);
-            myPlayer = myMaze.getPlayer();
-            myView = new GameView(myMaze);
-            controller.setView(myView);
-            myView.setController(controller); // this connects the two
+            Maze maze = new Maze(4,4);
+            Player player = maze.getPlayer();
+            GameView view = new GameView(maze);
+            controller.setView(view);
+            view.setController(controller);
+
+            controller.setMaze(maze);
+            controller.setPlayer(player);
 
             QuestionFactory.printQuestions();
 
+            //TODO we dont wanna show the first question until the user tries to move into a new room, facing a door
             // Display first question
-            TriviaQuestion currentQuestion = controller.getCurrentQuestion();
-            if (currentQuestion != null) {
-                myView.setQuestion(currentQuestion);
-            }
+//            TriviaQuestion currentQuestion = controller.getCurrentQuestion();
+//            if (currentQuestion != null) {
+//                view.setQuestion(currentQuestion);
+//            }
 
 //            // Try moving
 //            boolean moved = player.move(Direction.LEFT);
@@ -78,7 +82,6 @@ public class GameController {
             controller.saveGame();
             controller.loadGame();
             //maybe goes here??
-            myView.setController(controller);
         });
 
     }
@@ -97,6 +100,14 @@ public class GameController {
             System.err.println("No questions loaded. Check your database!");
             // Optionally, load some default questions or handle gracefully
         }
+    }
+
+    public void setMaze(final Maze theMaze) {
+        myMaze = theMaze;
+    }
+
+    public void setPlayer(final Player thePlayer) {
+        myPlayer = thePlayer;
     }
 
     /**
@@ -181,26 +192,66 @@ public class GameController {
         return false;
     }
 
-    private void printCurrentRoomDoorStates() {
+    public void attemptMove(Direction theDirection) {
         Room currentRoom = myMaze.getRoomAt(myPlayer.getRow(), myPlayer.getCol());
-        System.out.println("Player is in room at (" + myPlayer.getRow() + ", " + myPlayer.getCol() + ")");
-        for (Direction dir : Direction.values()) {
-            Door door = currentRoom.getDoor(dir);
-            if (door != null) {
-                System.out.println("Door to " + dir);
-                System.out.println("  State: " + door.getState());
-                TriviaQuestion question = door.getQuestion();
-                if (question != null) {
-                    System.out.println("  Question: " + question.getQuestionText());
-                } else {
-                    System.out.println("  No question assigned.");
-                }
-            } else {
-                System.out.println("No door to " + dir);
-            }
+        Door targetDoor = currentRoom.getDoor(theDirection);
+
+        if (targetDoor == null) {
+            System.out.println("No door in that direction.");
+            return;
         }
+
+        //for testing
+        printDoorsForCurrentRoom(currentRoom);
+
+        //TODO where should i call checkGameStatus?
+        switch (targetDoor.getState()) {
+
+            case OPEN:
+                myPlayer.moveThroughOpenDoor(theDirection);
+                myView.handleMoveThroughOpenDoor(theDirection); // GUI update
+                //checkGameStatus(final Maze theMaze);
+                //clearTriviaPanel(); // optional: reset question panel
+                break;
+
+            case CLOSED:
+                System.out.println("Door is closed. Showing trivia question...");
+                //myView.displayTriviaQuestion(targetDoor.getQuestion(), targetDoor, theDirection); //this does not work bc there is no method for this, i want to solve this a different way
+                break;
+
+            case LOCKED:
+                System.out.println("Door is locked.");
+                // optionally update GUI with message
+                break;
+        }
+
+//
+//        //if door is locked, pull the question for that door and set to view
+//        //should a different method unlock the door if answered correct, yes I think
+//        if (door.getState() == DoorState.CLOSED) {
+//            // Set current question from the door
+//            myCurrentQuestion = door.getQuestion();
+//            myView.setQuestion(myCurrentQuestion);
+//            return;
+//        }
+
     }
 
+    //for testing
+    public void printDoorsForCurrentRoom(Room currentRoom) {
+        System.out.println("Doors in the current room:");
+        Door northDoor = currentRoom.getDoor(Direction.UP);
+        if (northDoor != null) northDoor.printState();
+
+        Door southDoor = currentRoom.getDoor(Direction.DOWN);
+        if (southDoor != null) southDoor.printState();
+
+        Door eastDoor = currentRoom.getDoor(Direction.LEFT);
+        if (eastDoor != null) eastDoor.printState();
+
+        Door westDoor = currentRoom.getDoor(Direction.RIGHT);
+        if (westDoor != null) westDoor.printState();
+    }
 
     /**
      * Initializes and starts the game logic.
