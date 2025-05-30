@@ -265,13 +265,18 @@ public class GameView extends JFrame implements PropertyChangeListener {
             // Check and capture correctness
             boolean correct = myController.checkAnswer(mySelectedAnswer);
 
+            // Load Icons
+            ImageIcon correctIcon = new ImageIcon("icons/thumbsUPMario.png");
+            ImageIcon incorrectIcon = new ImageIcon("icons/sadMario.png");
+
             // Show result to user
             if (correct) {
-                JOptionPane.showMessageDialog(this, "✅ Correct! You may now move.");
+                JOptionPane.showMessageDialog(this, "✅ Correct! You may now move.",
+                        "Correct!", JOptionPane.INFORMATION_MESSAGE, correctIcon);
             } else {
                 JOptionPane.showMessageDialog(this,
                         "❌ Incorrect!\nCorrect answer: " + myCurrentQuestion.getCorrectAnswer(),
-                        "Wrong Answer", JOptionPane.ERROR_MESSAGE);
+                        "Wrong Answer", JOptionPane.ERROR_MESSAGE, incorrectIcon);
             }
 
             // Load next question
@@ -548,8 +553,18 @@ public class GameView extends JFrame implements PropertyChangeListener {
         exitItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent theEvent) {
-                final int confirm = JOptionPane.showConfirmDialog(null,
-                        "Are you sure you want to exit?", "Exit", JOptionPane.YES_NO_OPTION);
+
+                ImageIcon icon = new ImageIcon(getScaledIcon("icons/hidingMario.png", 100, 100).getImage());
+
+                final int confirm = JOptionPane.showConfirmDialog(
+                        null,
+                        "Are you sure you want to exit?\nMario will be sad!",
+                        "Exit",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE,
+                        icon
+                );
+
                 if (confirm == JOptionPane.YES_OPTION) {
                     System.exit(0);
                 }
