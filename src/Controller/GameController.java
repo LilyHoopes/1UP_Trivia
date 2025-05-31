@@ -184,7 +184,9 @@ public class GameController {
         System.out.println("checkAnswerAndMove boolean correct: " + correct);
 
         if (correct) {
+            System.out.println("myPendingDoor state before: " + myPendingDoor.getState());
             myPendingDoor.openDoor();
+            System.out.println("myPendingDoor state after: " + myPendingDoor.getState());
             myPlayer.moveThroughOpenDoor(myPendingDirection);
             myView.handleMoveThroughOpenDoor(myPendingDirection);
         } else {

@@ -94,6 +94,8 @@ public class Player implements Serializable {
                 return true;
             }
         }
+
+        System.out.println("Player location: " + myPlayerRow + ", " + myPlayerColumn);
         return false;
     }
 
