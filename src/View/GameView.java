@@ -262,8 +262,10 @@ public class GameView extends JFrame implements PropertyChangeListener {
                 return;
             }
 
-            //TODO LILYFIXHERE
-            boolean correct = myController.checkAnswerAndMove(mySelectedAnswer);
+            //TODO my selected answer is not correct!
+            String userSelected = getSelectedAnswer();
+            System.out.println("userSelected: " + userSelected);
+            boolean correct = myController.checkAnswerAndMove(userSelected);
             System.out.println("correct boolean: " + correct);
 
             // Show result to user
@@ -300,8 +302,17 @@ public class GameView extends JFrame implements PropertyChangeListener {
 
     }
 
-    public void displayTriviaQuestion(TriviaQuestion theQuestion) {
+    private String getSelectedAnswer() {
+        if (myA_Button.isSelected()) return myA_Button.getText();
+        if (myB_Button.isSelected()) return myB_Button.getText();
+        if (myC_Button.isSelected()) return myC_Button.getText();
+        if (myD_Button.isSelected()) return myD_Button.getText();
+        return null;
+    }
 
+
+    public void displayTriviaQuestion(TriviaQuestion theQuestion) {
+        System.out.println("displayTriviaQuestion method question: " + theQuestion);
         setQuestion(theQuestion);
         // Show trivia panel
         //questionsPanel.setVisible(true);

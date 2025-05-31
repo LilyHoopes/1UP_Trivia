@@ -39,8 +39,6 @@ public class GameController {
     /** Factory for loading trivia questions. */
     private QuestionFactory myQuestionFactory;
 
-    /** The current trivia question to display and check. */
-    private TriviaQuestion myCurrentQuestion;
 
     /**
      * Entry point for the application. Initializes MVC components,
@@ -97,13 +95,13 @@ public class GameController {
     public GameController() {
 
         myQuestionFactory = new QuestionFactory("src/trivia_questions.db");
-        myCurrentQuestion = myQuestionFactory.getNextQuestion();
         //myView = new GameView(this, myMaze); // assume GameView accepts controller and maze
 
-        if (myCurrentQuestion == null) {
+        if (myQuestionFactory.getNextQuestion() == null) {
             System.err.println("No questions loaded. Check your database!");
-            // Optionally, load some default questions or handle gracefully
         }
+
+
     }
 
     public void setMaze(final Maze theMaze) {
@@ -166,23 +164,24 @@ public class GameController {
      * @return the current TriviaQuestion, or null if none
      */
     public TriviaQuestion getCurrentQuestion() {
-        // Call this to get the current trivia question!
-        return myCurrentQuestion;
+        return (myPendingDoor != null) ? myPendingDoor.getQuestion() : null;
     }
 
-    //TODO LILYFIXHERE
-    //TODO the probolem is that the label says the correct answer but for some reason the actaul value
-    //is the correct answer but for the question from the other door in the room
-    //TODO i dont think pending door and direction are actually holding any value so you should print those out
-    //TODO check if the isCorrect method is working, put a print statement there too
-    public boolean checkAnswerAndMove(String theAnswer) {
-        if (myPendingDoor == null || myPendingDirection == null || myCurrentQuestion == null) {
+    public boolean checkAnswerAndMove(String theUserAnswer) {
+
+        if (myPendingDoor == null) return false; // Safety
+
+        System.out.println("theUserAnswer = " + theUserAnswer);
+        System.out.println("pendingDoor: " + myPendingDoor.toString());
+        System.out.println("pendingDirection: " + myPendingDirection);
+        System.out.println("actual answer from isCorrect method: " + myPendingDoor.getQuestion().getCorrectAnswer());
+
+        if (myPendingDoor == null || myPendingDirection == null) {
             System.err.println("No pending door/direction/question set.");
             return false;
         }
 
-        //TODO LILYFIXHERE
-        boolean correct = myCurrentQuestion.isCorrect(theAnswer);
+        boolean correct = (myPendingDoor.getQuestion().isCorrect(theUserAnswer));
         System.out.println("checkAnswerAndMove boolean correct: " + correct);
 
         if (correct) {
@@ -193,7 +192,6 @@ public class GameController {
             myPendingDoor.lockDoor();
         }
 
-        myCurrentQuestion = myQuestionFactory.getNextQuestion(); // next trivia for next door
         myPendingDoor = null;
         myPendingDirection = null;
 
@@ -216,6 +214,12 @@ public class GameController {
         //for testing
         printDoorsForCurrentRoom(currentRoom);
 
+        //for testing
+        System.out.println("➡️ Door direction attempted: " + theDirection);
+        System.out.println("➡️ Door state: " + targetDoor.getState());
+        System.out.println("➡️ Trivia Question from this door: " + targetDoor.getQuestion());
+        System.out.println("➡️ Correct answer for this door: " + targetDoor.getQuestion().getCorrectAnswer());
+
         //TODO where should i call checkGameStatus?
         switch (targetDoor.getState()) {
 
@@ -230,9 +234,9 @@ public class GameController {
                 System.out.println("Door is closed. Showing trivia question...");
                 myPendingDoor = targetDoor;
                 myPendingDirection = theDirection;
-                TriviaQuestion myCurrentQuestion = targetDoor.getQuestion();
-                System.out.println("Question for this door: " + myCurrentQuestion);
-                myView.displayTriviaQuestion(myCurrentQuestion);
+                TriviaQuestion question = targetDoor.getQuestion();
+                System.out.println("Question for this door: " + question);
+                myView.displayTriviaQuestion(question);
                 break;
 
             case LOCKED:
@@ -240,17 +244,6 @@ public class GameController {
                 // optionally update GUI with message
                 break;
         }
-
-//
-//        //if door is locked, pull the question for that door and set to view
-//        //should a different method unlock the door if answered correct, yes I think
-//        if (door.getState() == DoorState.CLOSED) {
-//            // Set current question from the door
-//            myCurrentQuestion = door.getQuestion();
-//            myView.setQuestion(myCurrentQuestion);
-//            return;
-//        }
-
     }
 
     //for testing

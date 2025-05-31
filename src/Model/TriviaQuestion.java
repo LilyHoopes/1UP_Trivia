@@ -49,12 +49,13 @@ public class TriviaQuestion {
     /**
      * Checks whether the given answer is correct.
      *
-     * @param theAnswer the answer to check.
+     * @param theUserAnswer the answer to check.
      * @return true if the answer is correct, false otherwise.
      */
-    public boolean isCorrect(final String theAnswer) {
-        System.out.println("theUserAnswer from isCorrect method:" + myCorrectAnswer);
-        boolean isCorrect = theAnswer.trim().equalsIgnoreCase(myCorrectAnswer);
+    public boolean isCorrect(final String theUserAnswer) {
+        System.out.println("actual answer from isCorrect method:" + myCorrectAnswer);
+        System.out.println("theUserAnswer from isCorrect method:" + theUserAnswer);
+        boolean isCorrect = theUserAnswer.trim().equalsIgnoreCase(myCorrectAnswer);
         System.out.println("boolean isCorrect from isCorrect method:" + isCorrect);
         myIsQuestionCorrect = isCorrect;
 
