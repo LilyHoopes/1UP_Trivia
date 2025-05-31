@@ -79,6 +79,8 @@ public class Player implements Serializable {
      */
     public boolean moveThroughOpenDoor(final Direction theDir) {
 
+        System.out.println("Inside the moveThroughOpenDoor method");
+
         Room current = getCurrentRoom();
         Door door = current.getDoor(theDir);
 

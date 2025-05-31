@@ -251,10 +251,11 @@ public class GameView extends JFrame implements PropertyChangeListener {
         longBrickPanel.setBackground(SKY_BLUE); // TODO: Added!!
         questionsPanel.setBackground(SKY_BLUE);
 
-        myA_Button.addActionListener(e -> clickedAnswerButton(myA_Button, getOptionText(myOptionA_Label)));
-        myB_Button.addActionListener(e -> clickedAnswerButton(myB_Button, getOptionText(myOptionB_Label)));
-        myC_Button.addActionListener(e -> clickedAnswerButton(myC_Button, getOptionText(myOptionC_Label)));
-        myD_Button.addActionListener(e -> clickedAnswerButton(myD_Button, getOptionText(myOptionD_Label)));
+        myA_Button.addActionListener(e -> clickedAnswerButton(myA_Button));
+        myB_Button.addActionListener(e -> clickedAnswerButton(myB_Button));
+        myC_Button.addActionListener(e -> clickedAnswerButton(myC_Button));
+        myD_Button.addActionListener(e -> clickedAnswerButton(myD_Button));
+
 
         mySubmitButton.addActionListener(e -> {
             if (mySelectedAnswer == null) {
@@ -263,7 +264,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
             }
 
             //TODO my selected answer is not correct!
-            String userSelected = getSelectedAnswer();
+            String userSelected = mySelectedAnswer;
             System.out.println("userSelected: " + userSelected);
             boolean correct = myController.checkAnswerAndMove(userSelected);
             System.out.println("correct boolean: " + correct);
@@ -288,28 +289,19 @@ public class GameView extends JFrame implements PropertyChangeListener {
             // Check and capture correctness
 
 
-            // Load next question
-            TriviaQuestion next = myController.getCurrentQuestion();
-            if (next != null) {
-                setQuestion(next);
-            } else {
-                JOptionPane.showMessageDialog(this, "🎉 You've answered all questions!", "Game Over", JOptionPane.INFORMATION_MESSAGE);
-                mySubmitButton.setEnabled(false);
-            }
+//            // Load next question
+//            TriviaQuestion next = myController.getCurrentQuestion();
+//            if (next != null) {
+//                setQuestion(next);
+//            } else {
+//                JOptionPane.showMessageDialog(this, "🎉 You've answered all questions!", "Game Over", JOptionPane.INFORMATION_MESSAGE);
+//                mySubmitButton.setEnabled(false);
+//            }
 
             mySelectedAnswer = null;
         });
 
     }
-
-    private String getSelectedAnswer() {
-        if (myA_Button.isSelected()) return myA_Button.getText();
-        if (myB_Button.isSelected()) return myB_Button.getText();
-        if (myC_Button.isSelected()) return myC_Button.getText();
-        if (myD_Button.isSelected()) return myD_Button.getText();
-        return null;
-    }
-
 
     public void displayTriviaQuestion(TriviaQuestion theQuestion) {
         System.out.println("displayTriviaQuestion method question: " + theQuestion);
@@ -335,22 +327,27 @@ public class GameView extends JFrame implements PropertyChangeListener {
      * Highlights the clicked answer button and stores the selected answer.
      *
      * @param theButton the JButton the user clicked.
-     * @param theAnswerText the text of the answer chosen.
      */
-    private void clickedAnswerButton(final JButton theButton, final String theAnswerText) {
-        // Reset old button background
+    private void clickedAnswerButton(final JButton theButton) {
+        // Reset previous highlight
         if (myClickedButton != null) {
-            myClickedButton.setBackground(null); // reset to default
+            myClickedButton.setBackground(null);
         }
 
-        // Highlight new button
+        // Highlight new selection
         theButton.setBackground(Color.YELLOW);
         myClickedButton = theButton;
 
-        // Store answer
-        mySelectedAnswer = theAnswerText;
-    }
+        // Determine which answer was selected
+        String answer = null;
+        if (theButton == myA_Button) answer = getOptionText(myOptionA_Label);
+        else if (theButton == myB_Button) answer = getOptionText(myOptionB_Label);
+        else if (theButton == myC_Button) answer = getOptionText(myOptionC_Label);
+        else if (theButton == myD_Button) answer = getOptionText(myOptionD_Label);
 
+        System.out.println("Answer selected: " + answer);
+        mySelectedAnswer = answer;
+    }
 
     /**
      * Loads an ImageIcon from disk and scales it smoothly.

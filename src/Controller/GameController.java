@@ -174,7 +174,6 @@ public class GameController {
         System.out.println("theUserAnswer = " + theUserAnswer);
         System.out.println("pendingDoor: " + myPendingDoor.toString());
         System.out.println("pendingDirection: " + myPendingDirection);
-        System.out.println("actual answer from isCorrect method: " + myPendingDoor.getQuestion().getCorrectAnswer());
 
         if (myPendingDoor == null || myPendingDirection == null) {
             System.err.println("No pending door/direction/question set.");
