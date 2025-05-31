@@ -694,46 +694,43 @@ public class GameView extends JFrame implements PropertyChangeListener {
      * @param theDirection The direction in which the player attempts to move.
      */
     public void handleMoveThroughOpenDoor(final Direction theDirection) {
+        System.out.println("Inside handleMoveThroughOpenDoor method");
         Player player = myMaze.getPlayer();
 
-        boolean moved = player.moveThroughOpenDoor(theDirection);
+        //boolean moved = player.moveThroughOpenDoor(theDirection);
 
-        if (moved) {
+        int newRow = player.getRow() * 2;
+        int newCol = player.getCol() * 2;
 
-            int newRow = player.getRow() * 2;
-            int newCol = player.getCol() * 2;
+        System.out.println("Player moved " + theDirection);
+        System.out.println("Current player position: " + newRow + ", " + newCol);
 
-            System.out.println("Player moved " + theDirection);
-            System.out.println("Current player position: " + newRow + ", " + newCol);
+        // Restore the previous icon
+        if (myPreviousRow != -1 && myPreviousCol != -1 && myPreviousIcon != null) {
+            myMazeIconsGrid[myPreviousRow][myPreviousCol].setIcon(myPreviousIcon);
+        }
 
-            // Restore the previous icon
-            if (myPreviousRow != -1 && myPreviousCol != -1 && myPreviousIcon != null) {
-                myMazeIconsGrid[myPreviousRow][myPreviousCol].setIcon(myPreviousIcon);
-            }
+        //Save the icon at the new location
+        myPreviousIcon = (ImageIcon) myMazeIconsGrid[newRow][newCol].getIcon();
 
-            //Save the icon at the new location
-            myPreviousIcon = (ImageIcon) myMazeIconsGrid[newRow][newCol].getIcon();
+        //Set Mario icon at the new location
+        myMazeIconsGrid[newRow][newCol].setIcon(myMarioIcon);
+        myCurrentRoomIcon.setIcon(myPreviousIcon);
 
-            //Set Mario icon at the new location
-            myMazeIconsGrid[newRow][newCol].setIcon(myMarioIcon);
-            myCurrentRoomIcon.setIcon(myPreviousIcon);
+        //Update previous position
+        myPreviousRow = newRow;
+        myPreviousCol = newCol;
 
-            //Update previous position
-            myPreviousRow = newRow;
-            myPreviousCol = newCol;
+        //Update movement buttons based on new position
+        updateMovementButtons();
 
-            //Update movement buttons based on new position
-            updateMovementButtons();
-
-            //check if is game won or lost
-            if (player.isGameWon()) {
-                JOptionPane.showMessageDialog(this, "You won the game!");
-            }
-            if  (player.isGameLost()) {
-                System.out.println("Game lost! this is in handleMove method");
-                JOptionPane.showMessageDialog(this, "You're trapped! Game over!'");
-            }
-
+        //check if is game won or lost
+        if (player.isGameWon()) {
+            JOptionPane.showMessageDialog(this, "You won the game!");
+        }
+        if  (player.isGameLost()) {
+            System.out.println("Game lost! this is in handleMove method");
+            JOptionPane.showMessageDialog(this, "You're trapped! Game over!'");
 
         } else {
             System.out.println("Move blocked in direction: " + theDirection);
