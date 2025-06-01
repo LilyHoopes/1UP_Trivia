@@ -54,7 +54,8 @@ public class GameView extends JFrame implements PropertyChangeListener {
     private final JFrame myFrame;
 
     /** Custom sky blue color used for background and UI elements. */
-    private final Color SKY_BLUE = new Color(135, 206, 235);
+    //private final Color SKY_BLUE = new Color(135, 206, 235); // What we had before
+    private final Color SKY_BLUE = new Color(46, 141, 229);
 
 
 
@@ -110,9 +111,6 @@ public class GameView extends JFrame implements PropertyChangeListener {
             getScaledIcon("icons/1upmushroom.png", 60, 60)
     };
 
-    // BRICK ICON
-    final ImageIcon longBrickIcon = getScaledIcon("icons/looongBrick.png", 400, 100);
-
     // --------Player position & Icon tracking--------
 
     /** Stores the icon of the room before character moved into it. Used to restore the room state. */
@@ -145,6 +143,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
 
         myFrame = new JFrame("1UP Trivia");
         final Dimension frameSize = new Dimension(900, 800);
+        // 900 800
 
         myFrame.setSize(frameSize);
         myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -206,10 +205,8 @@ public class GameView extends JFrame implements PropertyChangeListener {
         mazePanel.setPreferredSize(new Dimension(450, 450));
         final JPanel roomPanel = createRoomPanel();
         roomPanel.setPreferredSize(new Dimension(300, 300));
-
         final JPanel longBrickPanel = createLongBrickPanel();
-        longBrickPanel.setPreferredSize(new Dimension(600, 60));
-
+        longBrickPanel.setPreferredSize(new Dimension(750, 80));
         final JPanel questionsPanel = createQuestionsPanel();
         questionsPanel.setPreferredSize(new Dimension(600, 150));
 
@@ -224,7 +221,6 @@ public class GameView extends JFrame implements PropertyChangeListener {
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         mainPanel.add(topPanel);
-        // TODO: Adding longggg brick panel
         mainPanel.add(longBrickPanel);
         mainPanel.add(questionsPanel);
 
@@ -241,7 +237,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
         myFrame.setBackground(SKY_BLUE);  // sky blue
         mazePanel.setBackground(SKY_BLUE);
         roomPanel.setBackground(SKY_BLUE);
-        longBrickPanel.setBackground(SKY_BLUE); // TODO: Added!!
+        longBrickPanel.setBackground(SKY_BLUE);
         questionsPanel.setBackground(SKY_BLUE);
 
         myA_Button.addActionListener(e -> clickedAnswerButton(myA_Button, getOptionText(myOptionA_Label)));
@@ -250,8 +246,15 @@ public class GameView extends JFrame implements PropertyChangeListener {
         myD_Button.addActionListener(e -> clickedAnswerButton(myD_Button, getOptionText(myOptionD_Label)));
 
         mySubmitButton.addActionListener(e -> {
+
+            // Load ImageIcons for the JOptionPanes
+            ImageIcon correctIcon = new ImageIcon("icons/thumbsUPMario.png");
+            ImageIcon incorrectIcon = new ImageIcon("icons/sadMario.png");
+            ImageIcon chooseAnswerFirst = new ImageIcon("icons/bruhMario.png");
+
             if (mySelectedAnswer == null) {
-                JOptionPane.showMessageDialog(this, "Please select an answer first.");
+                JOptionPane.showMessageDialog(this, "Please select an answer first.",
+                        "Wait a second!", JOptionPane.INFORMATION_MESSAGE, chooseAnswerFirst);
                 return;
             }
 
@@ -263,10 +266,6 @@ public class GameView extends JFrame implements PropertyChangeListener {
 
             // Check and capture correctness
             boolean correct = myController.checkAnswer(mySelectedAnswer);
-
-            // Load Icons
-            ImageIcon correctIcon = new ImageIcon("icons/thumbsUPMario.png");
-            ImageIcon incorrectIcon = new ImageIcon("icons/sadMario.png");
 
             // Show result to user
             if (correct) {
@@ -413,7 +412,8 @@ public class GameView extends JFrame implements PropertyChangeListener {
         questionsPanel.add(questionOptionsPanel, BorderLayout.EAST);
         questionsPanel.add(mySubmitButton, BorderLayout.SOUTH);
 
-        questionsPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        // TODO: Commented this out - Shiannel
+        //questionsPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
         return questionsPanel;
     }
@@ -475,23 +475,27 @@ public class GameView extends JFrame implements PropertyChangeListener {
         }
     }
 
+
+    /**
+     * Creates a JPanel with a scaled "long brick" image centered inside it.
+     * The image is loaded from disk, scaled to match the panel size, and added via JLabel.
+     *
+     * @return JPanel containing the scaled image.
+     */
     private JPanel createLongBrickPanel() {
         final JPanel longBrickPanel = new JPanel();
-        //longBrickPanel.setAlignmentX(Component.CENTER_ALIGNMENT); //centers long bwickk
+        longBrickPanel.setLayout(new BorderLayout());
 
-        longBrickPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+        //longBrickPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 
-
-        // loading looong brick into icon
-        //ImageIcon longBrickIcon = new ImageIcon("icons/looongBrick.png");
-
-        // put icon into jlabel and add to panel
+        // Add scaled icon to JLabel
+        final ImageIcon longBrickIcon = getScaledIcon("icons/looongBrick.png", 1150, 140);
         JLabel brickLabel = new JLabel(longBrickIcon);
-        longBrickPanel.add(brickLabel);
+
+        longBrickPanel.add(brickLabel, BorderLayout.CENTER);
 
         return longBrickPanel;
     }
-
 
     /**
      * Builds and installs the application menu bar with Game, File, and Help menus.
@@ -702,13 +706,19 @@ public class GameView extends JFrame implements PropertyChangeListener {
             //Update movement buttons based on new position
             updateMovementButtons();
 
+            // Load ImageIcons for win/loss JOptionPane
+            ImageIcon winIcon = new ImageIcon("icons/marioIsHAPPY.png");
+            ImageIcon loseIcon = new ImageIcon("icons/marioIsSAD.png");
+
             //check if is game won or lost
             if (player.isGameWon()) {
-                JOptionPane.showMessageDialog(this, "You won the game!");
+                JOptionPane.showMessageDialog(this, "You won the game!",
+                        "Congratulations!", JOptionPane.INFORMATION_MESSAGE, winIcon);
             }
             if  (player.isGameLost()) {
                 System.out.println("Game lost! this is in handleMove method");
-                JOptionPane.showMessageDialog(this, "You're trapped! Game over!'");
+                JOptionPane.showMessageDialog(this, "You're trapped! Game over!",
+                        "Uh oh!", JOptionPane.INFORMATION_MESSAGE, loseIcon);
             }
 
 
