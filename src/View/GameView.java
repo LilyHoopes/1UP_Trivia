@@ -54,7 +54,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
     private final JFrame myFrame;
 
     /** Custom sky blue color used for background and UI elements. */
-    //private final Color SKY_BLUE = new Color(135, 206, 235); // What we had before
+    //private final Color SKY_BLUE = new Color(135, 206, 235); // What we had before yuh
     private final Color SKY_BLUE = new Color(46, 141, 229);
 
 
