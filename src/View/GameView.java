@@ -49,8 +49,6 @@ public class GameView extends JFrame implements PropertyChangeListener {
     /** The button the user last clicked to answer a question. */
     private JButton myClickedButton = null; //just the actual button they clicked, we highlight this one
 
-
-
     // --------Window & Visual Settings----------
 
     /** The main frame of the game window. */
@@ -267,7 +265,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
 
             // Show result to user
             if (correct) {
-                JOptionPane.showMessageDialog(this, "Correct! You may now move.",
+                JOptionPane.showMessageDialog(this, "Correct!",
                         "Correct!", JOptionPane.INFORMATION_MESSAGE, correctIcon);
             } else {
                 JOptionPane.showMessageDialog(this,
@@ -286,7 +284,6 @@ public class GameView extends JFrame implements PropertyChangeListener {
             myController.checkGameWinLossStatus(this);
 
         });
-
     }
 
     public void displayTriviaQuestion(TriviaQuestion theQuestion) {
