@@ -8,13 +8,11 @@
 
 package Model;
 
-import java.awt.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Represents the maze structure for the game.
- *
  * Maze responsibilities:
  * - Initialize maze with room objects
  * - link rooms with shared door objects
@@ -137,8 +135,8 @@ public class Maze implements Serializable {
 
 
                             if (!myQuestions.isEmpty()) {
-                                TriviaQuestion singleQuestion = myQuestions.get(0);
-                                myQuestions.remove(0);
+                                TriviaQuestion singleQuestion = myQuestions.getFirst();
+                                myQuestions.removeFirst();
                                 Door sharedDoor = new Door(singleQuestion);
 
                                 current.addDoor(dir, sharedDoor);

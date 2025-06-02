@@ -75,9 +75,8 @@ public class Player implements Serializable {
      * This will only succeed if the door is open.
      *
      * @param theDir the direction to move.
-     * @return true if the move succeeded.
      */
-    public boolean moveThroughOpenDoor(final Direction theDir) {
+    public void moveThroughOpenDoor(final Direction theDir) {
 
         System.out.println("Inside moveThroughOpenDoor method");
 
@@ -91,12 +90,10 @@ public class Player implements Serializable {
             if (myMaze.isInBounds(newRow, newCol)) {
                 myPlayerRow = newRow;
                 myPlayerColumn = newCol;
-                return true;
             }
         }
 
         System.out.println("Player location: " +  myPlayerRow + ", " + myPlayerColumn);
-        return false;
     }
 
     /**

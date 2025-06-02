@@ -20,7 +20,7 @@ public class Door {
 
 
     /** The trivia question that must be answered to open this door. */
-    private TriviaQuestion myQuestion;
+    private final TriviaQuestion myQuestion;
 
     /** The current state of the door (OPEN, CLOSED, LOCKED). */
     private DoorState myState;

@@ -167,10 +167,10 @@ public class GameView extends JFrame implements PropertyChangeListener {
         myRightButton = new JButton("Right");
 
         //action listeners for up down left right buttons
-        myUpButton.addActionListener(e -> myController.attemptMove(Direction.UP));
-        myDownButton.addActionListener(e -> myController.attemptMove(Direction.DOWN));
-        myLeftButton.addActionListener(e -> myController.attemptMove(Direction.LEFT));
-        myRightButton.addActionListener(e -> myController.attemptMove(Direction.RIGHT));
+        myUpButton.addActionListener(theEvent -> myController.attemptMove(Direction.UP));
+        myDownButton.addActionListener(theEvent -> myController.attemptMove(Direction.DOWN));
+        myLeftButton.addActionListener(theEvent -> myController.attemptMove(Direction.LEFT));
+        myRightButton.addActionListener(theEvent -> myController.attemptMove(Direction.RIGHT));
 
 
         myCurrentRoomIcon = new JLabel(""); //where current room will be displayed
@@ -243,12 +243,12 @@ public class GameView extends JFrame implements PropertyChangeListener {
         longBrickPanel.setBackground(SKY_BLUE);
         questionsPanel.setBackground(SKY_BLUE);
 
-        myA_Button.addActionListener(e -> clickedAnswerButton(myA_Button));
-        myB_Button.addActionListener(e -> clickedAnswerButton(myB_Button));
-        myC_Button.addActionListener(e -> clickedAnswerButton(myC_Button));
-        myD_Button.addActionListener(e -> clickedAnswerButton(myD_Button));
+        myA_Button.addActionListener(theEvent -> clickedAnswerButton(myA_Button));
+        myB_Button.addActionListener(theEvent -> clickedAnswerButton(myB_Button));
+        myC_Button.addActionListener(theEvent -> clickedAnswerButton(myC_Button));
+        myD_Button.addActionListener(theEvent -> clickedAnswerButton(myD_Button));
 
-        mySubmitButton.addActionListener(e -> {
+        mySubmitButton.addActionListener(theEvent -> {
 
             // Load ImageIcons for the JOptionPanes
             ImageIcon correctIcon = new ImageIcon("icons/thumbsUPMario.png");
