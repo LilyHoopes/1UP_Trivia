@@ -55,24 +55,22 @@ public class GameController {
      */
     public static void main(final String[] theArgs) {
         EventQueue.invokeLater(() -> {
+            GameView.showTitleScreen(() -> {
+                GameController controller = GameController.getInstance();
 
-            GameController controller = GameController.getInstance();
+                Maze maze = new Maze(4,4);
+                Player player = maze.getPlayer();
+                GameView view = new GameView(maze); // <-- launches full game window
+                controller.setView(view);
+                view.setController(controller);
 
-            Maze maze = new Maze(4,4);
-            Player player = maze.getPlayer();
-            GameView view = new GameView(maze);
-            controller.setView(view);
-            view.setController(controller);
+                controller.setMaze(maze);
+                controller.setPlayer(player);
 
-            controller.setMaze(maze);
-            controller.setPlayer(player);
-
-            // Save & Load Game
-            controller.saveGame();
-            controller.loadGame();
-            //maybe goes here??
+                controller.saveGame();
+                controller.loadGame();
+            });
         });
-
     }
 
     /**

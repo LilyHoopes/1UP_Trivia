@@ -322,6 +322,12 @@ public class GameView extends JFrame implements PropertyChangeListener {
         buttonPanel.setBackground(SKY_BLUE);
         panel.add(buttonPanel, BorderLayout.SOUTH);
 
+        // ICON for game
+        final JLabel iconLabel = new JLabel();
+        final ImageIcon image = new ImageIcon("icons/1UpMushroom.png");
+        iconLabel.setIcon(image);
+
+        titleFrame.setIconImage(image.getImage());
         titleFrame.getContentPane().add(panel);
         titleFrame.setVisible(true);
     }
