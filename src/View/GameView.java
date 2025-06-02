@@ -56,7 +56,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
 
     /** Custom sky blue color used for background and UI elements. */
     //private final Color SKY_BLUE = new Color(135, 206, 235); // What we had before yuh
-    private final Color SKY_BLUE = new Color(46, 141, 229);
+    private static final Color SKY_BLUE = new Color(46, 141, 229);
 
     // --------Room Panel----------
 
@@ -284,6 +284,46 @@ public class GameView extends JFrame implements PropertyChangeListener {
             myController.checkGameWinLossStatus(this);
 
         });
+    }
+
+    // TODO: java doc
+    public static void showTitleScreen(Runnable onStartGame) {
+        // Create a separate frame for the title screen
+        JFrame titleFrame = new JFrame("Welcome to 1UP Trivia!");
+        titleFrame.setSize(800, 600);
+        titleFrame.setLocationRelativeTo(null);
+        titleFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        titleFrame.setResizable(false);
+
+        JPanel panel = new JPanel(new BorderLayout());
+
+        // Load and resize the title image
+        ImageIcon originalIcon = new ImageIcon("icons/1UPTitleScreen.png");
+        Image scaledImage = originalIcon.getImage().getScaledInstance(800, 600, Image.SCALE_SMOOTH); // adjust size as needed
+        ImageIcon resizedIcon = new ImageIcon(scaledImage);
+
+        // Set image into label
+        JLabel imageLabel = new JLabel(resizedIcon);
+        imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        panel.add(imageLabel, BorderLayout.CENTER);
+
+        // Start Game button
+        ImageIcon startIcon = new ImageIcon("icons/startIcon.png");
+        JButton startButton = new JButton(startIcon);
+        startButton.setBackground(SKY_BLUE);
+        startButton.setBorder(BorderFactory.createLineBorder(SKY_BLUE));
+        startButton.addActionListener(e -> {
+            titleFrame.dispose();  // closes the title screen
+            onStartGame.run();     // launches the main game
+        });
+
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.add(startButton);
+        buttonPanel.setBackground(SKY_BLUE);
+        panel.add(buttonPanel, BorderLayout.SOUTH);
+
+        titleFrame.getContentPane().add(panel);
+        titleFrame.setVisible(true);
     }
 
     public void displayTriviaQuestion(TriviaQuestion theQuestion) {
