@@ -61,7 +61,6 @@ public class TriviaQuestion {
 
         return isCorrect;
     }
-}
 
     /**
      * Returns the question text.
@@ -100,5 +99,4 @@ public class TriviaQuestion {
         // FOR TESTING
         return "Question: " + myQuestionText + " | Answer: " + myCorrectAnswer;
     }
-
 }
