@@ -13,6 +13,7 @@ package Controller;
 import View.GameView;
 import Model.*;
 
+import javax.swing.*;
 import java.awt.*;
 
 /**
@@ -155,6 +156,27 @@ public class GameController {
         return correct;
     }
 
+    /**
+     * Displays a win/loss message dialog based on the player's game status.
+     * This method should be called from the View after a move is processed.
+     *
+     * @param theComponent the parent component for the JOptionPane (e.g., the GameView).
+     */
+    public void checkGameWinLossStatus(final Component theComponent) {
+        ImageIcon winIcon = new ImageIcon("icons/marioIsHAPPY.png");
+        ImageIcon loseIcon = new ImageIcon("icons/marioIsSAD.png");
+
+        if (myPlayer.isGameWon()) {
+            System.out.println("Game won! this is in handleMove method");
+            JOptionPane.showMessageDialog(theComponent, "You won the game!",
+                    "Congratulations!", JOptionPane.INFORMATION_MESSAGE, winIcon);
+        } else if (myPlayer.isGameLost()) {
+            System.out.println("Game lost! this is in handleMove method");
+            JOptionPane.showMessageDialog(theComponent, "You're trapped! Game over!",
+                    "Uh oh!", JOptionPane.INFORMATION_MESSAGE, loseIcon);
+        }
+    }
+
     public void attemptMove(Direction theDirection) {
 
         System.out.println("inside the attemptMove method in controller");
@@ -199,6 +221,9 @@ public class GameController {
                 // optionally update GUI with message
                 break;
         }
+
+        checkGameWinLossStatus(myView);
+
     }
 
     //for testing

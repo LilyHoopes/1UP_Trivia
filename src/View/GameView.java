@@ -282,6 +282,9 @@ public class GameView extends JFrame implements PropertyChangeListener {
             myD_Button.setBackground(null);
 
             mySelectedAnswer = null;
+
+            myController.checkGameWinLossStatus(this);
+
         });
 
     }
@@ -683,6 +686,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
      * @param theDirection The direction in which the player attempts to move.
      */
     public void handleMoveThroughOpenDoor(final Direction theDirection) {
+
         Player player = myMaze.getPlayer();
 
         //boolean moved = player.move(theDirection);
@@ -711,24 +715,6 @@ public class GameView extends JFrame implements PropertyChangeListener {
 
         //Update movement buttons based on new position
         updateMovementButtons();
-
-        // Load ImageIcons for win/loss JOptionPane
-        ImageIcon winIcon = new ImageIcon("icons/marioIsHAPPY.png");
-        ImageIcon loseIcon = new ImageIcon("icons/marioIsSAD.png");
-
-        //check if is game won or lost
-        if (player.isGameWon()) {
-            System.out.println("Game won! this is in handleMove method");
-            JOptionPane.showMessageDialog(this, "You won the game!",
-                    "Congratulations!", JOptionPane.INFORMATION_MESSAGE, winIcon);
-        }
-        if  (player.isGameLost()) {
-            System.out.println("Game lost! this is in handleMove method");
-            JOptionPane.showMessageDialog(this, "You're trapped! Game over!",
-                    "Uh oh!", JOptionPane.INFORMATION_MESSAGE, loseIcon);
-        } else {
-        System.out.println("Move blocked in direction: " + theDirection);
-        }
     }
 
     /**
@@ -736,6 +722,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
      * Buttons are enabled only if the corresponding door exists and is unlocked.
      */
     private void updateMovementButtons() {
+
         Player player = myMaze.getPlayer();
         Room currentRoom = myMaze.getCurrentRoom();
 
