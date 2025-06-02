@@ -807,7 +807,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
      * @param theController The GameController instance to connect with the view.
      */
     public void setController(final GameController theController) {
-        this.myController = theController;
+        myController = theController;
     }
 
     /**
@@ -818,7 +818,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
      *                   and its answer options.
      */
     public void setQuestion(final TriviaQuestion theQuestion) {
-        this.myCurrentQuestion = theQuestion;
+        myCurrentQuestion = theQuestion;
 
         myQuestionLabel.setText("Question: " + theQuestion.getQuestionText());
 
