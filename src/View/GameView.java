@@ -648,40 +648,40 @@ public class GameView extends JFrame implements PropertyChangeListener {
         ActionMap actionMap = thePanel.getActionMap();
 
         //wasd
-        inputMap.put(KeyStroke.getKeyStroke('w'), "moveUp");
-        inputMap.put(KeyStroke.getKeyStroke('a'), "moveLeft");
-        inputMap.put(KeyStroke.getKeyStroke('s'), "moveDown");
-        inputMap.put(KeyStroke.getKeyStroke('d'), "moveRight");
+        inputMap.put(KeyStroke.getKeyStroke('w'), "attemptMoveUp");
+        inputMap.put(KeyStroke.getKeyStroke('a'), "attemptMoveLeft");
+        inputMap.put(KeyStroke.getKeyStroke('s'), "attemptMoveDown");
+        inputMap.put(KeyStroke.getKeyStroke('d'), "attemptMoveRight");
 
         //arrows
-        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0), "moveUp");
-        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0), "moveLeft");
-        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0), "moveDown");
-        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), "moveRight");
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0), "attemptMoveUp");
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0), "attemptMoveLeft");
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0), "attemptMoveDown");
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), "attemptMoveRight");
 
         //map action
-        actionMap.put("moveUp", new AbstractAction() {
+        actionMap.put("attemptMoveUp", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent theEvent) {
-                handleMoveThroughOpenDoor(Direction.UP);
+                myController.attemptMove(Direction.UP);
             }
         });
-        actionMap.put("moveLeft", new AbstractAction() {
+        actionMap.put("attemptMoveLeft", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent theEvent) {
-                handleMoveThroughOpenDoor(Direction.LEFT);
+                myController.attemptMove(Direction.LEFT);
             }
         });
-        actionMap.put("moveDown", new AbstractAction() {
+        actionMap.put("attemptMoveDown", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent theEvent) {
-                handleMoveThroughOpenDoor(Direction.DOWN);
+                myController.attemptMove(Direction.DOWN);
             }
         });
-        actionMap.put("moveRight", new AbstractAction() {
+        actionMap.put("attemptMoveRight", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent theEvent) {
-                handleMoveThroughOpenDoor(Direction.RIGHT);
+                myController.attemptMove(Direction.RIGHT);
             }
         });
     }
