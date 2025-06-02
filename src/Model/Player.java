@@ -71,13 +71,15 @@ public class Player implements Serializable {
     }
 
     /**
-     * Attempts to move the player in the given direction without answering a question.
+     * Will move the player in the given direction without answering a question.
      * This will only succeed if the door is open.
      *
      * @param theDir the direction to move.
      * @return true if the move succeeded.
      */
-    public boolean move(final Direction theDir) {
+    public boolean moveThroughOpenDoor(final Direction theDir) {
+
+        System.out.println("Inside moveThroughOpenDoor method");
 
         Room current = getCurrentRoom();
         Door door = current.getDoor(theDir);
@@ -93,6 +95,7 @@ public class Player implements Serializable {
             }
         }
 
+        System.out.println("Player location: " +  myPlayerRow + ", " + myPlayerColumn);
         return false;
     }
 

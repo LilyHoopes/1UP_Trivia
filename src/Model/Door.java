@@ -25,6 +25,11 @@ public class Door {
     /** The current state of the door (OPEN, CLOSED, LOCKED). */
     private DoorState myState;
 
+    public void printState() {
+        System.out.println("Door state: " + myState);
+        System.out.println("Associated question: " + (myQuestion != null ? myQuestion.getQuestionText() : "None"));
+    }
+
     /**
      * Constructs a Door with a trivia question. The default state is CLOSED.
      *
@@ -32,7 +37,7 @@ public class Door {
      */
     public Door(final TriviaQuestion theQuestion) {
         this.myQuestion = theQuestion;
-        this.myState = DoorState.OPEN;
+        this.myState = DoorState.CLOSED;
     }
     //TODO: i changed the doorState from closed to open int he above code for testing, it should normally be CLOSED
 
