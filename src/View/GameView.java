@@ -372,7 +372,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
         gbc.gridy = 1;
         myCurrentRoomIcon.setPreferredSize(new Dimension(100, 100));
         myCurrentRoomIcon.setHorizontalAlignment(SwingConstants.CENTER);
-        myCurrentRoomIcon.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+        myCurrentRoomIcon.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         roomPanel.add(myCurrentRoomIcon, gbc);
 
         // Right Button
@@ -718,7 +718,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
      * Updates the state of movement buttons (UP, DOWN, LEFT, RIGHT).
      * Buttons are enabled only if the corresponding door exists and is unlocked.
      */
-    private void updateMovementButtons() {
+    public void updateMovementButtons() {
 
         Player player = myMaze.getPlayer();
         Room currentRoom = myMaze.getCurrentRoom();
@@ -740,6 +740,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
 
         // DOWN
         Door downDoor = currentRoom.getDoor(Direction.DOWN);
+        System.out.println("enable or disable???????: " + (myMaze.isInBounds(row - 1, col) && downDoor != null && !downDoor.isLocked()));
         myDownButton.setEnabled(myMaze.isInBounds(row + 1, col) && downDoor != null && !downDoor.isLocked());
         if (currentRoom.hasDoor(Direction.DOWN)) {
             System.out.println("Down door state: " + downDoor.getState());
@@ -774,7 +775,6 @@ public class GameView extends JFrame implements PropertyChangeListener {
      * Saves the initial icon and sets the Mario icon on the grid.
      * Disables impossible initial movement directions.
      */
-    // TODO: rename this method to set up start maybe?
     private void initializeMazeContents() {
         int row = myMaze.getPlayer().getRow();
         int col = myMaze.getPlayer().getCol();
@@ -789,6 +789,19 @@ public class GameView extends JFrame implements PropertyChangeListener {
 
         myPreviousRow = row;
         myPreviousCol = col;
+    }
+
+    /**
+     * Restarts the game by resetting state and loading initial settings.
+     */
+    public void restartGame() {
+        int row = 0;
+        int col = 0;
+
+        myUpButton.setEnabled(false);
+        myLeftButton.setEnabled(false);
+        myRightButton.setEnabled(true);
+        myDownButton.setEnabled(true);
     }
 
     /**

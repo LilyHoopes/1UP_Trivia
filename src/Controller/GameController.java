@@ -124,6 +124,7 @@ public class GameController {
         myGameWon = theGameWon;
     }
 
+    //TODO javadoc
     public boolean checkAnswerAndMove(String theUserAnswer) {
 
         if (myPendingDoor == null) return false; // Safety
@@ -153,6 +154,8 @@ public class GameController {
         myPendingDoor = null;
         myPendingDirection = null;
 
+        myView.updateMovementButtons();
+
         return correct;
     }
 
@@ -177,6 +180,7 @@ public class GameController {
         }
     }
 
+    //TODO javadoc
     public void attemptMove(Direction theDirection) {
 
         System.out.println("inside the attemptMove method in controller");
@@ -223,6 +227,7 @@ public class GameController {
         }
 
         checkGameWinLossStatus(myView);
+        myView.updateMovementButtons();
 
     }
 
@@ -267,10 +272,4 @@ public class GameController {
         // deserialize CurrentGameState
     }
 
-    /**
-     * Restarts the game by resetting state and loading initial settings.
-     */
-    public void restartGame() {
-        // reset game state
-    }
 }

@@ -10,7 +10,7 @@ package Model;
  *
  * OPEN – The door was answered correctly and can be passed through.
  * CLOSED – The door has not been attempted yet.
- * LOCKED – The door was attempted, but the answer was incorrect and it is now locked.
+ * LOCKED – The door was attempted, but the answer was incorrect, and it is now locked.
  *
  * author Lily Hoopes
  * author Komalpreet Dhaliwal
