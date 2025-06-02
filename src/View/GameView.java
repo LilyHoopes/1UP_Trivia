@@ -33,6 +33,9 @@ import Model.TriviaQuestion;
 
 public class GameView extends JFrame implements PropertyChangeListener {
 
+    private Direction currentDirection;
+    private Door currentDoor;
+
     // --------Controller & Game State----------
     /** Reference to the controller that manages game logic and state transitions. */
     private GameController myController;
@@ -56,8 +59,6 @@ public class GameView extends JFrame implements PropertyChangeListener {
     /** Custom sky blue color used for background and UI elements. */
     //private final Color SKY_BLUE = new Color(135, 206, 235); // What we had before yuh
     private final Color SKY_BLUE = new Color(46, 141, 229);
-
-
 
     // --------Room Panel----------
 
@@ -166,10 +167,10 @@ public class GameView extends JFrame implements PropertyChangeListener {
         myRightButton = new JButton("Right");
 
         //action listeners for up down left right buttons
-        myUpButton.addActionListener(e -> handleMove(Direction.UP));
-        myDownButton.addActionListener(e -> handleMove(Direction.DOWN));
-        myLeftButton.addActionListener(e -> handleMove(Direction.LEFT));
-        myRightButton.addActionListener(e -> handleMove(Direction.RIGHT));
+        myUpButton.addActionListener(e -> myController.attemptMove(Direction.UP));
+        myDownButton.addActionListener(e -> myController.attemptMove(Direction.DOWN));
+        myLeftButton.addActionListener(e -> myController.attemptMove(Direction.LEFT));
+        myRightButton.addActionListener(e -> myController.attemptMove(Direction.RIGHT));
 
 
         myCurrentRoomIcon = new JLabel(""); //where current room will be displayed
@@ -205,8 +206,10 @@ public class GameView extends JFrame implements PropertyChangeListener {
         mazePanel.setPreferredSize(new Dimension(450, 450));
         final JPanel roomPanel = createRoomPanel();
         roomPanel.setPreferredSize(new Dimension(300, 300));
+
         final JPanel longBrickPanel = createLongBrickPanel();
         longBrickPanel.setPreferredSize(new Dimension(750, 80));
+
         final JPanel questionsPanel = createQuestionsPanel();
         questionsPanel.setPreferredSize(new Dimension(600, 150));
 
@@ -240,10 +243,10 @@ public class GameView extends JFrame implements PropertyChangeListener {
         longBrickPanel.setBackground(SKY_BLUE);
         questionsPanel.setBackground(SKY_BLUE);
 
-        myA_Button.addActionListener(e -> clickedAnswerButton(myA_Button, getOptionText(myOptionA_Label)));
-        myB_Button.addActionListener(e -> clickedAnswerButton(myB_Button, getOptionText(myOptionB_Label)));
-        myC_Button.addActionListener(e -> clickedAnswerButton(myC_Button, getOptionText(myOptionC_Label)));
-        myD_Button.addActionListener(e -> clickedAnswerButton(myD_Button, getOptionText(myOptionD_Label)));
+        myA_Button.addActionListener(e -> clickedAnswerButton(myA_Button));
+        myB_Button.addActionListener(e -> clickedAnswerButton(myB_Button));
+        myC_Button.addActionListener(e -> clickedAnswerButton(myC_Button));
+        myD_Button.addActionListener(e -> clickedAnswerButton(myD_Button));
 
         mySubmitButton.addActionListener(e -> {
 
@@ -258,14 +261,9 @@ public class GameView extends JFrame implements PropertyChangeListener {
                 return;
             }
 
-            //set color back to null once they click submit
-            myA_Button.setBackground(null);
-            myB_Button.setBackground(null);
-            myC_Button.setBackground(null);
-            myD_Button.setBackground(null);
-
-            // Check and capture correctness
-            boolean correct = myController.checkAnswer(mySelectedAnswer);
+            String userSelected = mySelectedAnswer;
+            System.out.println("userSelected: " + userSelected);
+            boolean correct = myController.checkAnswerAndMove(userSelected);
 
             // Show result to user
             if (correct) {
@@ -277,18 +275,22 @@ public class GameView extends JFrame implements PropertyChangeListener {
                         "Wrong Answer", JOptionPane.ERROR_MESSAGE, incorrectIcon);
             }
 
-            // Load next question
-            TriviaQuestion next = myController.getCurrentQuestion();
-            if (next != null) {
-                setQuestion(next);
-            } else {
-                JOptionPane.showMessageDialog(this, "🎉 You've answered all questions!", "Game Over", JOptionPane.INFORMATION_MESSAGE);
-                mySubmitButton.setEnabled(false);
-            }
+            //set color back to null once they click submit
+            myA_Button.setBackground(null);
+            myB_Button.setBackground(null);
+            myC_Button.setBackground(null);
+            myD_Button.setBackground(null);
 
             mySelectedAnswer = null;
         });
 
+    }
+
+    public void displayTriviaQuestion(TriviaQuestion theQuestion) {
+        System.out.println("displayTriviaQuestion method question: " + theQuestion);
+        setQuestion(theQuestion);
+        // Show trivia panel
+        //questionsPanel.setVisible(true);
     }
 
     /**
@@ -303,13 +305,13 @@ public class GameView extends JFrame implements PropertyChangeListener {
     }
 
     //TODO change this to cute mario icons we select
+    //TODO change these to radio buttons
     /**
      * Highlights the clicked answer button and stores the selected answer.
      *
      * @param theButton the JButton the user clicked.
-     * @param theAnswerText the text of the answer chosen.
      */
-    private void clickedAnswerButton(final JButton theButton, final String theAnswerText) {
+    private void clickedAnswerButton(final JButton theButton) {
         // Reset old button background
         if (myClickedButton != null) {
             myClickedButton.setBackground(null); // reset to default
@@ -319,10 +321,16 @@ public class GameView extends JFrame implements PropertyChangeListener {
         theButton.setBackground(Color.YELLOW);
         myClickedButton = theButton;
 
-        // Store answer
-        mySelectedAnswer = theAnswerText;
-    }
+        // Determine which answer was selected
+        String answer = null;
+        if (theButton == myA_Button) answer = getOptionText(myOptionA_Label);
+        else if (theButton == myB_Button) answer = getOptionText(myOptionB_Label);
+        else if (theButton == myC_Button) answer = getOptionText(myOptionC_Label);
+        else if (theButton == myD_Button) answer = getOptionText(myOptionD_Label);
 
+        System.out.println("Answer selected: " + answer);
+        mySelectedAnswer = answer;
+    }
 
     /**
      * Loads an ImageIcon from disk and scales it smoothly.
@@ -629,40 +637,40 @@ public class GameView extends JFrame implements PropertyChangeListener {
         ActionMap actionMap = thePanel.getActionMap();
 
         //wasd
-        inputMap.put(KeyStroke.getKeyStroke('w'), "moveUp");
-        inputMap.put(KeyStroke.getKeyStroke('a'), "moveLeft");
-        inputMap.put(KeyStroke.getKeyStroke('s'), "moveDown");
-        inputMap.put(KeyStroke.getKeyStroke('d'), "moveRight");
+        inputMap.put(KeyStroke.getKeyStroke('w'), "attemptMoveUp");
+        inputMap.put(KeyStroke.getKeyStroke('a'), "attemptMoveLeft");
+        inputMap.put(KeyStroke.getKeyStroke('s'), "attemptMoveDown");
+        inputMap.put(KeyStroke.getKeyStroke('d'), "attemptMoveRight");
 
         //arrows
-        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0), "moveUp");
-        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0), "moveLeft");
-        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0), "moveDown");
-        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), "moveRight");
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0), "attemptMoveUp");
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0), "attemptMoveLeft");
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0), "attemptMoveDown");
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), "attemptMoveRight");
 
         //map action
-        actionMap.put("moveUp", new AbstractAction() {
+        actionMap.put("attemptMoveUp", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent theEvent) {
-                handleMove(Direction.UP);
+                myController.attemptMove(Direction.UP);
             }
         });
-        actionMap.put("moveLeft", new AbstractAction() {
+        actionMap.put("attemptMoveLeft", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent theEvent) {
-                handleMove(Direction.LEFT);
+                myController.attemptMove(Direction.LEFT);
             }
         });
-        actionMap.put("moveDown", new AbstractAction() {
+        actionMap.put("attemptMoveDown", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent theEvent) {
-                handleMove(Direction.DOWN);
+                myController.attemptMove(Direction.DOWN);
             }
         });
-        actionMap.put("moveRight", new AbstractAction() {
+        actionMap.put("attemptMoveRight", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent theEvent) {
-                handleMove(Direction.RIGHT);
+                myController.attemptMove(Direction.RIGHT);
             }
         });
     }
@@ -674,56 +682,51 @@ public class GameView extends JFrame implements PropertyChangeListener {
      *
      * @param theDirection The direction in which the player attempts to move.
      */
-    private void handleMove(final Direction theDirection) {
+    public void handleMoveThroughOpenDoor(final Direction theDirection) {
         Player player = myMaze.getPlayer();
 
-        boolean moved = player.move(theDirection);
+        //boolean moved = player.move(theDirection);
 
-        if (moved) {
+        int newRow = player.getRow() * 2;
+        int newCol = player.getCol() * 2;
 
-            int newRow = player.getRow() * 2;
-            int newCol = player.getCol() * 2;
+        System.out.println("Player moved " + theDirection);
+        System.out.println("Current player position: " + newRow + ", " + newCol);
 
-            System.out.println("Player moved " + theDirection);
-            System.out.println("Current player position: " + newRow + ", " + newCol);
+        // Restore the previous icon
+        if (myPreviousRow != -1 && myPreviousCol != -1 && myPreviousIcon != null) {
+            myMazeIconsGrid[myPreviousRow][myPreviousCol].setIcon(myPreviousIcon);
+        }
 
-            // Restore the previous icon
-            if (myPreviousRow != -1 && myPreviousCol != -1 && myPreviousIcon != null) {
-                myMazeIconsGrid[myPreviousRow][myPreviousCol].setIcon(myPreviousIcon);
-            }
+        //Save the icon at the new location
+        myPreviousIcon = (ImageIcon) myMazeIconsGrid[newRow][newCol].getIcon();
 
-            //Save the icon at the new location
-            myPreviousIcon = (ImageIcon) myMazeIconsGrid[newRow][newCol].getIcon();
+        //Set Mario icon at the new location
+        myMazeIconsGrid[newRow][newCol].setIcon(myMarioIcon);
+        myCurrentRoomIcon.setIcon(myPreviousIcon);
 
-            //Set Mario icon at the new location
-            myMazeIconsGrid[newRow][newCol].setIcon(myMarioIcon);
-            myCurrentRoomIcon.setIcon(myPreviousIcon);
+        //Update previous position
+        myPreviousRow = newRow;
+        myPreviousCol = newCol;
 
-            //Update previous position
-            myPreviousRow = newRow;
-            myPreviousCol = newCol;
+        //Update movement buttons based on new position
+        updateMovementButtons();
 
-            //Update movement buttons based on new position
-            updateMovementButtons();
+        // Load ImageIcons for win/loss JOptionPane
+        ImageIcon winIcon = new ImageIcon("icons/marioIsHAPPY.png");
+        ImageIcon loseIcon = new ImageIcon("icons/marioIsSAD.png");
 
-            // Load ImageIcons for win/loss JOptionPane
-            ImageIcon winIcon = new ImageIcon("icons/marioIsHAPPY.png");
-            ImageIcon loseIcon = new ImageIcon("icons/marioIsSAD.png");
-
-            //check if is game won or lost
-            if (player.isGameWon()) {
-                JOptionPane.showMessageDialog(this, "You won the game!",
-                        "Congratulations!", JOptionPane.INFORMATION_MESSAGE, winIcon);
-            }
-            if  (player.isGameLost()) {
-                System.out.println("Game lost! this is in handleMove method");
-                JOptionPane.showMessageDialog(this, "You're trapped! Game over!",
-                        "Uh oh!", JOptionPane.INFORMATION_MESSAGE, loseIcon);
-            }
-
-
+        //check if is game won or lost
+        if (player.isGameWon()) {
+            JOptionPane.showMessageDialog(this, "You won the game!",
+                    "Congratulations!", JOptionPane.INFORMATION_MESSAGE, winIcon);
+        }
+        if  (player.isGameLost()) {
+            System.out.println("Game lost! this is in handleMove method");
+            JOptionPane.showMessageDialog(this, "You're trapped! Game over!",
+                    "Uh oh!", JOptionPane.INFORMATION_MESSAGE, loseIcon);
         } else {
-            System.out.println("Move blocked in direction: " + theDirection);
+        System.out.println("Move blocked in direction: " + theDirection);
         }
     }
 
@@ -738,12 +741,13 @@ public class GameView extends JFrame implements PropertyChangeListener {
         int row = player.getRow();
         int col = player.getCol();
 
+        System.out.println("Current room position: " + row + ", " + col);
+
         // UP
         Door upDoor = currentRoom.getDoor(Direction.UP);
         myUpButton.setEnabled(myMaze.isInBounds(row - 1, col) && upDoor != null && !upDoor.isLocked());
-        System.out.println("Current room position: " + row + ", " + col);
         if (currentRoom.hasDoor(Direction.UP)) {
-            System.out.println("Door state: " + upDoor.getState());
+            System.out.println("Up door state: " + upDoor.getState());
 
         } else {
             System.out.println("Current room has no door in direction: UP");
@@ -752,9 +756,8 @@ public class GameView extends JFrame implements PropertyChangeListener {
         // DOWN
         Door downDoor = currentRoom.getDoor(Direction.DOWN);
         myDownButton.setEnabled(myMaze.isInBounds(row + 1, col) && downDoor != null && !downDoor.isLocked());
-        System.out.println("Current room position: " + row + ", " + col);
         if (currentRoom.hasDoor(Direction.DOWN)) {
-            System.out.println("Door state: " + downDoor.getState());
+            System.out.println("Down door state: " + downDoor.getState());
 
         } else {
             System.out.println("Current room has no door in direction: DOWN");
@@ -763,9 +766,8 @@ public class GameView extends JFrame implements PropertyChangeListener {
         // LEFT
         Door leftDoor = currentRoom.getDoor(Direction.LEFT);
         myLeftButton.setEnabled(myMaze.isInBounds(row, col - 1) && leftDoor != null && !leftDoor.isLocked());
-        System.out.println("Current room position: " + row + ", " + col);
         if (currentRoom.hasDoor(Direction.LEFT)) {
-            System.out.println("Door state: " + leftDoor.getState());
+            System.out.println("Left door state: " + leftDoor.getState());
 
         } else {
             System.out.println("Current room has no door in direction: LEFT");
@@ -774,9 +776,8 @@ public class GameView extends JFrame implements PropertyChangeListener {
         // RIGHT
         Door rightDoor = currentRoom.getDoor(Direction.RIGHT);
         myRightButton.setEnabled(myMaze.isInBounds(row, col + 1) && rightDoor != null && !rightDoor.isLocked());
-        System.out.println("Current room position: " + row + ", " + col);
         if (currentRoom.hasDoor(Direction.RIGHT)) {
-            System.out.println("Door state: " + rightDoor.getState());
+            System.out.println("Right door state: " + rightDoor.getState());
 
         } else {
             System.out.println("Current room has no door in direction: RIGHT");
