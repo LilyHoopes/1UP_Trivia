@@ -113,6 +113,7 @@ public class Player implements Serializable {
      * @return true if the game is lost, false otherwise.
      */
     public boolean isGameLost() {
+        System.out.println("Inside isGameLost method");
         //returns true if all possible directions are locked or invalid
         Room current = getCurrentRoom();
 

@@ -718,6 +718,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
 
         //check if is game won or lost
         if (player.isGameWon()) {
+            System.out.println("Game won! this is in handleMove method");
             JOptionPane.showMessageDialog(this, "You won the game!",
                     "Congratulations!", JOptionPane.INFORMATION_MESSAGE, winIcon);
         }
