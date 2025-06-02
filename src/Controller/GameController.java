@@ -26,6 +26,8 @@ import java.awt.*;
  */
 public class GameController {
 
+    private static final GameController INSTANCE = new GameController();
+
     /** Flag showing whether the game has been won or not. */
     private boolean myGameWon;
 
@@ -39,6 +41,10 @@ public class GameController {
     /** Factory for loading trivia questions. */
     private QuestionFactory myQuestionFactory;
 
+    // Public method to access the singleton instance
+    public static GameController getInstance() {
+        return INSTANCE;
+    }
 
     /**
      * Entry point for the application. Initializes MVC components,
@@ -49,7 +55,8 @@ public class GameController {
     public static void main(final String[] theArgs) {
         EventQueue.invokeLater(() -> {
 
-            GameController controller = new GameController();
+            GameController controller = GameController.getInstance();
+
             Maze maze = new Maze(4,4);
             Player player = maze.getPlayer();
             GameView view = new GameView(maze);
@@ -79,8 +86,6 @@ public class GameController {
         if (myQuestionFactory.getNextQuestion() == null) {
             System.err.println("No questions loaded. Check your database!");
         }
-
-
     }
 
     public void setMaze(final Maze theMaze) {
@@ -90,25 +95,6 @@ public class GameController {
     public void setPlayer(final Player thePlayer) {
         myPlayer = thePlayer;
     }
-
-    /**
-     * Checks the player's status in the maze and notifies the view
-     * if the game has been won or lost.
-     *
-     * @param theMaze the Maze model to check for win/loss conditions.
-     */
-    public void checkGameStatus(final Maze theMaze) {
-        System.out.println("in checkGameStatus");
-        Player player = theMaze.getPlayer();
-        if (player.isGameWon()) {
-            System.out.println("Game won!");
-            //myView.showGameWon();  // Add this method to GameView to show a message
-        } else if (player.isGameLost()) {
-            System.out.println("Game lost!");
-            //myView.showGameLost(); // Add this to GameView too
-        }
-    }
-
 
     /**
      * Sets the view component for this controller.
@@ -135,15 +121,6 @@ public class GameController {
      */
     public void setGameWon(final boolean theGameWon) {
         myGameWon = theGameWon;
-    }
-
-    /**
-     * Retrieves the current trivia question.
-     *
-     * @return the current TriviaQuestion, or null if none
-     */
-    public TriviaQuestion getCurrentQuestion() {
-        return (myPendingDoor != null) ? myPendingDoor.getQuestion() : null;
     }
 
     public boolean checkAnswerAndMove(String theUserAnswer) {
@@ -177,7 +154,6 @@ public class GameController {
 
         return correct;
     }
-
 
     public void attemptMove(Direction theDirection) {
 
