@@ -123,7 +123,6 @@ public class GameView extends JFrame implements PropertyChangeListener {
 
     /** Icon representing the Mario player avatar. */
     private final ImageIcon myMarioIcon = getScaledIcon("icons/P1Mario.png", 60, 60);
-    // TODO: Include character selection code variable
 
     /** The Maze model object representing the current layout and room state. */
     private final Maze myMaze;
@@ -286,9 +285,14 @@ public class GameView extends JFrame implements PropertyChangeListener {
         });
     }
 
-    // TODO: java doc
+    /**
+     * Shows the title screen for the 1UP Trivia game.
+     * Displays a title image and a start button.
+     *
+     * @param onStartGame the action to run when the start button is clicked.
+     */
     public static void showTitleScreen(Runnable onStartGame) {
-        // Create a separate frame for the title screen
+        //make separate frame for the title screen
         JFrame titleFrame = new JFrame("Welcome to 1UP Trivia!");
         titleFrame.setSize(800, 600);
         titleFrame.setLocationRelativeTo(null);
@@ -297,24 +301,24 @@ public class GameView extends JFrame implements PropertyChangeListener {
 
         JPanel panel = new JPanel(new BorderLayout());
 
-        // Load and resize the title image
+        //load in & resize the title image
         ImageIcon originalIcon = new ImageIcon("icons/1UPTitleScreen.png");
-        Image scaledImage = originalIcon.getImage().getScaledInstance(800, 600, Image.SCALE_SMOOTH); // adjust size as needed
+        Image scaledImage = originalIcon.getImage().getScaledInstance(800, 600, Image.SCALE_SMOOTH);
         ImageIcon resizedIcon = new ImageIcon(scaledImage);
 
-        // Set image into label
+        //set title image into label
         JLabel imageLabel = new JLabel(resizedIcon);
         imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
         panel.add(imageLabel, BorderLayout.CENTER);
 
-        // Start Game button
+        //start button
         ImageIcon startIcon = new ImageIcon("icons/startIcon.png");
         JButton startButton = new JButton(startIcon);
         startButton.setBackground(SKY_BLUE);
         startButton.setBorder(BorderFactory.createLineBorder(SKY_BLUE));
         startButton.addActionListener(e -> {
-            titleFrame.dispose();  // closes the title screen
-            onStartGame.run();     // launches the main game
+            titleFrame.dispose();  //closes the title screen
+            onStartGame.run();     //launches the main game
         });
 
         JPanel buttonPanel = new JPanel();
@@ -466,7 +470,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
         questionsPanel.add(questionOptionsPanel, BorderLayout.EAST);
         questionsPanel.add(mySubmitButton, BorderLayout.SOUTH);
 
-        // TODO: Commented this out - Shiannel
+        // Commented this out - Shiannel
         //questionsPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
         return questionsPanel;
