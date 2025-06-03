@@ -251,12 +251,12 @@ public class GameView extends JFrame implements PropertyChangeListener {
         longBrickPanel.setBackground(SKY_BLUE);
         questionsPanel.setBackground(SKY_BLUE);
 
-        myA_Button.addActionListener(theEvent -> clickedAnswerButton(myA_Button));
-        myB_Button.addActionListener(theEvent -> clickedAnswerButton(myB_Button));
-        myC_Button.addActionListener(theEvent -> clickedAnswerButton(myC_Button));
-        myD_Button.addActionListener(theEvent -> clickedAnswerButton(myD_Button));
+        myA_Button.addActionListener(_ -> clickedAnswerButton(myA_Button));
+        myB_Button.addActionListener(_ -> clickedAnswerButton(myB_Button));
+        myC_Button.addActionListener(_ -> clickedAnswerButton(myC_Button));
+        myD_Button.addActionListener(_ -> clickedAnswerButton(myD_Button));
 
-        mySubmitButton.addActionListener(theEvent -> {
+        mySubmitButton.addActionListener(_ -> {
 
             // Load ImageIcons for the JOptionPanes
             ImageIcon correctIcon = new ImageIcon("icons/thumbsUPMario.png");
@@ -611,79 +611,60 @@ public class GameView extends JFrame implements PropertyChangeListener {
         myFrame.setJMenuBar(menuBar);
 
         // Start
-        startItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(final ActionEvent theEvent) {
-                startItem.setEnabled(false);
+        startItem.addActionListener(_ -> startItem.setEnabled(false));
+
+        resetItem.addActionListener(_ -> startItem.setEnabled(true));
+
+        exitItem.addActionListener(_ -> {
+
+            ImageIcon icon = new ImageIcon(getScaledIcon("icons/hidingMario.png", 100, 100).getImage());
+
+            final int confirm = JOptionPane.showConfirmDialog(
+                    null,
+                    "Are you sure you want to exit?\nMario will be sad!",
+                    "Exit",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    icon
+            );
+
+            if (confirm == JOptionPane.YES_OPTION) {
+                System.exit(0);
             }
         });
 
-        resetItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(final ActionEvent theEvent) {
-                startItem.setEnabled(true);
-            }
+        aboutItem.addActionListener(_ -> {
+
+            ImageIcon icon = new ImageIcon(getScaledIcon("icons/mysterybox.png", 100, 100).getImage());
+
+            // About the game and creators
+            JOptionPane.showMessageDialog(null,
+                    "This is a recreation of the project Trivia Maze with a twist involving the Mario Bros" +
+                            " universe,\ngetting renamed as the 1-UP Trivia Maze! This program was written in Java with" +
+                            " versions 21 and 23.\nThis trivia maze game was written by Lily Hoopes, Christiannel Maningat," +
+                            " and Komalpreet Dhaliwal.\nAll three who are students whom attend the University of Washington Tacoma.",
+                    "About 1-UP Trivia Maze", JOptionPane.INFORMATION_MESSAGE, icon);
         });
 
-        exitItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(final ActionEvent theEvent) {
+        rulesItem.addActionListener(_ -> {
+            // The rules of trivia game
 
-                ImageIcon icon = new ImageIcon(getScaledIcon("icons/hidingMario.png", 100, 100).getImage());
-
-                final int confirm = JOptionPane.showConfirmDialog(
-                        null,
-                        "Are you sure you want to exit?\nMario will be sad!",
-                        "Exit",
-                        JOptionPane.YES_NO_OPTION,
-                        JOptionPane.QUESTION_MESSAGE,
-                        icon
-                );
-
-                if (confirm == JOptionPane.YES_OPTION) {
-                    System.exit(0);
-                }
-            }
-        });
-
-        aboutItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(final ActionEvent theEvent) {
-
-                ImageIcon icon = new ImageIcon(getScaledIcon("icons/mysterybox.png", 100, 100).getImage());
-
-                // About the game and creators
-                JOptionPane.showMessageDialog(null,
-                        "This is a recreation of the project Trivia Maze with a twist involving the Mario Bros" +
-                                " universe,\ngetting renamed as the 1-UP Trivia Maze! This program was written in Java with" +
-                                " versions 21 and 23.\nThis trivia maze game was written by Lily Hoopes, Christiannel Maningat," +
-                                " and Komalpreet Dhaliwal.\nAll three who are students whom attend the University of Washington Tacoma.",
-                        "About 1-UP Trivia Maze", JOptionPane.INFORMATION_MESSAGE, icon);
-            }
-        });
-
-        rulesItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(final ActionEvent theEvent) {
-                // The rules of trivia game
-
-                // added 1up mushroom image to add to pane
-                ImageIcon icon = new ImageIcon(getScaledIcon("icons/jumpingMario.png", 100, 100).getImage());
+            // added 1up mushroom image to add to pane
+            ImageIcon icon = new ImageIcon(getScaledIcon("icons/jumpingMario.png", 100, 100).getImage());
 
 
-                JOptionPane.showMessageDialog(null,
-                        "Welcome to 1-UP Trivia Maze!\n\nThis game will test your knowledge" +
-                                " on the Mario Bros Universe!\n\nHere are the rules:\n1. Choose a direction to move," +
-                                " either LEFT, RIGHT, UP, or DOWN.\n2. Once at a door, answer the trivia question " +
-                                "and press submit.\n3. If correct, the door will unlock, allowing you travel through the pipes to a new room.\n" +
-                                "4. From this point you must keep answering questions. But if answered wrong, the door\n" +
-                                " will lock, pushing you back to where you were before!\n5. " +
-                                "Answer questions carefully and find your way out of the maze!\n\nGood luck, friends. Lets-a-go!",
-                        "1-UP Trivia Game Rules",
-                        JOptionPane.INFORMATION_MESSAGE,
-                        icon);
+            JOptionPane.showMessageDialog(null,
+                    "Welcome to 1-UP Trivia Maze!\n\nThis game will test your knowledge" +
+                            " on the Mario Bros Universe!\n\nHere are the rules:\n1. Choose a direction to move," +
+                            " either LEFT, RIGHT, UP, or DOWN.\n2. Once at a door, answer the trivia question " +
+                            "and press submit.\n3. If correct, the door will unlock, allowing you travel through the pipes to a new room.\n" +
+                            "4. From this point you must keep answering questions. But if answered wrong, the door\n" +
+                            " will lock, pushing you back to where you were before!\n5. " +
+                            "Answer questions carefully and find your way out of the maze!\n\nGood luck, friends. Lets-a-go!",
+                    "1-UP Trivia Game Rules",
+                    JOptionPane.INFORMATION_MESSAGE,
+                    icon);
 
-            }
         });
     }
 
