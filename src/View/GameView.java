@@ -180,11 +180,22 @@ public class GameView extends JFrame implements PropertyChangeListener {
         myOptionC_Label = new JLabel("");
         myOptionD_Label = new JLabel("");
 
-        myA_Button = new JButton("A");
-        myB_Button = new JButton("B");
-        myC_Button = new JButton("C");
-        myD_Button = new JButton("D");
+        final ImageIcon A_Mario = getScaledIcon("icons/AMario.png", 50, 50);
+        final ImageIcon B_Luigi = getScaledIcon("icons/BLuigi.png", 50, 50);
+        final ImageIcon C_PrincessPeach =  getScaledIcon("icons/Cprincesspeach.png", 50, 50);
+        final ImageIcon D_Toad = getScaledIcon("icons/DToad.png", 50, 50);
+
+        myA_Button = new JButton(A_Mario);
+        myB_Button = new JButton(B_Luigi);
+        myC_Button = new JButton(C_PrincessPeach);
+        myD_Button = new JButton(D_Toad);
         mySubmitButton = new JButton("Submit");
+
+        myA_Button.setPreferredSize(new Dimension(50, 50));
+        myB_Button.setPreferredSize(new Dimension(50, 50));
+        myC_Button.setPreferredSize(new Dimension(50, 50));
+        myD_Button.setPreferredSize(new Dimension(50, 50));
+
 
         //Maze Panel Components
         for (int row = 0; row < 7; row++) {
