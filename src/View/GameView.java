@@ -273,10 +273,10 @@ public class GameView extends JFrame implements PropertyChangeListener {
             }
 
             //set color back to null once they click submit
-            myA_Button.setBackground(null);
-            myB_Button.setBackground(null);
-            myC_Button.setBackground(null);
-            myD_Button.setBackground(null);
+            myA_Button.setBackground(Color.GRAY);
+            myB_Button.setBackground(Color.GRAY);
+            myC_Button.setBackground(Color.GRAY);
+            myD_Button.setBackground(Color.GRAY);
 
             mySelectedAnswer = null;
 
@@ -364,11 +364,11 @@ public class GameView extends JFrame implements PropertyChangeListener {
     private void clickedAnswerButton(final JButton theButton) {
         // Reset old button background
         if (myClickedButton != null) {
-            myClickedButton.setBackground(null); // reset to default
+            myClickedButton.setBackground(Color.GRAY); // reset to default
         }
 
         // Highlight new button
-        theButton.setBackground(Color.YELLOW);
+        theButton.setBackground(Color.GREEN);
         myClickedButton = theButton;
 
         // Determine which answer was selected

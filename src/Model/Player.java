@@ -106,6 +106,8 @@ public class Player implements Serializable {
         return myPlayerRow == 3 && myPlayerColumn == 3;
     }
 
+
+    //TODO bug here, this only loses if all nearest doors are locked, need some algorithm
     /**
      * Determines if the player has lost the game.
      * A loss occurs when all possible directions are either out of bounds or locked.
