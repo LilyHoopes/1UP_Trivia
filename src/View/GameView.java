@@ -178,10 +178,10 @@ public class GameView extends JFrame implements PropertyChangeListener {
         myOptionC_Label = new JLabel("");
         myOptionD_Label = new JLabel("");
 
-        final ImageIcon A_Mario = getScaledIcon("icons/AMario.png", 50, 50);
-        final ImageIcon B_Luigi = getScaledIcon("icons/BLuigi.png", 50, 50);
-        final ImageIcon C_PrincessPeach =  getScaledIcon("icons/Cprincesspeach.png", 50, 50);
-        final ImageIcon D_Toad = getScaledIcon("icons/DToad.png", 50, 50);
+        final ImageIcon A_Mario = getScaledIcon("icons/AMario.png", 30, 30);
+        final ImageIcon B_Luigi = getScaledIcon("icons/BLuigi.png", 30, 30);
+        final ImageIcon C_PrincessPeach =  getScaledIcon("icons/Cprincesspeach.png", 30, 30);
+        final ImageIcon D_Toad = getScaledIcon("icons/DToad.png", 30, 30);
 
         myA_Button = new JButton(A_Mario);
         myB_Button = new JButton(B_Luigi);
@@ -194,7 +194,20 @@ public class GameView extends JFrame implements PropertyChangeListener {
         myC_Button.setPreferredSize(new Dimension(50, 50));
         myD_Button.setPreferredSize(new Dimension(50, 50));
 
+        myA_Button.setBackground(SKY_BLUE);
+        myA_Button.setBorder(BorderFactory.createLineBorder(SKY_BLUE));
 
+        myB_Button.setBackground(SKY_BLUE);
+        myB_Button.setBorder(BorderFactory.createLineBorder(SKY_BLUE));
+
+        myC_Button.setBackground(SKY_BLUE);
+        myC_Button.setBorder(BorderFactory.createLineBorder(SKY_BLUE));
+
+        myD_Button.setBackground(SKY_BLUE);
+        myD_Button.setBorder(BorderFactory.createLineBorder(SKY_BLUE));
+
+
+        //TODO do we even need this?
         //Maze Panel Components
         for (int row = 0; row < 7; row++) {
             for (int col = 0; col < 7; col++) {
@@ -202,10 +215,6 @@ public class GameView extends JFrame implements PropertyChangeListener {
 
             }
         }
-
-        //myMazePlayer = new JLabel("");
-        //myMazePlayer.setIcon(getScaledIcon("icons/P1Mario.png", 80, 80));
-
 
         //create the panels
         final JPanel mazePanel = createMazePanel();
@@ -217,7 +226,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
         longBrickPanel.setPreferredSize(new Dimension(750, 80));
 
         final JPanel questionsPanel = createQuestionsPanel();
-        questionsPanel.setPreferredSize(new Dimension(600, 150));
+        questionsPanel.setPreferredSize(new Dimension(600, 200));
 
         // Top container for maze and room side-by-side
         JPanel topPanel = new JPanel();
@@ -282,10 +291,10 @@ public class GameView extends JFrame implements PropertyChangeListener {
             }
 
             //set color back to null once they click submit
-            myA_Button.setBackground(Color.GRAY);
-            myB_Button.setBackground(Color.GRAY);
-            myC_Button.setBackground(Color.GRAY);
-            myD_Button.setBackground(Color.GRAY);
+            myA_Button.setBackground(SKY_BLUE);
+            myB_Button.setBackground(SKY_BLUE);
+            myC_Button.setBackground(SKY_BLUE);
+            myD_Button.setBackground(SKY_BLUE);
 
             mySelectedAnswer = null;
 
@@ -373,7 +382,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
     private void clickedAnswerButton(final JButton theButton) {
         // Reset old button background
         if (myClickedButton != null) {
-            myClickedButton.setBackground(Color.GRAY); // reset to default
+            myClickedButton.setBackground(SKY_BLUE); // reset to default
         }
 
         // Highlight new button
