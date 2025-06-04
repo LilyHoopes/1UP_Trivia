@@ -141,6 +141,7 @@ public class GameController {
 
         if (myPendingDoor == null || myPendingDirection == null) {
             System.err.println("No pending door/direction/question set.");
+
             return false;
         }
 
@@ -202,7 +203,7 @@ public class GameController {
         Door targetDoor = currentRoom.getDoor(theDirection);
 
         if (targetDoor == null) {
-            System.out.println("No door in that direction.");
+            JOptionPane.showMessageDialog(null, "You can't move this way!", "Movement Blocked", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
@@ -235,7 +236,7 @@ public class GameController {
 
             case LOCKED:
                 System.out.println("Door is locked.");
-                // optionally update GUI with message
+                JOptionPane.showMessageDialog(null, "You can't move this way!", "Movement Blocked", JOptionPane.WARNING_MESSAGE);
                 break;
         }
 
