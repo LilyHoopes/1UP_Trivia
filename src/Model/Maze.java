@@ -178,6 +178,60 @@ public class Maze implements Serializable {
     }
 
     /**
+     * Checks if the player has reached the maze exit.
+     *
+     * @return true if the game is won, false otherwise.
+     */
+    public boolean isGameWon() {
+        // returns true if player reached exit
+        return myPlayer.getRow() == 3 && myPlayer.getCol() == 3;
+    }
+
+    /**
+     * Determines if the player has lost the game.
+     * A loss occurs when all possible directions are either out of bounds or locked.
+     * Implements breadth first search.
+     *
+     * @return true if the game is lost, false otherwise.
+     */
+    public boolean isGameLost() {
+        System.out.println("Inside isGameLost method");
+        boolean[][] visited = new boolean[myRows][myCols];
+        return dfs(0, 0, visited);
+    }
+
+    private boolean dfs(int row, int col, boolean[][] visited) {
+        if (row == myRows - 1 && col == myCols - 1) return false;
+        visited[row][col] = true;
+
+        Room current = getRoomAt(row, col);
+
+        for (Direction dir : Direction.values()) {
+            int newRow = row, newCol = col;
+            switch (dir) {
+                case UP -> newRow--;
+                case DOWN -> newRow++;
+                case LEFT -> newCol--;
+                case RIGHT -> newCol++;
+            }
+
+            if (newRow < 0 || newCol < 0 || newRow >= myRows || newCol >= myCols) continue;
+            if (visited[newRow][newCol]) continue;
+
+            Room nextRoom = getRoomAt(newRow, newCol);
+            Door door = (row < newRow || col < newCol)
+                    ? current.getDoor(dir)
+                    : nextRoom.getDoor(Direction.getOppositeDirection(dir));
+
+            if (door != null && !door.isLocked()) {
+                if (dfs(newRow, newCol, visited)) return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
      * Returns the room at specified coordinates if valid.
      *
      * @param theRow target row index.

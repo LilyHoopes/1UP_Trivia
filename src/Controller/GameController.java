@@ -175,11 +175,11 @@ public class GameController {
         ImageIcon winIcon = new ImageIcon("icons/marioIsHAPPY.png");
         ImageIcon loseIcon = new ImageIcon("icons/marioIsSAD.png");
 
-        if (myPlayer.isGameWon()) {
+        if (myMaze.isGameWon()) {
             System.out.println("Game won! this is in handleMove method");
             JOptionPane.showMessageDialog(theComponent, "You won the game!",
                     "Congratulations!", JOptionPane.INFORMATION_MESSAGE, winIcon);
-        } else if (myPlayer.isGameLost()) {
+        } else if (myMaze.isGameLost()) {
             System.out.println("Game lost! this is in handleMove method");
             JOptionPane.showMessageDialog(theComponent, "You're trapped! Game over!",
                     "Uh oh!", JOptionPane.INFORMATION_MESSAGE, loseIcon);

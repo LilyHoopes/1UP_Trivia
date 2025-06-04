@@ -99,28 +99,4 @@ public class Player implements Serializable {
         System.out.println("Player location: " +  myPlayerRow + ", " + myPlayerColumn);
     }
 
-    /**
-     * Checks if the player has reached the maze exit.
-     *
-     * @return true if the game is won, false otherwise.
-     */
-    public boolean isGameWon() {
-        // returns true if player reached exit
-        return myPlayerRow == 3 && myPlayerColumn == 3;
-    }
-
-
-    /**
-     * Determines if the player has lost the game.
-     * A loss occurs when all possible directions are either out of bounds or locked.
-     * Implements breadth first search.
-     *
-     * @return true if the game is lost, false otherwise.
-     */
-    public boolean isGameLost() {
-        System.out.println("Inside isGameLost method");
-
-
-    }
-
 }
