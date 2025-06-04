@@ -140,7 +140,7 @@ public class Maze implements Serializable {
                                 Door sharedDoor = new Door(singleQuestion);
 
                                 current.addDoor(dir, sharedDoor);
-                                neighbor.addDoor(dir.opposite(), sharedDoor);
+                                neighbor.addDoor(Direction.getOppositeDirection(dir), sharedDoor);
                             } else {
                                 // Handle the case when questions run out.
                                 System.err.println("No more trivia questions available for doors!");

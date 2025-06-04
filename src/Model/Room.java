@@ -11,6 +11,7 @@ import javax.swing.*;
 import java.io.Serializable;
 import java.util.EnumMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Represents a single cell in the maze grid, holding its position,
@@ -48,9 +49,15 @@ public class Room implements Serializable {
         myDoors = new EnumMap<>(Direction.class);
     }
 
-//    public void setIcon(final String theIcon) {
-//        myIcon = theIcon;
-//    }
+    /**
+     * Returns the set of directions this room has doors in.
+     *
+     * @return the set of directions with doors.
+     */
+    public Set<Direction> getDoorDirections() {
+        return myDoors.keySet();
+    }
+
 
     /**
      * Returns the icon image for this room.

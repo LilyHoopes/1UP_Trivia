@@ -160,7 +160,7 @@ public class GameController {
         myPendingDoor = null;
         myPendingDirection = null;
 
-        myView.updateMovementButtons();
+        myView.updateMovementButtons ();
 
         return correct;
     }

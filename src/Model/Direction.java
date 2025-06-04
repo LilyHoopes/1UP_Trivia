@@ -83,13 +83,13 @@ public enum Direction {
      *
      * @return the opposite Direction.
      */
-    public Direction opposite() {
-        switch (this) {
+    public static Direction getOppositeDirection(final Direction theDirection) {
+        switch (theDirection) {
             case UP: return DOWN;
             case DOWN: return UP;
             case RIGHT:  return LEFT;
             case LEFT:  return RIGHT;
-            default: throw new IllegalStateException("Unexpected value: " + this);
+            default: throw new IllegalStateException("Unexpected value: " + theDirection);
         }
     }
 }

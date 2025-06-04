@@ -23,6 +23,9 @@ import java.io.Serializable;
  */
 public class Player implements Serializable {
 
+    public static final int ROWS = 4;
+    public static final int COLS = 4;
+
     /** The player's current row in the maze. */
     private int myPlayerRow;
 
@@ -107,31 +110,17 @@ public class Player implements Serializable {
     }
 
 
-    //TODO bug here, this only loses if all nearest doors are locked, need some algorithm
     /**
      * Determines if the player has lost the game.
      * A loss occurs when all possible directions are either out of bounds or locked.
+     * Implements breadth first search.
      *
      * @return true if the game is lost, false otherwise.
      */
     public boolean isGameLost() {
         System.out.println("Inside isGameLost method");
-        //returns true if all possible directions are locked or invalid
-        Room current = getCurrentRoom();
 
-        for (Direction dir : Direction.values()) {
-            int newRow = myPlayerRow + dir.getRowOffset();
-            int newCol = myPlayerColumn + dir.getColOffset();
 
-            // Only check valid directions
-            if (myMaze.isInBounds(newRow, newCol)) {
-                Door door = current.getDoor(dir);
-                if (door != null && !door.isLocked()) {
-                    return false; // At least one move is still possible
-                }
-            }
-        }
-        // All possible directions are either locked or invalid
-        return true;
     }
+
 }
