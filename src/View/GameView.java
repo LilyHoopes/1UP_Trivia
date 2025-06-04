@@ -66,8 +66,6 @@ public class GameView extends JFrame implements PropertyChangeListener {
     /** Button for moving the player up, down, left and right in the maze. */
     private final JButton myUpButton, myDownButton, myLeftButton, myRightButton; //JButtons for room panel
 
-
-
     // --------Question Panel--------
 
     /** Label displaying the current trivia question, and labels for the following answer options A, B, C, or D. */
