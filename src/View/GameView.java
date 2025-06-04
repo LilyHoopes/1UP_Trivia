@@ -56,7 +56,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
 
     /** Custom sky blue color used for background and UI elements. */
     //private final Color SKY_BLUE = new Color(135, 206, 235); // What we had before yuh
-    private final Color SKY_BLUE = new Color(46, 141, 229);
+    private static final Color SKY_BLUE = new Color(46, 141, 229);
 
     // --------Room Panel----------
 
@@ -121,7 +121,6 @@ public class GameView extends JFrame implements PropertyChangeListener {
 
     /** Icon representing the Mario player avatar. */
     private final ImageIcon myMarioIcon = getScaledIcon("icons/P1Mario.png", 60, 60);
-    // TODO: Include character selection code variable
 
     /** The Maze model object representing the current layout and room state. */
     private final Maze myMaze;
@@ -179,11 +178,22 @@ public class GameView extends JFrame implements PropertyChangeListener {
         myOptionC_Label = new JLabel("");
         myOptionD_Label = new JLabel("");
 
-        myA_Button = new JButton("A");
-        myB_Button = new JButton("B");
-        myC_Button = new JButton("C");
-        myD_Button = new JButton("D");
+        final ImageIcon A_Mario = getScaledIcon("icons/AMario.png", 50, 50);
+        final ImageIcon B_Luigi = getScaledIcon("icons/BLuigi.png", 50, 50);
+        final ImageIcon C_PrincessPeach =  getScaledIcon("icons/Cprincesspeach.png", 50, 50);
+        final ImageIcon D_Toad = getScaledIcon("icons/DToad.png", 50, 50);
+
+        myA_Button = new JButton(A_Mario);
+        myB_Button = new JButton(B_Luigi);
+        myC_Button = new JButton(C_PrincessPeach);
+        myD_Button = new JButton(D_Toad);
         mySubmitButton = new JButton("Submit");
+
+        myA_Button.setPreferredSize(new Dimension(50, 50));
+        myB_Button.setPreferredSize(new Dimension(50, 50));
+        myC_Button.setPreferredSize(new Dimension(50, 50));
+        myD_Button.setPreferredSize(new Dimension(50, 50));
+
 
         //Maze Panel Components
         for (int row = 0; row < 7; row++) {
@@ -239,12 +249,12 @@ public class GameView extends JFrame implements PropertyChangeListener {
         longBrickPanel.setBackground(SKY_BLUE);
         questionsPanel.setBackground(SKY_BLUE);
 
-        myA_Button.addActionListener(theEvent -> clickedAnswerButton(myA_Button));
-        myB_Button.addActionListener(theEvent -> clickedAnswerButton(myB_Button));
-        myC_Button.addActionListener(theEvent -> clickedAnswerButton(myC_Button));
-        myD_Button.addActionListener(theEvent -> clickedAnswerButton(myD_Button));
+        myA_Button.addActionListener(_ -> clickedAnswerButton(myA_Button));
+        myB_Button.addActionListener(_ -> clickedAnswerButton(myB_Button));
+        myC_Button.addActionListener(_ -> clickedAnswerButton(myC_Button));
+        myD_Button.addActionListener(_ -> clickedAnswerButton(myD_Button));
 
-        mySubmitButton.addActionListener(theEvent -> {
+        mySubmitButton.addActionListener(_ -> {
 
             // Load ImageIcons for the JOptionPanes
             ImageIcon correctIcon = new ImageIcon("icons/thumbsUPMario.png");
@@ -272,16 +282,67 @@ public class GameView extends JFrame implements PropertyChangeListener {
             }
 
             //set color back to null once they click submit
-            myA_Button.setBackground(null);
-            myB_Button.setBackground(null);
-            myC_Button.setBackground(null);
-            myD_Button.setBackground(null);
+            myA_Button.setBackground(Color.GRAY);
+            myB_Button.setBackground(Color.GRAY);
+            myC_Button.setBackground(Color.GRAY);
+            myD_Button.setBackground(Color.GRAY);
 
             mySelectedAnswer = null;
 
             myController.checkGameWinLossStatus(this);
 
         });
+    }
+
+    /**
+     * Shows the title screen for the 1UP Trivia game.
+     * Displays a title image and a start button.
+     *
+     * @param onStartGame the action to run when the start button is clicked.
+     */
+    public static void showTitleScreen(Runnable onStartGame) {
+        //make separate frame for the title screen
+        JFrame titleFrame = new JFrame("Welcome to 1UP Trivia!");
+        titleFrame.setSize(800, 600);
+        titleFrame.setLocationRelativeTo(null);
+        titleFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        titleFrame.setResizable(false);
+
+        JPanel panel = new JPanel(new BorderLayout());
+
+        //load in & resize the title image
+        ImageIcon originalIcon = new ImageIcon("icons/1UPTitleScreen.png");
+        Image scaledImage = originalIcon.getImage().getScaledInstance(800, 600, Image.SCALE_SMOOTH);
+        ImageIcon resizedIcon = new ImageIcon(scaledImage);
+
+        //set title image into label
+        JLabel imageLabel = new JLabel(resizedIcon);
+        imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        panel.add(imageLabel, BorderLayout.CENTER);
+
+        //start button
+        ImageIcon startIcon = new ImageIcon("icons/startIcon.png");
+        JButton startButton = new JButton(startIcon);
+        startButton.setBackground(SKY_BLUE);
+        startButton.setBorder(BorderFactory.createLineBorder(SKY_BLUE));
+        startButton.addActionListener(e -> {
+            titleFrame.dispose();  //closes the title screen
+            onStartGame.run();     //launches the main game
+        });
+
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.add(startButton);
+        buttonPanel.setBackground(SKY_BLUE);
+        panel.add(buttonPanel, BorderLayout.SOUTH);
+
+        // ICON for game
+        final JLabel iconLabel = new JLabel();
+        final ImageIcon image = new ImageIcon("icons/1UpMushroom.png");
+        iconLabel.setIcon(image);
+
+        titleFrame.setIconImage(image.getImage());
+        titleFrame.getContentPane().add(panel);
+        titleFrame.setVisible(true);
     }
 
     public void displayTriviaQuestion(TriviaQuestion theQuestion) {
@@ -312,11 +373,11 @@ public class GameView extends JFrame implements PropertyChangeListener {
     private void clickedAnswerButton(final JButton theButton) {
         // Reset old button background
         if (myClickedButton != null) {
-            myClickedButton.setBackground(null); // reset to default
+            myClickedButton.setBackground(Color.GRAY); // reset to default
         }
 
         // Highlight new button
-        theButton.setBackground(Color.YELLOW);
+        theButton.setBackground(Color.GREEN);
         myClickedButton = theButton;
 
         // Determine which answer was selected
@@ -418,7 +479,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
         questionsPanel.add(questionOptionsPanel, BorderLayout.EAST);
         questionsPanel.add(mySubmitButton, BorderLayout.SOUTH);
 
-        // TODO: Commented this out - Shiannel
+        // Commented this out - Shiannel
         //questionsPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
         return questionsPanel;
@@ -548,79 +609,60 @@ public class GameView extends JFrame implements PropertyChangeListener {
         myFrame.setJMenuBar(menuBar);
 
         // Start
-        startItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(final ActionEvent theEvent) {
-                startItem.setEnabled(false);
+        startItem.addActionListener(_ -> startItem.setEnabled(false));
+
+        resetItem.addActionListener(_ -> startItem.setEnabled(true));
+
+        exitItem.addActionListener(_ -> {
+
+            ImageIcon icon = new ImageIcon(getScaledIcon("icons/hidingMario.png", 100, 100).getImage());
+
+            final int confirm = JOptionPane.showConfirmDialog(
+                    null,
+                    "Are you sure you want to exit?\nMario will be sad!",
+                    "Exit",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    icon
+            );
+
+            if (confirm == JOptionPane.YES_OPTION) {
+                System.exit(0);
             }
         });
 
-        resetItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(final ActionEvent theEvent) {
-                startItem.setEnabled(true);
-            }
+        aboutItem.addActionListener(_ -> {
+
+            ImageIcon icon = new ImageIcon(getScaledIcon("icons/mysterybox.png", 100, 100).getImage());
+
+            // About the game and creators
+            JOptionPane.showMessageDialog(null,
+                    "This is a recreation of the project Trivia Maze with a twist involving the Mario Bros" +
+                            " universe,\ngetting renamed as the 1-UP Trivia Maze! This program was written in Java with" +
+                            " versions 21 and 23.\nThis trivia maze game was written by Lily Hoopes, Christiannel Maningat," +
+                            " and Komalpreet Dhaliwal.\nAll three who are students whom attend the University of Washington Tacoma.",
+                    "About 1-UP Trivia Maze", JOptionPane.INFORMATION_MESSAGE, icon);
         });
 
-        exitItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(final ActionEvent theEvent) {
+        rulesItem.addActionListener(_ -> {
+            // The rules of trivia game
 
-                ImageIcon icon = new ImageIcon(getScaledIcon("icons/hidingMario.png", 100, 100).getImage());
-
-                final int confirm = JOptionPane.showConfirmDialog(
-                        null,
-                        "Are you sure you want to exit?\nMario will be sad!",
-                        "Exit",
-                        JOptionPane.YES_NO_OPTION,
-                        JOptionPane.QUESTION_MESSAGE,
-                        icon
-                );
-
-                if (confirm == JOptionPane.YES_OPTION) {
-                    System.exit(0);
-                }
-            }
-        });
-
-        aboutItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(final ActionEvent theEvent) {
-
-                ImageIcon icon = new ImageIcon(getScaledIcon("icons/mysterybox.png", 100, 100).getImage());
-
-                // About the game and creators
-                JOptionPane.showMessageDialog(null,
-                        "This is a recreation of the project Trivia Maze with a twist involving the Mario Bros" +
-                                " universe,\ngetting renamed as the 1-UP Trivia Maze! This program was written in Java with" +
-                                " versions 21 and 23.\nThis trivia maze game was written by Lily Hoopes, Christiannel Maningat," +
-                                " and Komalpreet Dhaliwal.\nAll three who are students whom attend the University of Washington Tacoma.",
-                        "About 1-UP Trivia Maze", JOptionPane.INFORMATION_MESSAGE, icon);
-            }
-        });
-
-        rulesItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(final ActionEvent theEvent) {
-                // The rules of trivia game
-
-                // added 1up mushroom image to add to pane
-                ImageIcon icon = new ImageIcon(getScaledIcon("icons/jumpingMario.png", 100, 100).getImage());
+            // added 1up mushroom image to add to pane
+            ImageIcon icon = new ImageIcon(getScaledIcon("icons/jumpingMario.png", 100, 100).getImage());
 
 
-                JOptionPane.showMessageDialog(null,
-                        "Welcome to 1-UP Trivia Maze!\n\nThis game will test your knowledge" +
-                                " on the Mario Bros Universe!\n\nHere are the rules:\n1. Choose a direction to move," +
-                                " either LEFT, RIGHT, UP, or DOWN.\n2. Once at a door, answer the trivia question " +
-                                "and press submit.\n3. If correct, the door will unlock, allowing you travel through the pipes to a new room.\n" +
-                                "4. From this point you must keep answering questions. But if answered wrong, the door\n" +
-                                " will lock, pushing you back to where you were before!\n5. " +
-                                "Answer questions carefully and find your way out of the maze!\n\nGood luck, friends. Lets-a-go!",
-                        "1-UP Trivia Game Rules",
-                        JOptionPane.INFORMATION_MESSAGE,
-                        icon);
+            JOptionPane.showMessageDialog(null,
+                    "Welcome to 1-UP Trivia Maze!\n\nThis game will test your knowledge" +
+                            " on the Mario Bros Universe!\n\nHere are the rules:\n1. Choose a direction to move," +
+                            " either LEFT, RIGHT, UP, or DOWN.\n2. Once at a door, answer the trivia question " +
+                            "and press submit.\n3. If correct, the door will unlock, allowing you travel through the pipes to a new room.\n" +
+                            "4. From this point you must keep answering questions. But if answered wrong, the door\n" +
+                            " will lock, pushing you back to where you were before!\n5. " +
+                            "Answer questions carefully and find your way out of the maze!\n\nGood luck, friends. Lets-a-go!",
+                    "1-UP Trivia Game Rules",
+                    JOptionPane.INFORMATION_MESSAGE,
+                    icon);
 
-            }
         });
     }
 

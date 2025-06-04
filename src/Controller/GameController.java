@@ -55,24 +55,22 @@ public class GameController {
      */
     public static void main(final String[] theArgs) {
         EventQueue.invokeLater(() -> {
+            GameView.showTitleScreen(() -> {
+                GameController controller = GameController.getInstance();
 
-            GameController controller = GameController.getInstance();
+                Maze maze = new Maze(4,4);
+                Player player = maze.getPlayer();
+                GameView view = new GameView(maze); // <-- launches full game window
+                controller.setView(view);
+                view.setController(controller);
 
-            Maze maze = new Maze(4,4);
-            Player player = maze.getPlayer();
-            GameView view = new GameView(maze);
-            controller.setView(view);
-            view.setController(controller);
+                controller.setMaze(maze);
+                controller.setPlayer(player);
 
-            controller.setMaze(maze);
-            controller.setPlayer(player);
-
-            // Save & Load Game
-            controller.saveGame();
-            controller.loadGame();
-            //maybe goes here??
+                controller.saveGame();
+                controller.loadGame();
+            });
         });
-
     }
 
     /**
@@ -124,7 +122,15 @@ public class GameController {
         myGameWon = theGameWon;
     }
 
-    //TODO javadoc
+    /**
+     * Checks whether the user's answer to the pending door's question is correct.
+     * If the answer is correct, the door is opened and the player moves through it.
+     * If incorrect, the door is locked. In both cases, the pending door and direction
+     * are cleared after the check.
+     *
+     * @param theUserAnswer the answer selected by the user.
+     * @return true if the answer was correct and the player moved, false otherwise.
+     */
     public boolean checkAnswerAndMove(String theUserAnswer) {
 
         if (myPendingDoor == null) return false; // Safety
@@ -180,7 +186,14 @@ public class GameController {
         }
     }
 
-    //TODO javadoc
+    /**
+     * Attempts to move the player in the specified direction.
+     * If the door in that direction is open, the player moves and the view updates.
+     * If the door is closed, the associated trivia question is displayed.
+     * If the door is locked, the player is notified and cannot proceed.
+     *
+     * @param theDirection the direction the player wants to move.
+     */
     public void attemptMove(Direction theDirection) {
 
         System.out.println("inside the attemptMove method in controller");
@@ -231,7 +244,13 @@ public class GameController {
 
     }
 
-    //for testing
+    // TODO: This method is for testing, keep or dont keep??
+    /**
+     * Prints the state of all doors (UP, DOWN, LEFT, RIGHT) in the given room.
+     * This is primarily used for debugging purposes.
+     *
+     * @param currentRoom the room whose doors' states will be printed.
+     */
     public void printDoorsForCurrentRoom(Room currentRoom) {
         System.out.println("Doors in the current room:\n");
         Door northDoor = currentRoom.getDoor(Direction.UP);
