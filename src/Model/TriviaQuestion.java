@@ -28,10 +28,6 @@ public class TriviaQuestion {
     /** The correct answer to the question. */
     private final String myCorrectAnswer;
 
-    /** Indicates whether the question was answered correctly. */
-    private boolean myIsQuestionCorrect;
-
-
     /**
      * Constructs a trivia question.
      *
@@ -57,7 +53,6 @@ public class TriviaQuestion {
         System.out.println("theUserAnswer from isCorrect method:" + theUserAnswer);
         boolean isCorrect = theUserAnswer.trim().equalsIgnoreCase(myCorrectAnswer);
         System.out.println("boolean isCorrect from isCorrect method:" + isCorrect);
-        myIsQuestionCorrect = isCorrect;
 
         return isCorrect;
     }

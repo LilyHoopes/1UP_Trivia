@@ -208,13 +208,15 @@ public class GameController {
         }
 
         //for testing
-        printDoorsForCurrentRoom(currentRoom);
+        //printDoorsForCurrentRoom(currentRoom);
 
         //for testing
+        /*
         System.out.println("➡️ Door direction attempted: " + theDirection);
         System.out.println("➡️ Door state: " + targetDoor.getState());
         System.out.println("➡️ Trivia Question from this door: " + targetDoor.getQuestion());
         System.out.println("➡️ Correct answer for this door: " + targetDoor.getQuestion().getCorrectAnswer());
+         */
 
         switch (targetDoor.getState()) {
 
@@ -245,7 +247,7 @@ public class GameController {
 
     }
 
-    // TODO: This method is for testing, keep or dont keep??
+    //For testing
     /**
      * Prints the state of all doors (UP, DOWN, LEFT, RIGHT) in the given room.
      * This is primarily used for debugging purposes.

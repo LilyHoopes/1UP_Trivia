@@ -33,9 +33,6 @@ import Model.TriviaQuestion;
 
 public class GameView extends JFrame implements PropertyChangeListener {
 
-    private Direction currentDirection;
-    private Door currentDoor;
-
     // --------Controller & Game State----------
     /** Reference to the controller that manages game logic and state transitions. */
     private GameController myController;
@@ -77,13 +74,11 @@ public class GameView extends JFrame implements PropertyChangeListener {
     //JButtons for questions panel
 
 
-
     // --------Maze Panel & Icons--------
 
     /** 2D array of labels representing the visual grid of the maze. */
     //JLabels for the maze panel
     private final JLabel[][] myMazeIconsGrid = new JLabel[7][7];
-
 
     /**
      * Array of various icons used to populate rooms in the maze.
@@ -133,7 +128,6 @@ public class GameView extends JFrame implements PropertyChangeListener {
      * @param theMaze the Maze model that this view will visualize.
      */
     public GameView(final Maze theMaze) {
-        //constructor for GameView
 
         myMaze = theMaze;
 
@@ -206,16 +200,6 @@ public class GameView extends JFrame implements PropertyChangeListener {
         myD_Button.setBackground(SKY_BLUE);
         myD_Button.setBorder(BorderFactory.createLineBorder(SKY_BLUE));
 
-
-        //TODO do we even need this?
-        //Maze Panel Components
-        for (int row = 0; row < 7; row++) {
-            for (int col = 0; col < 7; col++) {
-                JLabel label = new JLabel();
-
-            }
-        }
-
         //create the panels
         final JPanel mazePanel = createMazePanel();
         mazePanel.setPreferredSize(new Dimension(450, 450));
@@ -248,11 +232,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
 
         createMenuBar();
 
-        //initially set some buttons to false here?
-
-        //addListeners() method?
-
-        myFrame.setBackground(SKY_BLUE);  // sky blue
+        myFrame.setBackground(SKY_BLUE);
         mazePanel.setBackground(SKY_BLUE);
         roomPanel.setBackground(SKY_BLUE);
         longBrickPanel.setBackground(SKY_BLUE);
@@ -372,8 +352,6 @@ public class GameView extends JFrame implements PropertyChangeListener {
         return text.substring(text.indexOf(":") + 1).trim();  // removes "A: " etc.
     }
 
-    //TODO change this to cute mario icons we select
-    //TODO change these to radio buttons
     /**
      * Highlights the clicked answer button and stores the selected answer.
      *
@@ -488,8 +466,6 @@ public class GameView extends JFrame implements PropertyChangeListener {
         questionsPanel.add(questionOptionsPanel, BorderLayout.EAST);
         questionsPanel.add(mySubmitButton, BorderLayout.SOUTH);
 
-        // Commented this out - Shiannel
-        //questionsPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
         return questionsPanel;
     }
@@ -550,7 +526,6 @@ public class GameView extends JFrame implements PropertyChangeListener {
             }
         }
     }
-
 
     /**
      * Creates a JPanel with a scaled "long brick" image centered inside it.
@@ -840,6 +815,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
         myPreviousCol = col;
     }
 
+    //TODO implement this
     /**
      * Restarts the game by resetting state and loading initial settings.
      */
@@ -853,6 +829,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
         myDownButton.setEnabled(true);
     }
 
+    //TODO need?
     /**
      * Handles generic UI actions triggered by GUI components (e.g., buttons).
      * Should route the event to the appropriate game logic or UI update.
