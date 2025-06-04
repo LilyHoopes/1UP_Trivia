@@ -110,7 +110,6 @@ public class QuestionFactory {
      */
     public static ArrayList<TriviaQuestion> getQuestions() {
         if (myQuestions.isEmpty()) {
-            System.out.println("in isEmpty");
             new QuestionFactory("src/trivia_questions.db");
         }
         return new ArrayList<>(myQuestions);
@@ -125,10 +124,10 @@ public class QuestionFactory {
         ArrayList<TriviaQuestion> questions = getQuestions();
 
         if (questions.isEmpty()) {
-            System.out.println("Question list is EMPTY.");
+            //System.out.println("Question list is EMPTY.");
         } else {
             for (int i = 0; i < questions.size(); i++) {
-                System.out.println("Q" + (i + 1) + ": " + questions.get(i));
+                //System.out.println("Q" + (i + 1) + ": " + questions.get(i));
             }
         }
     }

@@ -26,8 +26,8 @@ public class Door {
     private DoorState myState;
 
     public void printState() {
-        System.out.println("Door state: " + myState);
-        System.out.println("Associated question: " + (myQuestion != null ? myQuestion.getQuestionText() : "None"));
+        //System.out.println("Door state: " + myState);
+        //??System.out.println("Associated question: " + (myQuestion != null ? myQuestion.getQuestionText() : "None"));
     }
 
     /**

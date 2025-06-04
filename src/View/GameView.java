@@ -257,7 +257,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
             }
 
             String userSelected = mySelectedAnswer;
-            System.out.println("userSelected: " + userSelected);
+            //System.out.println("userSelected: " + userSelected);
             boolean correct = myController.checkAnswerAndMove(userSelected);
 
             // Show result to user
@@ -335,7 +335,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
     }
 
     public void displayTriviaQuestion(TriviaQuestion theQuestion) {
-        System.out.println("displayTriviaQuestion method question: " + theQuestion);
+        //System.out.println("displayTriviaQuestion method question: " + theQuestion);
         setQuestion(theQuestion);
         // Show trivia panel
         //questionsPanel.setVisible(true);
@@ -374,7 +374,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
         else if (theButton == myC_Button) answer = getOptionText(myOptionC_Label);
         else if (theButton == myD_Button) answer = getOptionText(myOptionD_Label);
 
-        System.out.println("Answer selected: " + answer);
+        //System.out.println("Answer selected: " + answer);
         mySelectedAnswer = answer;
     }
 
@@ -715,8 +715,8 @@ public class GameView extends JFrame implements PropertyChangeListener {
         int newRow = player.getRow() * 2;
         int newCol = player.getCol() * 2;
 
-        System.out.println("Player moved " + theDirection);
-        System.out.println("Current player position: " + newRow + ", " + newCol);
+        //System.out.println("Player moved " + theDirection);
+        //System.out.println("Current player position: " + newRow + ", " + newCol);
 
         // Restore the previous icon
         if (myPreviousRow != -1 && myPreviousCol != -1 && myPreviousIcon != null) {
@@ -750,47 +750,47 @@ public class GameView extends JFrame implements PropertyChangeListener {
         int row = player.getRow();
         int col = player.getCol();
 
-        System.out.println("Current room position: " + row + ", " + col);
+        //System.out.println("Current room position: " + row + ", " + col);
 
         // UP
         Door upDoor = currentRoom.getDoor(Direction.UP);
         myUpButton.setEnabled(myMaze.isInBounds(row - 1, col) && upDoor != null && !upDoor.isLocked());
         if (currentRoom.hasDoor(Direction.UP)) {
-            System.out.println("Up door state: " + upDoor.getState());
+            //System.out.println("Up door state: " + upDoor.getState());
 
         } else {
-            System.out.println("Current room has no door in direction: UP");
+            //System.out.println("Current room has no door in direction: UP");
         }
 
         // DOWN
         Door downDoor = currentRoom.getDoor(Direction.DOWN);
-        System.out.println("enable or disable???????: " + (myMaze.isInBounds(row - 1, col) && downDoor != null && !downDoor.isLocked()));
+        //System.out.println("enable or disable???????: " + (myMaze.isInBounds(row - 1, col) && downDoor != null && !downDoor.isLocked()));
         myDownButton.setEnabled(myMaze.isInBounds(row + 1, col) && downDoor != null && !downDoor.isLocked());
         if (currentRoom.hasDoor(Direction.DOWN)) {
-            System.out.println("Down door state: " + downDoor.getState());
+            //System.out.println("Down door state: " + downDoor.getState());
 
         } else {
-            System.out.println("Current room has no door in direction: DOWN");
+            //System.out.println("Current room has no door in direction: DOWN");
         }
 
         // LEFT
         Door leftDoor = currentRoom.getDoor(Direction.LEFT);
         myLeftButton.setEnabled(myMaze.isInBounds(row, col - 1) && leftDoor != null && !leftDoor.isLocked());
         if (currentRoom.hasDoor(Direction.LEFT)) {
-            System.out.println("Left door state: " + leftDoor.getState());
+            //System.out.println("Left door state: " + leftDoor.getState());
 
         } else {
-            System.out.println("Current room has no door in direction: LEFT");
+            //System.out.println("Current room has no door in direction: LEFT");
         }
 
         // RIGHT
         Door rightDoor = currentRoom.getDoor(Direction.RIGHT);
         myRightButton.setEnabled(myMaze.isInBounds(row, col + 1) && rightDoor != null && !rightDoor.isLocked());
         if (currentRoom.hasDoor(Direction.RIGHT)) {
-            System.out.println("Right door state: " + rightDoor.getState());
+            //System.out.println("Right door state: " + rightDoor.getState());
 
         } else {
-            System.out.println("Current room has no door in direction: RIGHT");
+            //System.out.println("Current room has no door in direction: RIGHT");
         }
     }
 

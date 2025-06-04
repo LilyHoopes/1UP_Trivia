@@ -195,7 +195,7 @@ public class Maze implements Serializable {
      * @return true if the game is lost, false otherwise.
      */
     public boolean isGameLost() {
-        System.out.println("Inside isGameLost method");
+        //System.out.println("Inside isGameLost method");
         boolean[][] visited = new boolean[myRows][myCols];
         return dfs(0, 0, visited);
     }

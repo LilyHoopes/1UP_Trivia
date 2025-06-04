@@ -49,10 +49,10 @@ public class TriviaQuestion {
      * @return true if the answer is correct, false otherwise.
      */
     public boolean isCorrect(final String theUserAnswer) {
-        System.out.println("actual answer from isCorrect method:" + myCorrectAnswer);
-        System.out.println("theUserAnswer from isCorrect method:" + theUserAnswer);
+        //System.out.println("actual answer from isCorrect method:" + myCorrectAnswer);
+        //System.out.println("theUserAnswer from isCorrect method:" + theUserAnswer);
         boolean isCorrect = theUserAnswer.trim().equalsIgnoreCase(myCorrectAnswer);
-        System.out.println("boolean isCorrect from isCorrect method:" + isCorrect);
+        //System.out.println("boolean isCorrect from isCorrect method:" + isCorrect);
 
         return isCorrect;
     }

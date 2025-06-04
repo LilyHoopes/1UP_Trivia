@@ -81,7 +81,7 @@ public class Player implements Serializable {
      */
     public void moveThroughOpenDoor(final Direction theDir) {
 
-        System.out.println("Inside moveThroughOpenDoor method");
+        //System.out.println("Inside moveThroughOpenDoor method");
 
         Room current = getCurrentRoom();
         Door door = current.getDoor(theDir);
@@ -96,7 +96,7 @@ public class Player implements Serializable {
             }
         }
 
-        System.out.println("Player location: " +  myPlayerRow + ", " + myPlayerColumn);
+        //System.out.println("Player location: " +  myPlayerRow + ", " + myPlayerColumn);
     }
 
 }

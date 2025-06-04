@@ -135,9 +135,9 @@ public class GameController {
 
         if (myPendingDoor == null) return false; // Safety
 
-        System.out.println("theUserAnswer = " + theUserAnswer);
-        System.out.println("pendingDoor: " + myPendingDoor.toString());
-        System.out.println("pendingDirection: " + myPendingDirection);
+        //System.out.println("theUserAnswer = " + theUserAnswer);
+        //System.out.println("pendingDoor: " + myPendingDoor.toString());
+        //System.out.println("pendingDirection: " + myPendingDirection);
 
         if (myPendingDoor == null || myPendingDirection == null) {
             System.err.println("No pending door/direction/question set.");
@@ -146,12 +146,12 @@ public class GameController {
         }
 
         boolean correct = (myPendingDoor.getQuestion().isCorrect(theUserAnswer));
-        System.out.println("checkAnswerAndMove boolean correct: " + correct);
+        //System.out.println("checkAnswerAndMove boolean correct: " + correct);
 
         if (correct) {
-            System.out.println("myPendingDoor state before: " + myPendingDoor.getState());
+            //System.out.println("myPendingDoor state before: " + myPendingDoor.getState());
             myPendingDoor.openDoor();
-            System.out.println("myPendingDoor state after: " + myPendingDoor.getState());
+            //System.out.println("myPendingDoor state after: " + myPendingDoor.getState());
             myPlayer.moveThroughOpenDoor(myPendingDirection);
             myView.handleMoveThroughOpenDoor(myPendingDirection);
         } else {
@@ -177,11 +177,11 @@ public class GameController {
         ImageIcon loseIcon = new ImageIcon("icons/marioIsSAD.png");
 
         if (myMaze.isGameWon()) {
-            System.out.println("Game won! this is in handleMove method");
+            //System.out.println("Game won! this is in handleMove method");
             JOptionPane.showMessageDialog(theComponent, "You won the game!",
                     "Congratulations!", JOptionPane.INFORMATION_MESSAGE, winIcon);
         } else if (myMaze.isGameLost()) {
-            System.out.println("Game lost! this is in handleMove method");
+            //System.out.println("Game lost! this is in handleMove method");
             JOptionPane.showMessageDialog(theComponent, "You're trapped! Game over!",
                     "Uh oh!", JOptionPane.INFORMATION_MESSAGE, loseIcon);
         }
@@ -197,7 +197,7 @@ public class GameController {
      */
     public void attemptMove(Direction theDirection) {
 
-        System.out.println("inside the attemptMove method in controller");
+        //System.out.println("inside the attemptMove method in controller");
 
         Room currentRoom = myMaze.getRoomAt(myPlayer.getRow(), myPlayer.getCol());
         Door targetDoor = currentRoom.getDoor(theDirection);
@@ -228,16 +228,16 @@ public class GameController {
                 break;
 
             case CLOSED:
-                System.out.println("Door is closed. Showing trivia question...");
+                //System.out.println("Door is closed. Showing trivia question...");
                 myPendingDoor = targetDoor;
                 myPendingDirection = theDirection;
                 TriviaQuestion question = targetDoor.getQuestion();
-                System.out.println("Question for this door: " + question);
+                //System.out.println("Question for this door: " + question);
                 myView.displayTriviaQuestion(question);
                 break;
 
             case LOCKED:
-                System.out.println("Door is locked.");
+                //System.out.println("Door is locked.");
                 JOptionPane.showMessageDialog(null, "You can't move this way!", "Movement Blocked", JOptionPane.WARNING_MESSAGE);
                 break;
         }
@@ -255,21 +255,21 @@ public class GameController {
      * @param currentRoom the room whose doors' states will be printed.
      */
     public void printDoorsForCurrentRoom(Room currentRoom) {
-        System.out.println("Doors in the current room:\n");
+        //System.out.println("Doors in the current room:\n");
         Door northDoor = currentRoom.getDoor(Direction.UP);
-        System.out.println("UP door:\n");
+        //System.out.println("UP door:\n");
         if (northDoor != null) northDoor.printState();
 
         Door southDoor = currentRoom.getDoor(Direction.DOWN);
-        System.out.println("DOWN door:\n");
+        //System.out.println("DOWN door:\n");
         if (southDoor != null) southDoor.printState();
 
         Door eastDoor = currentRoom.getDoor(Direction.LEFT);
-        System.out.println("LEFT door:\n");
+        //System.out.println("LEFT door:\n");
         if (eastDoor != null) eastDoor.printState();
 
         Door westDoor = currentRoom.getDoor(Direction.RIGHT);
-        System.out.println("RIGHT door:\n");
+        //System.out.println("RIGHT door:\n");
         if (westDoor != null) westDoor.printState();
     }
 
