@@ -23,9 +23,6 @@ import java.io.Serializable;
  */
 public class Player implements Serializable {
 
-    public static final int ROWS = 4;
-    public static final int COLS = 4;
-
     /** The player's current row in the maze. */
     private int myPlayerRow;
 

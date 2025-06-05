@@ -52,26 +52,15 @@ public class Maze implements Serializable {
      */
     public Maze(final int theRows, final int theCols) {
 
-        //TODO the arraylist isnt getting poopulatled here?
-        //System.out.println("Inside maze Constructor");
 
         myQuestions = QuestionFactory.getQuestions(); // this copies the list in
-
-        //this is empty, so arraylist has nothing in it at this point
-        //System.out.println("myQuestions arrayList contents: " + myQuestions.toString());
 
         myRows = theRows;
         myCols = theCols;
         myMaze = new Room[theRows][theCols]; //make a 2D array that is theRows by theCols big (4x4)
 
-        //TODO its still empty at this point when i try printing it out
-        //System.out.println("SECOND myQuestions arrayList contents: " + myQuestions.toString());
-
         initializeRooms();
         initializeDoors();
-
-        //TODO this is STILL empty, idk when it gets populated
-        //System.out.println("THIRD myQuestions arrayList contents: " + myQuestions.toString());
 
         // Initialize player, will start at (0,0)
         myPlayer = new Player(this);
@@ -98,10 +87,6 @@ public class Maze implements Serializable {
             }
         }
     }
-
-    //TODO it seems that the rooms dont have the doors when they should, testing showed no doors exist anywheres
-    //TODO i should probably jut rewrite this entire method bc it confusing, should i hard code in doors to each room?
-    //TODO probably should do it as i did but something aint right, figure out the issue
 
     /**
      * Connects adjacent rooms with shared doors and assigns trivia questions.

@@ -16,6 +16,8 @@ import Model.*;
 import javax.swing.*;
 import java.awt.*;
 
+import static View.GameView.showTitleScreen;
+
 /**
  * Controller class for the Maze Trivia Game, handling game flow,
  * question retrieval, and interaction between the model and view layers.
@@ -55,7 +57,7 @@ public class GameController {
      */
     public static void main(final String[] theArgs) {
         EventQueue.invokeLater(() -> {
-            GameView.showTitleScreen(() -> {
+            showTitleScreen(() -> {
                 GameController controller = GameController.getInstance();
 
                 Maze maze = new Maze(4,4);
@@ -176,14 +178,60 @@ public class GameController {
         ImageIcon winIcon = new ImageIcon("icons/marioIsHAPPY.png");
         ImageIcon loseIcon = new ImageIcon("icons/marioIsSAD.png");
 
+        boolean gameEnded = false;
+
         if (myMaze.isGameWon()) {
             //System.out.println("Game won! this is in handleMove method");
             JOptionPane.showMessageDialog(theComponent, "You won the game!",
                     "Congratulations!", JOptionPane.INFORMATION_MESSAGE, winIcon);
+            gameEnded = true;
         } else if (myMaze.isGameLost()) {
             //System.out.println("Game lost! this is in handleMove method");
             JOptionPane.showMessageDialog(theComponent, "You're trapped! Game over!",
                     "Uh oh!", JOptionPane.INFORMATION_MESSAGE, loseIcon);
+            gameEnded = true;
+        }
+
+        if (gameEnded) {
+            String[] options = {"Restart Game", "Return to Main Menu"};
+            int choice = JOptionPane.showOptionDialog(
+                    theComponent,
+                    "What would you like to do next?",
+                    "Game Over",
+                    JOptionPane.DEFAULT_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    options,
+                    options[0]
+            );
+
+            if (choice == 0) {
+                // Restart the game
+                restartGame();
+            } else if (choice == 1) {
+
+                //dispose of view
+                System.out.println("DISPOSING VIEW");
+                myView.dispose();
+                myView.setVisible(false);
+
+                // Return to main menu
+                showTitleScreen(() -> {
+                    GameController controller = GameController.getInstance();
+
+                    Maze maze = new Maze(4, 4);
+                    Player player = maze.getPlayer();
+                    //GameView view = new GameView(maze);
+
+                    controller.setMaze(maze);
+                    controller.setPlayer(player);
+                    //controller.setView(view);
+                    //view.setController(controller);
+
+                    controller.saveGame();
+                    controller.loadGame();
+                });
+            }
         }
     }
 
@@ -294,4 +342,31 @@ public class GameController {
         // deserialize CurrentGameState
     }
 
+    //TODO the reset is half broken
+    /**
+     * Restarts the game by resetting state and loading initial settings.
+     */
+
+    public void restartGame() {
+
+        //Get rid of the old window
+        myView.setVisible(false);
+        System.out.println("DISPOSING VIEW");
+        myView.dispose();
+
+        myView.initializeMazeContents();
+
+        // Recreate the model
+        Maze maze = new Maze(4, 4);
+        Player player = maze.getPlayer();
+
+        // Set up MVC wiring again
+        setMaze(maze);
+        setPlayer(player);
+
+        // Load questions and reset UI
+        saveGame();  // if you want to store a fresh state
+        loadGame();  // if needed for GUI updates
+
+        }
 }

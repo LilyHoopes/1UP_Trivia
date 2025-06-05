@@ -129,6 +129,8 @@ public class GameView extends JFrame implements PropertyChangeListener {
      */
     public GameView(final Maze theMaze) {
 
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
         myMaze = theMaze;
 
         myFrame = new JFrame("1UP Trivia");
@@ -597,6 +599,24 @@ public class GameView extends JFrame implements PropertyChangeListener {
 
         resetItem.addActionListener(_ -> startItem.setEnabled(true));
 
+        resetItem.addActionListener(_ -> {
+            //TODO change this image
+            ImageIcon icon = new ImageIcon(getScaledIcon("icons/hidingMario.png", 100, 100).getImage());
+
+            final int confirm = JOptionPane.showConfirmDialog(
+                    null,
+                    "Are you sure you want to restart?\nMario will be sad!",
+                    "Exit",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    icon
+            );
+
+            if (confirm == JOptionPane.YES_OPTION) {
+                myController.restartGame();
+            }
+        });
+
         exitItem.addActionListener(_ -> {
 
             ImageIcon icon = new ImageIcon(getScaledIcon("icons/hidingMario.png", 100, 100).getImage());
@@ -799,7 +819,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
      * Saves the initial icon and sets the Mario icon on the grid.
      * Disables impossible initial movement directions.
      */
-    private void initializeMazeContents() {
+    public void initializeMazeContents() {
         int row = myMaze.getPlayer().getRow();
         int col = myMaze.getPlayer().getCol();
         myPreviousIcon = (ImageIcon) myMazeIconsGrid[row][col].getIcon();
@@ -813,20 +833,6 @@ public class GameView extends JFrame implements PropertyChangeListener {
 
         myPreviousRow = row;
         myPreviousCol = col;
-    }
-
-    //TODO implement this
-    /**
-     * Restarts the game by resetting state and loading initial settings.
-     */
-    public void restartGame() {
-        int row = 0;
-        int col = 0;
-
-        myUpButton.setEnabled(false);
-        myLeftButton.setEnabled(false);
-        myRightButton.setEnabled(true);
-        myDownButton.setEnabled(true);
     }
 
     //TODO need?
