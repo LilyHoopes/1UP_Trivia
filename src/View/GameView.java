@@ -248,12 +248,13 @@ public class GameView extends JFrame implements PropertyChangeListener {
         mySubmitButton.addActionListener(_ -> {
 
             // Load ImageIcons for the JOptionPanes
-            ImageIcon correctIcon = new ImageIcon("icons/thumbsUPMario.png");
-            ImageIcon incorrectIcon = new ImageIcon("icons/sadMario.png");
-            ImageIcon chooseAnswerFirst = new ImageIcon("icons/bruhMario.png");
+            ImageIcon correctIcon = new ImageIcon("icons/thumbsUpJumpingMar.png");
+            ImageIcon incorrectIcon = new ImageIcon("icons/shockedMario.png");
+            //ImageIcon chooseAnswerFirst = new ImageIcon("icons/bruhMario.png"); // Meme mario
+            ImageIcon chooseAnswerFirst = new ImageIcon("icons/smhMario.png");
 
             if (mySelectedAnswer == null) {
-                JOptionPane.showMessageDialog(this, "Please select an answer first.",
+                JOptionPane.showMessageDialog(this, "Please select an answer first.\nMario is shaking his head.",
                         "Wait a second!", JOptionPane.INFORMATION_MESSAGE, chooseAnswerFirst);
                 return;
             }
@@ -601,11 +602,11 @@ public class GameView extends JFrame implements PropertyChangeListener {
 
         resetItem.addActionListener(_ -> {
             //TODO change this image
-            ImageIcon icon = new ImageIcon(getScaledIcon("icons/hidingMario.png", 100, 100).getImage());
+            ImageIcon icon = new ImageIcon(getScaledIcon("icons/diagThumbsUpMario.png", 100, 100).getImage());
 
             final int confirm = JOptionPane.showConfirmDialog(
                     null,
-                    "Are you sure you want to restart?\nMario will be sad!",
+                    "Are you sure you want to restart?\nOkay, Mario will see you soon!",
                     "Exit",
                     JOptionPane.YES_NO_OPTION,
                     JOptionPane.QUESTION_MESSAGE,
@@ -619,7 +620,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
 
         exitItem.addActionListener(_ -> {
 
-            ImageIcon icon = new ImageIcon(getScaledIcon("icons/hidingMario.png", 100, 100).getImage());
+            ImageIcon icon = new ImageIcon(getScaledIcon("icons/newHidingMario.png", 100, 100).getImage());
 
             final int confirm = JOptionPane.showConfirmDialog(
                     null,
@@ -637,7 +638,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
 
         aboutItem.addActionListener(_ -> {
 
-            ImageIcon icon = new ImageIcon(getScaledIcon("icons/mysterybox.png", 100, 100).getImage());
+            ImageIcon icon = new ImageIcon(getScaledIcon("icons/gameBoyMario.png", 100, 100).getImage());
 
             // About the game and creators
             JOptionPane.showMessageDialog(null,
@@ -652,7 +653,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
             // The rules of trivia game
 
             // added 1up mushroom image to add to pane
-            ImageIcon icon = new ImageIcon(getScaledIcon("icons/jumpingMario.png", 100, 100).getImage());
+            ImageIcon icon = new ImageIcon(getScaledIcon("icons/jumpUpMario.png", 100, 100).getImage());
 
 
             JOptionPane.showMessageDialog(null,

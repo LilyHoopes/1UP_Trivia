@@ -175,8 +175,13 @@ public class GameController {
      * @param theComponent the parent component for the JOptionPane (e.g., the GameView).
      */
     public void checkGameWinLossStatus(final Component theComponent) {
-        ImageIcon winIcon = new ImageIcon("icons/marioIsHAPPY.png");
-        ImageIcon loseIcon = new ImageIcon("icons/marioIsSAD.png");
+        //ImageIcon winIcon = new ImageIcon("icons/marioIsHAPPY.png"); // Meme mario
+        //ImageIcon loseIcon = new ImageIcon("icons/marioIsSAD.png"); // Meme mario
+
+        ImageIcon winIcon = new ImageIcon("icons/handsUpJumpingMario.png");
+        //TODO: Fix icon for gameover mario
+        ImageIcon loseIcon = new ImageIcon("icons/cryMario.png");
+        ImageIcon gameOverPrompt = new ImageIcon("icons/thinkingMario.png");
 
         boolean gameEnded = false;
 
@@ -200,7 +205,7 @@ public class GameController {
                     "Game Over",
                     JOptionPane.DEFAULT_OPTION,
                     JOptionPane.QUESTION_MESSAGE,
-                    null,
+                    gameOverPrompt, // icon
                     options,
                     options[0]
             );
@@ -250,8 +255,10 @@ public class GameController {
         Room currentRoom = myMaze.getRoomAt(myPlayer.getRow(), myPlayer.getCol());
         Door targetDoor = currentRoom.getDoor(theDirection);
 
+        ImageIcon OutOfBounds = new ImageIcon("icons/hitMario.png");
+
         if (targetDoor == null) {
-            JOptionPane.showMessageDialog(null, "You can't move this way!", "Movement Blocked", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "You can't move this way!", "Movement Blocked", JOptionPane.WARNING_MESSAGE, OutOfBounds);
             return;
         }
 
@@ -286,7 +293,7 @@ public class GameController {
 
             case LOCKED:
                 //System.out.println("Door is locked.");
-                JOptionPane.showMessageDialog(null, "You can't move this way!", "Movement Blocked", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "You can't move this way!", "Movement Blocked", JOptionPane.WARNING_MESSAGE, OutOfBounds);
                 break;
         }
 
