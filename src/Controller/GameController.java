@@ -261,6 +261,7 @@ public class GameController {
         ImageIcon OutOfBounds = new ImageIcon("icons/hitMario.png");
 
         if (targetDoor == null) {
+            mySoundManager.playNoMoveSound();
             JOptionPane.showMessageDialog(null, "You can't move this way!", "Movement Blocked", JOptionPane.WARNING_MESSAGE, OutOfBounds);
             return;
         }

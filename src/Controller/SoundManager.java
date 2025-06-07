@@ -47,6 +47,10 @@ public class SoundManager {
         playSoundAbsolute("sounds/Exit.wav");
     }
 
+    public void playNoMoveSound() {
+        playSoundAbsolute("sounds/NoMove.wav");
+    }
+
     private void playSoundAbsolute(String filePath) {
         try {
             File soundFile = new File(filePath);
