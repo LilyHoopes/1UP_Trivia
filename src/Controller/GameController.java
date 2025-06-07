@@ -42,7 +42,7 @@ public class GameController {
     private Direction myPendingDirection;
 
     /** Factory for loading trivia questions. */
-    private QuestionFactory myQuestionFactory;
+    private final QuestionFactory myQuestionFactory;
     private final SoundManager mySoundManager = new SoundManager();
 
     // Public method to access the singleton instance
