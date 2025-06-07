@@ -43,6 +43,7 @@ public class GameController {
 
     /** Factory for loading trivia questions. */
     private QuestionFactory myQuestionFactory;
+    private final SoundManager mySoundManager = new SoundManager();
 
     // Public method to access the singleton instance
     public static GameController getInstance() {
@@ -187,11 +188,13 @@ public class GameController {
 
         if (myMaze.isGameWon()) {
             //System.out.println("Game won! this is in handleMove method");
+            mySoundManager.playWinSound();
             JOptionPane.showMessageDialog(theComponent, "You won the game!",
                     "Congratulations!", JOptionPane.INFORMATION_MESSAGE, winIcon);
             gameEnded = true;
         } else if (myMaze.isGameLost()) {
             //System.out.println("Game lost! this is in handleMove method");
+            mySoundManager.playLoseSound();
             JOptionPane.showMessageDialog(theComponent, "You're trapped! Game over!",
                     "Uh oh!", JOptionPane.INFORMATION_MESSAGE, loseIcon);
             gameEnded = true;

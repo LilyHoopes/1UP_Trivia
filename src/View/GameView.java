@@ -19,6 +19,7 @@ import java.io.IOException;
 import Controller.GameController;
 import Model.*;
 import Model.TriviaQuestion;
+import Controller.SoundManager;
 
 /**
  * GameView is responsible for displaying the graphical user interface (GUI)
@@ -119,6 +120,10 @@ public class GameView extends JFrame implements PropertyChangeListener {
 
     /** The Maze model object representing the current layout and room state. */
     private final Maze myMaze;
+
+    /** Creates a Sound Manager Instance */
+    private final SoundManager mySoundManager = new SoundManager();
+
 
     /**
      * Constructs the main game window for the Trivia Maze.
@@ -265,9 +270,11 @@ public class GameView extends JFrame implements PropertyChangeListener {
 
             // Show result to user
             if (correct) {
+                mySoundManager.playCorrectSound();
                 JOptionPane.showMessageDialog(this, "Correct!",
                         "Correct!", JOptionPane.INFORMATION_MESSAGE, correctIcon);
             } else {
+                mySoundManager.playIncorrectSound();
                 JOptionPane.showMessageDialog(this,
                         "Incorrect!\nCorrect answer: " + myCurrentQuestion.getCorrectAnswer(),
                         "Wrong Answer", JOptionPane.ERROR_MESSAGE, incorrectIcon);
@@ -293,6 +300,8 @@ public class GameView extends JFrame implements PropertyChangeListener {
      * @param onStartGame the action to run when the start button is clicked.
      */
     public static void showTitleScreen(Runnable onStartGame) {
+        SoundManager soundManager = new SoundManager(); // Instantiate
+
         //make separate frame for the title screen
         JFrame titleFrame = new JFrame("Welcome to 1UP Trivia!");
         titleFrame.setSize(800, 600);
@@ -318,6 +327,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
         startButton.setBackground(SKY_BLUE);
         startButton.setBorder(BorderFactory.createLineBorder(SKY_BLUE));
         startButton.addActionListener(e -> {
+            soundManager.playStartSound();
             titleFrame.dispose();  //closes the title screen
             onStartGame.run();     //launches the main game
         });
@@ -614,6 +624,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
             );
 
             if (confirm == JOptionPane.YES_OPTION) {
+                mySoundManager.playExitSound();
                 myController.restartGame();
             }
         });
