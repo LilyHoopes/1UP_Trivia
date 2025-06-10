@@ -298,6 +298,7 @@ public class GameController {
             case LOCKED:
                 //System.out.println("Door is locked.");
                 JOptionPane.showMessageDialog(null, "You can't move this way!", "Movement Blocked", JOptionPane.WARNING_MESSAGE, OutOfBounds);
+                //change the 
                 break;
         }
 
