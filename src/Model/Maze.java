@@ -185,6 +185,15 @@ public class Maze implements Serializable {
         return dfs(0, 0, visited);
     }
 
+    /**
+     * Helper method that uses depth-first search to check if there is
+     * a path from the current position to the goal.
+     *
+     * @param row current row position.
+     * @param col current column position.
+     * @param visited keeps track of visited positions.
+     * @return true if no path is found, false if a path exists.
+     */
     private boolean dfs(int row, int col, boolean[][] visited) {
         if (row == myRows - 1 && col == myCols - 1) return false;
         visited[row][col] = true;

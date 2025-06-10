@@ -29,20 +29,31 @@ import static View.GameView.showTitleScreen;
  */
 public class GameController {
 
+    /** Singleton instance of the GameController. */
     private static final GameController INSTANCE = new GameController();
 
     /** Flag showing whether the game has been won or not. */
     private boolean myGameWon;
 
+    /** The maze layout for the current game session. */
     private Maze myMaze;
+
+    /** The player navigating through the maze. */
     private Player myPlayer;
+
+    /** Reference to the view component for UI updates. */
     private GameView myView;
 
+    /** The door the player is trying to go through, waiting answer validation. */
     private Door myPendingDoor;
+
+    /** The direction corresponding to the pending door. */
     private Direction myPendingDirection;
 
     /** Factory for loading trivia questions. */
     private final QuestionFactory myQuestionFactory;
+
+    /** Manager for handling in game sound effects. */
     private final SoundManager mySoundManager = new SoundManager();
 
     // Public method to access the singleton instance
@@ -90,10 +101,20 @@ public class GameController {
         }
     }
 
+    /**
+     * Sets the current maze for the game session.
+     *
+     * @param theMaze the Maze object representing the game's maze layout.
+     */
     public void setMaze(final Maze theMaze) {
         myMaze = theMaze;
     }
 
+    /**
+     * Sets the player for the current game session.
+     *
+     * @param thePlayer the Player object representing the user navigating the maze.
+     */
     public void setPlayer(final Player thePlayer) {
         myPlayer = thePlayer;
     }
@@ -176,11 +197,8 @@ public class GameController {
      * @param theComponent the parent component for the JOptionPane (e.g., the GameView).
      */
     public void checkGameWinLossStatus(final Component theComponent) {
-        //ImageIcon winIcon = new ImageIcon("icons/marioIsHAPPY.png"); // Meme mario
-        //ImageIcon loseIcon = new ImageIcon("icons/marioIsSAD.png"); // Meme mario
 
         ImageIcon winIcon = new ImageIcon("icons/handsUpJumpingMario.png");
-        //TODO: Fix icon for gameover mario
         ImageIcon loseIcon = new ImageIcon("icons/cryMario.png");
         ImageIcon gameOverPrompt = new ImageIcon("icons/thinkingMario.png");
 
@@ -271,10 +289,10 @@ public class GameController {
 
         //for testing
         /*
-        System.out.println("➡️ Door direction attempted: " + theDirection);
-        System.out.println("➡️ Door state: " + targetDoor.getState());
-        System.out.println("➡️ Trivia Question from this door: " + targetDoor.getQuestion());
-        System.out.println("➡️ Correct answer for this door: " + targetDoor.getQuestion().getCorrectAnswer());
+        System.out.println("Door direction attempted: " + theDirection);
+        System.out.println("Door state: " + targetDoor.getState());
+        System.out.println("Trivia Question from this door: " + targetDoor.getQuestion());
+        System.out.println("Correct answer for this door: " + targetDoor.getQuestion().getCorrectAnswer());
          */
 
         switch (targetDoor.getState()) {
