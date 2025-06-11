@@ -521,10 +521,19 @@ public class GameView extends JFrame implements PropertyChangeListener {
                     label.setBorder(BorderFactory.createLineBorder(Color.BLACK));
                 } else if (row % 2 == 0 && col % 2 == 1) {
                     // Horizontal pipe between rooms
-                    label.setIcon(getScaledIcon("icons/HorizontalGreenPipe.png", 60, 35));
+                    ImageIcon pipeIcon = new ImageIcon("icons/HorizontalGreenPipe.png");
+                    Image scaledImage = pipeIcon.getImage().getScaledInstance(60, 35, Image.SCALE_SMOOTH);
+                    pipeIcon = new ImageIcon(scaledImage);
+                    pipeIcon.setDescription("icons/HorizontalGreenPipe");  // Set description here, after scaling
+                    label.setIcon(pipeIcon);
                 } else if (row % 2 == 1 && col % 2 == 0) {
                     // Vertical pipe between rows
-                    label.setIcon(getScaledIcon("icons/VerticalGreenPipe.png", 35, 60));
+                    // Horizontal pipe between rooms
+                    ImageIcon pipeIcon = new ImageIcon("icons/VerticalGreenPipe.png");
+                    Image scaledImage = pipeIcon.getImage().getScaledInstance(35, 60, Image.SCALE_SMOOTH);
+                    pipeIcon = new ImageIcon(scaledImage);
+                    pipeIcon.setDescription("icons/VerticalGreenPipe");  // Set description here, after scaling
+                    label.setIcon(pipeIcon);
                 } else {
                     // Blank space (no room or pipe)
                     label.setIcon(getScaledIcon("", 60, 60));
@@ -825,6 +834,58 @@ public class GameView extends JFrame implements PropertyChangeListener {
             //System.out.println("Current room has no door in direction: RIGHT");
         }
     }
+
+//    /**
+//     * Updates the pipe icon at the specified location to the locked (greyed-out) version.
+//     *
+//     * @param theRow the row of the pipe to update
+//     * @param theCol the column of the pipe to update
+//     */
+//    public void updatePipeToLocked(final Direction theDir, int theRow, int theCol) {
+//        System.out.println("inside updatePipeToLocked");
+//        System.out.println("theRow theCol location: " + theRow + ", " + theCol);
+//
+//        //+1 -1 is not the right logic here figure something else out
+//        switch (theDir) {
+//            case DOWN -> theRow += 1;  // one row down
+//            case UP -> theRow -= 1;  // one row up
+//            case LEFT  -> theCol -= 1;  // one column left
+//            case RIGHT  -> theCol += 1;  // one column right
+//            default -> {
+//                // optional: handle unexpected directions or do nothing
+//            }
+//        }
+//
+//        System.out.println("theRow theCol after +1 or -1: " + theRow + ", " + theCol);
+//
+//        final JLabel label = myMazeIconsGrid[theRow][theCol];
+//        final Icon icon = label.getIcon();
+//
+//        if (icon instanceof ImageIcon) {
+//            System.out.println("inside icon instanceof ImageIcon");
+//            final ImageIcon imageIcon = (ImageIcon) icon;
+//            final String description = imageIcon.getDescription();
+//            System.out.println("description: " + description);
+//
+//            if ("icons/VerticalGreenPipe".equals(description)) {
+//                System.out.println("Inside verticalGreenPipe");
+//                ImageIcon locked = new ImageIcon("icons/VerticalGrayPipe.png");
+//                locked.setDescription("icons/VerticalGrayPipe");
+//                Image scaled = locked.getImage().getScaledInstance(30, 65, Image.SCALE_SMOOTH);
+//                locked = new ImageIcon(scaled);
+//                locked.setDescription("icons/VerticalGrayPipe");
+//                label.setIcon(locked);
+//            } else if ("icons/HorizontalGreenPipe".equals(description)) {
+//                System.out.println("Inside horizontalGreenPipe");
+//                ImageIcon locked = new ImageIcon("icons/HorizontalGrayPipe.png");
+//                locked.setDescription("icons/HorizontalGrayPipe");
+//                Image scaled = locked.getImage().getScaledInstance(65, 30, Image.SCALE_SMOOTH);
+//                locked = new ImageIcon(scaled);
+//                locked.setDescription("icons/HorizontalGrayPipe");
+//                label.setIcon(locked);
+//            }
+//        }
+//    }
 
     /**
      * Initializes the maze visual grid with the player's starting position.

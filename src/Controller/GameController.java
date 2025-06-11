@@ -180,6 +180,7 @@ public class GameController {
             myView.handleMoveThroughOpenDoor(myPendingDirection);
         } else {
             myPendingDoor.lockDoor();
+            //myView.updatePipeToLocked(myPendingDoor);
         }
 
         myPendingDoor = null;
