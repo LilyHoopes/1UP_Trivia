@@ -220,7 +220,7 @@ public class GameController {
         }
 
         if (gameEnded) {
-            String[] options = {"Restart Game", "Return to Main Menu"};
+            String[] options = {"Return to Main Menu", "Exit"};
             int choice = JOptionPane.showOptionDialog(
                     theComponent,
                     "What would you like to do next?",
@@ -233,29 +233,31 @@ public class GameController {
             );
 
             if (choice == 0) {
-                // Restart the game
-                restartGame();
-            } else if (choice == 1) {
-                // Dispose old view
-                if (myView != null) {
-                    myView.dispose();
-                    myView = null;
-                }
+                myView.closeWindow();
+                //myView = null;
+                //myView.initializeMazeContents();
 
-                // Show main menu and defer game creation until user clicks "Start"
                 showTitleScreen(() -> {
-                    Maze maze = new Maze(4, 4);
-                    Player player = maze.getPlayer();
-                    GameView newView = new GameView(maze);
-
-                    setMaze(maze);
-                    setPlayer(player);
-                    setView(newView);
-                    newView.setController(this);
-
-                    saveGame();
-                    loadGame();
+                    // This lambda is what starts a new game from the title screen
+                    // and should already call startNewGame or similar when clicked.
                 });
+
+            } else if (choice == 1) {
+
+                ImageIcon icon = new ImageIcon(myView.getScaledIcon("icons/newHidingMario.png", 100, 100).getImage());
+
+                final int confirm = JOptionPane.showConfirmDialog(
+                        null,
+                        "Are you sure you want to exit?\nMario will be sad!",
+                        "Exit",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE,
+                        icon
+                );
+
+                if (confirm == JOptionPane.YES_OPTION) {
+                    System.exit(0);
+                }
             }
         }
     }
@@ -351,13 +353,6 @@ public class GameController {
     }
 
     /**
-     * Initializes and starts the game logic.
-     */
-    public void startGame() {
-        // initialize game logic
-    }
-
-    /**
      * Saves the current game state to storage.
      */
     public void saveGame() {
@@ -371,30 +366,48 @@ public class GameController {
         // deserialize CurrentGameState
     }
 
-    //TODO the reset is half broken
     /**
      * Restarts the game by resetting state and loading initial settings.
      */
     public void restartGame() {
-        // Dispose the old view
+        // Dispose current view if it exists
         if (myView != null) {
-            myView = null;
-            //myView.dispose();
+            myView.dispose();
             //myView.setVisible(false);
+            myView = null;
         }
 
-        // Reset the model
+        // Reset game state
+        myMaze = null;
+        myPlayer = null;
+        myPendingDoor = null;
+        myPendingDirection = null;
+        myGameWon = false;
+
+        // Optionally reload or reset question factory or sound manager if needed
+    }
+
+    public void startNewGame() {
+        // Create new model
         Maze maze = new Maze(4, 4);
         Player player = maze.getPlayer();
 
-        // Create a fresh view and set everything up again
+        // Create new view
         GameView newView = new GameView(maze);
+
+        // Set controller references
         setMaze(maze);
         setPlayer(player);
         setView(newView);
         newView.setController(this);
+        newView.updateMovementButtons();
 
-        // Save/load if needed
+        // Show the new game window
+        newView.setVisible(true);
+
+        //myView.initializeMazeContents();
+
+        // Save/load initial state if necessary
         saveGame();
         loadGame();
     }

@@ -50,7 +50,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
     // --------Window & Visual Settings----------
 
     /** The main frame of the game window. */
-    private final JFrame myFrame;
+    private static JFrame myFrame = null;
 
     /** Custom sky blue color used for background and UI elements. */
     //private final Color SKY_BLUE = new Color(135, 206, 235); // What we had before yuh
@@ -300,6 +300,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
      * @param onStartGame the action to run when the start button is clicked.
      */
     public static void showTitleScreen(Runnable onStartGame) {
+
         SoundManager soundManager = new SoundManager(); // Instantiate
 
         //make separate frame for the title screen
@@ -326,10 +327,11 @@ public class GameView extends JFrame implements PropertyChangeListener {
         JButton startButton = new JButton(startIcon);
         startButton.setBackground(SKY_BLUE);
         startButton.setBorder(BorderFactory.createLineBorder(SKY_BLUE));
-        startButton.addActionListener(e -> {
+        startButton.addActionListener(theEvent -> {
             soundManager.playStartSound();
             titleFrame.dispose();  //closes the title screen
             onStartGame.run();     //launches the main game
+            myFrame.setVisible(true);
         });
 
         JPanel buttonPanel = new JPanel();
@@ -399,7 +401,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
      * @param theHeight desired icon height.
      * @return a new ImageIcon scaled to the given dimensions.
      */
-    private ImageIcon getScaledIcon(final String thePath, final int theWidth, final int theHeight) {
+    public ImageIcon getScaledIcon(final String thePath, final int theWidth, final int theHeight) {
         // Helper method for scaling the icons for the room images
         ImageIcon icon = new ImageIcon(thePath);
         Image scaledImage = icon.getImage().getScaledInstance(theWidth, theHeight, Image.SCALE_SMOOTH);
@@ -634,7 +636,9 @@ public class GameView extends JFrame implements PropertyChangeListener {
 
             if (confirm == JOptionPane.YES_OPTION) {
                 mySoundManager.playExitSound();
+                myFrame.setVisible(false);
                 myController.restartGame();
+                myController.startNewGame();
             }
         });
 
@@ -901,6 +905,8 @@ public class GameView extends JFrame implements PropertyChangeListener {
 
         myUpButton.setEnabled(false);
         myLeftButton.setEnabled(false);
+        myDownButton.setEnabled(true);
+        myRightButton.setEnabled(true);
 
         updateMovementButtons();
 
@@ -964,4 +970,13 @@ public class GameView extends JFrame implements PropertyChangeListener {
     public void propertyChange(final PropertyChangeEvent theEvt) {
         // method implementation
     }
+
+    public void closeWindow() {
+        if (myFrame != null) {
+            myFrame.dispose();
+        } else {
+            this.dispose(); // in case GameView *is* a JFrame
+        }
+    }
+
 }
