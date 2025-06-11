@@ -180,24 +180,14 @@ public class Maze implements Serializable {
      * @return true if the game is lost, false otherwise.
      */
     public boolean isGameLost() {
-        //System.out.println("Inside isGameLost method");
         boolean[][] visited = new boolean[myRows][myCols];
-        return dfs(0, 0, visited);
+        return !dfs(0, 0, visited);  // Game is lost if there is no path to goal
     }
 
-    /**
-     * Helper method that uses depth-first search to check if there is
-     * a path from the current position to the goal.
-     *
-     * @param row current row position.
-     * @param col current column position.
-     * @param visited keeps track of visited positions.
-     * @return true if no path is found, false if a path exists.
-     */
     private boolean dfs(int row, int col, boolean[][] visited) {
-        if (row == myRows - 1 && col == myCols - 1) return false;
-        visited[row][col] = true;
+        if (row == myRows - 1 && col == myCols - 1) return true;  // found goal
 
+        visited[row][col] = true;
         Room current = getRoomAt(row, col);
 
         for (Direction dir : Direction.values()) {
@@ -209,21 +199,19 @@ public class Maze implements Serializable {
                 case RIGHT -> newCol++;
             }
 
+            // Skip if out of bounds or already visited
             if (newRow < 0 || newCol < 0 || newRow >= myRows || newCol >= myCols) continue;
             if (visited[newRow][newCol]) continue;
 
-            Room nextRoom = getRoomAt(newRow, newCol);
-            Door door = (row < newRow || col < newCol)
-                    ? current.getDoor(dir)
-                    : nextRoom.getDoor(Direction.getOppositeDirection(dir));
-
+            Door door = current.getDoor(dir);
             if (door != null && !door.isLocked()) {
-                if (dfs(newRow, newCol, visited)) return false;
+                if (dfs(newRow, newCol, visited)) return true;  // path exists!
             }
         }
 
-        return true;
+        return false;  // no paths lead to goal
     }
+
 
     /**
      * Returns the room at specified coordinates if valid.
