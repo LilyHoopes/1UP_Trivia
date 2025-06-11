@@ -6,6 +6,8 @@
 
 package Model;
 
+import java.io.Serializable;
+
 /**
  * Represents a door between two rooms that may require answering a trivia question
  * to pass through. Each door holds a TriviaQuestion and tracks its state.
@@ -16,7 +18,8 @@ package Model;
  * @version 5/17/2025
  */
 
-public class Door {
+public class Door implements Serializable {
+    private static final long serialVersionUID = 1L;
 
 
     /** The trivia question that must be answered to open this door. */

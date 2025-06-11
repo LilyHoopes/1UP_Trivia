@@ -6,6 +6,8 @@
 
 package Model;
 
+import java.io.Serializable;
+
 /**
  * Represents a trivia question with four multiple-choice answers and a correct answer.
  * Tracks whether the question has been answered correctly.
@@ -17,7 +19,8 @@ package Model;
  * @author Christiannel Maningat
  * @version 5/20/2025
  */
-public class TriviaQuestion {
+public class TriviaQuestion implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     /** The text of the trivia question. */
     private final String myQuestionText;

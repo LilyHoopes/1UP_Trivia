@@ -10,6 +10,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collections;
 
+
 /**
  * Factory class responsible for loading trivia questions from a database
  * and providing access to them in a randomized order.

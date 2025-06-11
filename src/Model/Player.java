@@ -22,6 +22,7 @@ import java.io.Serializable;
  * @version 5/25/2025
  */
 public class Player implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     /** The player's current row in the maze. */
     private int myPlayerRow;

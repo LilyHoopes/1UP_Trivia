@@ -10,6 +10,7 @@ package Model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.io.Serializable;
 
 /**
  * Represents the maze structure for the game.
@@ -27,6 +28,7 @@ import java.util.ArrayList;
  */
 
 public class Maze implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     /** 2D array of rooms forming the maze grid. */
     private final Room[][] myMaze;

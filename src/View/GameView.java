@@ -119,10 +119,13 @@ public class GameView extends JFrame implements PropertyChangeListener {
     private final ImageIcon myMarioIcon = getScaledIcon("icons/P1Mario.png", 60, 60);
 
     /** The Maze model object representing the current layout and room state. */
-    private final Maze myMaze;
+    private Maze myMaze;
+    private Player myPlayer;
+
 
     /** Creates a Sound Manager Instance */
     private final SoundManager mySoundManager = new SoundManager();
+
 
 
     /**
@@ -979,4 +982,10 @@ public class GameView extends JFrame implements PropertyChangeListener {
         }
     }
 
+    public void setPlayer(Player thePlayer) {
+        myPlayer = thePlayer;
+    }
+    public void setMaze(Maze theMaze) {
+        myMaze = theMaze;
+    }
 }

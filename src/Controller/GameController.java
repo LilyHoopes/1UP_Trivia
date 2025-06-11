@@ -15,6 +15,7 @@ import Model.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.*;
 
 import static View.GameView.showTitleScreen;
 
@@ -356,14 +357,33 @@ public class GameController {
      * Saves the current game state to storage.
      */
     public void saveGame() {
-        // serialize CurrentGameState
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("savegame.ser"))) {
+            CurrentGameState state = new CurrentGameState(myMaze, myPlayer);
+            out.writeObject(state);
+            System.out.println(" Game saved successfully.");
+        } catch (IOException e) {
+            System.err.println(" Failed to save game: " + e.getMessage());
+        }
     }
 
     /**
      * Loads the game state from persistent storage.
      */
     public void loadGame() {
-        // deserialize CurrentGameState
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("savegame.ser"))) {
+            CurrentGameState state = (CurrentGameState) in.readObject();
+            myMaze = state.getMaze();
+            myPlayer = state.getPlayer();
+
+            myView.setMaze(myMaze);
+            myView.setPlayer(myPlayer);
+            myView.initializeMazeContents();
+            myView.updateMovementButtons();
+
+            System.out.println("Game loaded successfully.");
+        } catch (IOException | ClassNotFoundException e) {
+            System.err.println("Failed to load game: " + e.getMessage());
+        }
     }
 
     /**
@@ -385,6 +405,8 @@ public class GameController {
         myGameWon = false;
 
         // Optionally reload or reset question factory or sound manager if needed
+        saveGame();
+        loadGame();
     }
 
     public void startNewGame() {

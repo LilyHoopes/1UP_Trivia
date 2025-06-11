@@ -13,6 +13,7 @@ import java.util.EnumMap;
 import java.util.Map;
 import java.util.Set;
 
+
 /**
  * Represents a single cell in the maze grid, holding its position,
  * a map of doors to adjacent rooms, and an optional icon for UI.
@@ -23,6 +24,7 @@ import java.util.Set;
  * @version 5/17/2025
  */
 public class Room implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     /** The row index of this room in the maze. */
     private final int myRow; //row position of room
