@@ -236,27 +236,25 @@ public class GameController {
                 // Restart the game
                 restartGame();
             } else if (choice == 1) {
+                // Dispose old view
+                if (myView != null) {
+                    myView.dispose();
+                    myView = null;
+                }
 
-                //dispose of view
-                System.out.println("DISPOSING VIEW");
-                myView.dispose();
-                myView.setVisible(false);
-
-                // Return to main menu
+                // Show main menu and defer game creation until user clicks "Start"
                 showTitleScreen(() -> {
-                    GameController controller = GameController.getInstance();
-
                     Maze maze = new Maze(4, 4);
                     Player player = maze.getPlayer();
-                    //GameView view = new GameView(maze);
+                    GameView newView = new GameView(maze);
 
-                    controller.setMaze(maze);
-                    controller.setPlayer(player);
-                    //controller.setView(view);
-                    //view.setController(controller);
+                    setMaze(maze);
+                    setPlayer(player);
+                    setView(newView);
+                    newView.setController(this);
 
-                    controller.saveGame();
-                    controller.loadGame();
+                    saveGame();
+                    loadGame();
                 });
             }
         }
@@ -377,27 +375,28 @@ public class GameController {
     /**
      * Restarts the game by resetting state and loading initial settings.
      */
-
     public void restartGame() {
+        // Dispose the old view
+        if (myView != null) {
+            myView = null;
+            //myView.dispose();
+            //myView.setVisible(false);
+        }
 
-        //Get rid of the old window
-        myView.setVisible(false);
-        System.out.println("DISPOSING VIEW");
-        myView.dispose();
-
-        myView.initializeMazeContents();
-
-        // Recreate the model
+        // Reset the model
         Maze maze = new Maze(4, 4);
         Player player = maze.getPlayer();
 
-        // Set up MVC wiring again
+        // Create a fresh view and set everything up again
+        GameView newView = new GameView(maze);
         setMaze(maze);
         setPlayer(player);
+        setView(newView);
+        newView.setController(this);
 
-        // Load questions and reset UI
-        saveGame();  // if you want to store a fresh state
-        loadGame();  // if needed for GUI updates
+        // Save/load if needed
+        saveGame();
+        loadGame();
+    }
 
-        }
 }

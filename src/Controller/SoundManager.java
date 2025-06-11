@@ -39,7 +39,7 @@ public class SoundManager {
 
     /** Plays the lose sound. */
     public void playLoseSound() {
-        playSoundAbsolute("sounds/Lose.wav", 0.8f);
+        playSoundAbsolute("sounds/Lose.wav", 0.7f);
     }
 
     /** Plays the incorrect answer sound. */
