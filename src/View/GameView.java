@@ -50,7 +50,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
     // --------Window & Visual Settings----------
 
     /** The main frame of the game window. */
-    private static JFrame myFrame = null;
+    private JFrame myFrame = null;
 
     /** Custom sky blue color used for background and UI elements. */
     //private final Color SKY_BLUE = new Color(135, 206, 235); // What we had before yuh
@@ -122,11 +122,8 @@ public class GameView extends JFrame implements PropertyChangeListener {
     private Maze myMaze;
     private Player myPlayer;
 
-
     /** Creates a Sound Manager Instance */
     private final SoundManager mySoundManager = new SoundManager();
-
-
 
     /**
      * Constructs the main game window for the Trivia Maze.
@@ -303,7 +300,6 @@ public class GameView extends JFrame implements PropertyChangeListener {
      * @param onStartGame the action to run when the start button is clicked.
      */
     public static void showTitleScreen(Runnable onStartGame) {
-
         SoundManager soundManager = new SoundManager(); // Instantiate
 
         //make separate frame for the title screen
@@ -330,11 +326,10 @@ public class GameView extends JFrame implements PropertyChangeListener {
         JButton startButton = new JButton(startIcon);
         startButton.setBackground(SKY_BLUE);
         startButton.setBorder(BorderFactory.createLineBorder(SKY_BLUE));
-        startButton.addActionListener(theEvent -> {
+        startButton.addActionListener(e -> {
             soundManager.playStartSound();
             titleFrame.dispose();  //closes the title screen
             onStartGame.run();     //launches the main game
-            myFrame.setVisible(true);
         });
 
         JPanel buttonPanel = new JPanel();
@@ -902,7 +897,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
     public void initializeMazeContents() {
         int row = myMaze.getPlayer().getRow();
         int col = myMaze.getPlayer().getCol();
-        myPreviousIcon = (ImageIcon) myMazeIconsGrid[row][col].getIcon();
+        myPreviousIcon = getScaledIcon("icons/redmushroom.png", 60, 60);
         myMazeIconsGrid[row][col].setIcon(myMarioIcon);
         myCurrentRoomIcon.setIcon(myPreviousIcon);
 

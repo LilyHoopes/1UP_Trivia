@@ -221,7 +221,7 @@ public class GameController {
         }
 
         if (gameEnded) {
-            String[] options = {"Return to Main Menu", "Exit"};
+            String[] options = {"Restart Game", "Return to Main Menu"};
             int choice = JOptionPane.showOptionDialog(
                     theComponent,
                     "What would you like to do next?",
@@ -234,31 +234,29 @@ public class GameController {
             );
 
             if (choice == 0) {
-                myView.closeWindow();
-                //myView = null;
-                //myView.initializeMazeContents();
-
-                showTitleScreen(() -> {
-                    // This lambda is what starts a new game from the title screen
-                    // and should already call startNewGame or similar when clicked.
-                });
-
+                // Restart the game
+                restartGame();
             } else if (choice == 1) {
-
-                ImageIcon icon = new ImageIcon(myView.getScaledIcon("icons/newHidingMario.png", 100, 100).getImage());
-
-                final int confirm = JOptionPane.showConfirmDialog(
-                        null,
-                        "Are you sure you want to exit?\nMario will be sad!",
-                        "Exit",
-                        JOptionPane.YES_NO_OPTION,
-                        JOptionPane.QUESTION_MESSAGE,
-                        icon
-                );
-
-                if (confirm == JOptionPane.YES_OPTION) {
-                    System.exit(0);
+                // Dispose old view
+                if (myView != null) {
+                    myView.dispose();
+                    myView = null;
                 }
+
+                // Show main menu and defer game creation until user clicks "Start"
+                showTitleScreen(() -> {
+                    Maze maze = new Maze(4, 4);
+                    Player player = maze.getPlayer();
+                    GameView newView = new GameView(maze);
+
+                    setMaze(maze);
+                    setPlayer(player);
+                    setView(newView);
+                    newView.setController(this);
+
+                    saveGame();
+                    loadGame();
+                });
             }
         }
     }
@@ -390,21 +388,25 @@ public class GameController {
      * Restarts the game by resetting state and loading initial settings.
      */
     public void restartGame() {
-        // Dispose current view if it exists
+        // Dispose the old view
         if (myView != null) {
-            myView.dispose();
-            //myView.setVisible(false);
             myView = null;
+            //myView.dispose();
+            //myView.setVisible(false);
         }
 
-        // Reset game state
-        myMaze = null;
-        myPlayer = null;
-        myPendingDoor = null;
-        myPendingDirection = null;
-        myGameWon = false;
+        // Reset the model
+        Maze maze = new Maze(4, 4);
+        Player player = maze.getPlayer();
 
-        // Optionally reload or reset question factory or sound manager if needed
+        // Create a fresh view and set everything up again
+        GameView newView = new GameView(maze);
+        setMaze(maze);
+        setPlayer(player);
+        setView(newView);
+        newView.setController(this);
+
+        // Save/load if needed
         saveGame();
         loadGame();
     }
