@@ -385,7 +385,6 @@ public class GameController {
     }
 
 
-    //TODO this should call the same reset as the one in the menu bar
     /**
      * Restarts the game by resetting state and loading initial settings.
      */
@@ -412,8 +411,6 @@ public class GameController {
             myView = null;
         }
 
-        // Save/load if needed
-
         startNewGame();
     }
 
@@ -435,11 +432,6 @@ public class GameController {
         // Show the new game window
         newView.setVisible(true);
 
-        //myView.initializeMazeContents();
-
-        // Save/load initial state if necessary
-        //saveGame();
-        //loadGame();
     }
 
 }

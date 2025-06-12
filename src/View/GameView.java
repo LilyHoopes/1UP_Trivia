@@ -953,18 +953,31 @@ public class GameView extends JFrame implements PropertyChangeListener {
         // method implementation
     }
 
-    public void closeWindow() {
-        if (myFrame != null) {
-            myFrame.dispose();
-        } else {
-            this.dispose(); // in case GameView *is* a JFrame
-        }
-    }
+    //Can use for futher implementation to fix the menu bugs
+//    public void closeWindow() {
+//        if (myFrame != null) {
+//            myFrame.dispose();
+//        } else {
+//            this.dispose(); // in case GameView *is* a JFrame
+//        }
+//    }
 
+    /**
+     * Sets the player for the game.
+     *
+     * @param thePlayer the Player object to be used in the game.
+     */
     public void setPlayer(Player thePlayer) {
         myPlayer = thePlayer;
     }
+
+    /**
+     * Sets the maze for the game.
+     *
+     * @param theMaze the Maze object representing the game layout.
+     */
     public void setMaze(Maze theMaze) {
         myMaze = theMaze;
     }
+
 }
