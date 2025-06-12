@@ -620,24 +620,8 @@ public class GameView extends JFrame implements PropertyChangeListener {
         resetItem.addActionListener(_ -> startItem.setEnabled(true));
 
         resetItem.addActionListener(_ -> {
-            //TODO change this image
-            ImageIcon icon = new ImageIcon(getScaledIcon("icons/diagThumbsUpMario.png", 100, 100).getImage());
 
-            final int confirm = JOptionPane.showConfirmDialog(
-                    null,
-                    "Are you sure you want to restart?\nOkay, Mario will see you soon!",
-                    "Exit",
-                    JOptionPane.YES_NO_OPTION,
-                    JOptionPane.QUESTION_MESSAGE,
-                    icon
-            );
-
-            if (confirm == JOptionPane.YES_OPTION) {
-                mySoundManager.playExitSound();
-                myFrame.setVisible(false);
                 myController.restartGame();
-                myController.startNewGame();
-            }
         });
 
         exitItem.addActionListener(_ -> {

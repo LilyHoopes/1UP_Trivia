@@ -384,31 +384,37 @@ public class GameController {
         }
     }
 
+
+    //TODO this should call the same reset as the one in the menu bar
     /**
      * Restarts the game by resetting state and loading initial settings.
      */
     public void restartGame() {
-        // Dispose the old view
-        if (myView != null) {
-            myView = null;
-            //myView.dispose();
-            //myView.setVisible(false);
+
+        ImageIcon icon = new ImageIcon(myView.getScaledIcon("icons/diagThumbsUpMario.png", 100, 100).getImage());
+
+        final int confirm = JOptionPane.showConfirmDialog(
+                null,
+                "Are you sure you want to restart?\nOkay, Mario will see you soon!",
+                "Exit",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                icon
+        );
+
+        if (confirm == JOptionPane.YES_OPTION) {
+            mySoundManager.playExitSound();
         }
 
-        // Reset the model
-        Maze maze = new Maze(4, 4);
-        Player player = maze.getPlayer();
-
-        // Create a fresh view and set everything up again
-        GameView newView = new GameView(maze);
-        setMaze(maze);
-        setPlayer(player);
-        setView(newView);
-        newView.setController(this);
+        // Dispose the old view
+        if (myView != null) {
+            myView.dispose();
+            myView = null;
+        }
 
         // Save/load if needed
-        saveGame();
-        loadGame();
+
+        startNewGame();
     }
 
     public void startNewGame() {
@@ -432,8 +438,8 @@ public class GameController {
         //myView.initializeMazeContents();
 
         // Save/load initial state if necessary
-        saveGame();
-        loadGame();
+        //saveGame();
+        //loadGame();
     }
 
 }
